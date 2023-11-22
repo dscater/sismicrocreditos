@@ -53534,7 +53534,7 @@ input.form-control {
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active,
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:hover,
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:focus {
-    color: white;
+    /* color: black; */
 }
 
 [class*="sidebar-dark-"] {

@@ -46,6 +46,28 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
+                                        'text-danger': errors.segundo_nombre,
+                                    }"
+                                    >Segundo Nombre</label
+                                >
+                                <el-input
+                                    placeholder="Segundo Nombre"
+                                    :class="{
+                                        'is-invalid': errors.segundo_nombre,
+                                    }"
+                                    v-model="cliente.segundo_nombre"
+                                    clearable
+                                >
+                                </el-input>
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.segundo_nombre"
+                                    v-text="errors.segundo_nombre[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
                                         'text-danger': errors.paterno,
                                     }"
                                     >Ap. Paterno*</label
@@ -136,23 +158,61 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
+                                        'text-danger': errors.cel,
+                                    }"
+                                    >Celular*</label
+                                >
+                                <el-input
+                                    placeholder="Celular"
+                                    :class="{ 'is-invalid': errors.cel }"
+                                    v-model="cliente.cel"
+                                    clearable
+                                >
+                                </el-input>
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.cel"
+                                    v-text="errors.cel[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
                                         'text-danger': errors.fono,
                                     }"
-                                    >Teléfono/Celular*</label
+                                    >Teléfono</label
                                 >
-                                <b-form-tags
-                                    input-id="tags-basic"
-                                    placeholder="Teléfono/Celular"
+                                <el-input
+                                    placeholder="Teléfono"
                                     :class="{ 'is-invalid': errors.fono }"
                                     v-model="cliente.fono"
-                                    addButtonText="Añadir"
-                                    separator=" ,;"
-                                    remove-on-delete
-                                ></b-form-tags>
+                                    clearable
+                                >
+                                </el-input>
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.fono"
                                     v-text="errors.fono[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
+                                        'text-danger': errors.edad,
+                                    }"
+                                    >Edad*</label
+                                >
+                                <input
+                                    type="number"
+                                    placeholder="Edad"
+                                    class="form-control"
+                                    :class="{ 'is-invalid': errors.edad }"
+                                    v-model="cliente.edad"
+                                />
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.edad"
+                                    v-text="errors.edad[0]"
                                 ></span>
                             </div>
                             <div class="form-group col-md-6">
@@ -178,78 +238,61 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.tipo,
+                                        'text-danger': errors.referencia,
                                     }"
-                                    >Tipo de Cliente*</label
+                                    >Nombre Referencia*</label
                                 >
-                                <el-select
-                                    class="w-100"
-                                    :class="{
-                                        'is-invalid': errors.tipo,
-                                    }"
-                                    v-model="cliente.tipo"
+                                <el-input
+                                    placeholder="Nombre Referencia"
+                                    :class="{ 'is-invalid': errors.referencia }"
+                                    v-model="cliente.referencia"
                                     clearable
                                 >
-                                    <el-option
-                                        v-for="item in listTipos"
-                                        :key="item"
-                                        :value="item"
-                                        :label="item"
-                                    ></el-option>
-                                </el-select>
+                                </el-input>
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.tipo"
-                                    v-text="errors.tipo[0]"
+                                    v-if="errors.referencia"
+                                    v-text="errors.referencia[0]"
                                 ></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.foto,
+                                        'text-danger': errors.cel_ref,
                                     }"
-                                    >Foto</label
+                                    >Teléfono Referencia*</label
                                 >
-                                <input
-                                    type="file"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': errors.foto,
-                                    }"
-                                    ref="input_file"
-                                    @change="cargaImagen"
-                                />
+                                <el-input
+                                    placeholder="Teléfono Referencia"
+                                    :class="{ 'is-invalid': errors.cel_ref }"
+                                    v-model="cliente.cel_ref"
+                                    clearable
+                                >
+                                </el-input>
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.foto"
-                                    v-text="errors.foto[0]"
+                                    v-if="errors.cel_ref"
+                                    v-text="errors.cel_ref[0]"
                                 ></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.acceso,
+                                        'text-danger': errors.parentesco,
                                     }"
-                                    >Acceso al sistema*</label
+                                    >Parentesco*</label
                                 >
-                                <el-switch
-                                    :class="{
-                                        'is-invalid': errors.acceso,
-                                    }"
-                                    style="display: block"
-                                    v-model="cliente.acceso"
-                                    active-color="#13ce66"
-                                    inactive-color="#ff4949"
-                                    active-text="HABILITADO"
-                                    inactive-text="INHABILITADO"
-                                    active-value="1"
-                                    inactive-value="0"
+                                <el-input
+                                    placeholder="Parentesco"
+                                    :class="{ 'is-invalid': errors.parentesco }"
+                                    v-model="cliente.parentesco"
+                                    clearable
                                 >
-                                </el-switch>
+                                </el-input>
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.acceso"
-                                    v-text="errors.acceso[0]"
+                                    v-if="errors.parentesco"
+                                    v-text="errors.parentesco[0]"
                                 ></span>
                             </div>
                         </div>
@@ -292,15 +335,18 @@ export default {
             type: Object,
             default: {
                 nombre: "",
+                segundo_nombre: "",
                 paterno: "",
                 materno: "",
+                dir: "",
                 ci: "",
                 ci_exp: "",
-                dir: "",
-                fono: [],
-                tipo: "",
-                foto: null,
-                acceso: "0",
+                cel: "",
+                fono: "",
+                edad: "",
+                referencia: "",
+                cel_ref: "",
+                parentesco: "",
             },
         },
     },
@@ -308,7 +354,7 @@ export default {
         muestra_modal: function (newVal, oldVal) {
             this.errors = [];
             if (newVal) {
-                this.$refs.input_file.value = null;
+                // this.$refs.input_file.value = null;
                 this.bModal = true;
             } else {
                 this.bModal = false;
@@ -347,7 +393,6 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
-            listTipos: ["ADMINISTRADOR", "FUNCIONARIO"],
             errors: [],
         };
     },
@@ -371,6 +416,12 @@ export default {
                     this.cliente.nombre ? this.cliente.nombre : ""
                 );
                 formdata.append(
+                    "segundo_nombre",
+                    this.cliente.segundo_nombre
+                        ? this.cliente.segundo_nombre
+                        : ""
+                );
+                formdata.append(
                     "paterno",
                     this.cliente.paterno ? this.cliente.paterno : ""
                 );
@@ -378,30 +429,38 @@ export default {
                     "materno",
                     this.cliente.materno ? this.cliente.materno : ""
                 );
+                formdata.append(
+                    "dir",
+                    this.cliente.dir ? this.cliente.dir : ""
+                );
                 formdata.append("ci", this.cliente.ci ? this.cliente.ci : "");
                 formdata.append(
                     "ci_exp",
                     this.cliente.ci_exp ? this.cliente.ci_exp : ""
                 );
                 formdata.append(
-                    "dir",
-                    this.cliente.dir ? this.cliente.dir : ""
+                    "cel",
+                    this.cliente.cel ? this.cliente.cel : ""
                 );
                 formdata.append(
                     "fono",
-                    this.cliente.fono ? this.cliente.fono.join("; ") : ""
+                    this.cliente.fono ? this.cliente.fono : ""
                 );
                 formdata.append(
-                    "tipo",
-                    this.cliente.tipo ? this.cliente.tipo : ""
+                    "edad",
+                    this.cliente.edad ? this.cliente.edad : ""
                 );
                 formdata.append(
-                    "foto",
-                    this.cliente.foto ? this.cliente.foto : ""
+                    "referencia",
+                    this.cliente.referencia ? this.cliente.referencia : ""
                 );
                 formdata.append(
-                    "acceso",
-                    this.cliente.acceso ? this.cliente.acceso : "0"
+                    "cel_ref",
+                    this.cliente.cel_ref ? this.cliente.cel_ref : ""
+                );
+                formdata.append(
+                    "parentesco",
+                    this.cliente.parentesco ? this.cliente.parentesco : ""
                 );
 
                 if (this.accion == "edit") {
@@ -472,16 +531,18 @@ export default {
         limpiaCliente() {
             this.errors = [];
             this.cliente.nombre = "";
+            this.cliente.segundo_nombre = "";
             this.cliente.paterno = "";
             this.cliente.materno = "";
+            this.cliente.dir = "";
             this.cliente.ci = "";
             this.cliente.ci_exp = "";
-            this.cliente.dir = "";
-            this.cliente.fono = [];
-            this.cliente.tipo = "";
-            this.cliente.foto = null;
-            this.cliente.acceso = "0";
-            this.$refs.input_file.value = null;
+            this.cliente.cel = "";
+            this.cliente.fono = "";
+            this.cliente.edad = "";
+            this.cliente.referencia = "";
+            this.cliente.cel_ref = "";
+            this.cliente.parentesco = "";
         },
     },
 };

@@ -28,6 +28,7 @@ class CreateClientesTable extends Migration
             $table->string("referencia", 500);
             $table->string("cel_ref", 155);
             $table->string("parentesco", 255);
+            $table->date("fecha_registro");
             $table->timestamps();
         });
     }

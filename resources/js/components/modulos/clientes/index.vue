@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestión de Clientes</h1>
+                        <h1>Clientes</h1>
                     </div>
                 </div>
             </div>
@@ -81,46 +81,6 @@
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
                                             >
-                                                <template #cell(foto)="row">
-                                                    <b-avatar
-                                                        :src="
-                                                            row.item.path_image
-                                                        "
-                                                        size="3rem"
-                                                    ></b-avatar>
-                                                </template>
-                                                <template #cell(estado)="row">
-                                                    <span
-                                                        class="badge badge-success"
-                                                        v-if="
-                                                            row.item.estado == 1
-                                                        "
-                                                    >
-                                                        ACTIVO
-                                                    </span>
-                                                    <span
-                                                        v-else
-                                                        class="badge badge-danger"
-                                                    >
-                                                        RETIRADO
-                                                    </span>
-                                                </template>
-                                                <template #cell(acceso)="row">
-                                                    <span
-                                                        class="badge badge-success"
-                                                        v-if="
-                                                            row.item.acceso == 1
-                                                        "
-                                                    >
-                                                        HABILITADO
-                                                    </span>
-                                                    <span
-                                                        v-else
-                                                        class="badge badge-danger"
-                                                    >
-                                                        INHABILITADO
-                                                    </span>
-                                                </template>
                                                 <template #cell(mas)="row">
                                                     <b-button
                                                         variant="primary"
@@ -145,11 +105,11 @@
                                                                 sm="3"
                                                                 class="text-sm-right"
                                                                 ><b
-                                                                    >Dirección:</b
+                                                                    >Teléfono:</b
                                                                 ></b-col
                                                             >
                                                             <b-col>{{
-                                                                row.item.dir
+                                                                row.item.fono
                                                             }}</b-col>
                                                         </b-row>
                                                         <b-row class="mb-2">
@@ -157,11 +117,39 @@
                                                                 sm="3"
                                                                 class="text-sm-right"
                                                                 ><b
-                                                                    >Teléfono/Celular:</b
+                                                                    >Referencia:</b
                                                                 ></b-col
                                                             >
                                                             <b-col>{{
-                                                                row.item.fono
+                                                                row.item
+                                                                    .referencia
+                                                            }}</b-col>
+                                                        </b-row>
+                                                        <b-row class="mb-2">
+                                                            <b-col
+                                                                sm="3"
+                                                                class="text-sm-right"
+                                                                ><b
+                                                                    >Celular
+                                                                    Referencia:</b
+                                                                ></b-col
+                                                            >
+                                                            <b-col>{{
+                                                                row.item
+                                                                    .cel_ref
+                                                            }}</b-col>
+                                                        </b-row>
+                                                        <b-row class="mb-2">
+                                                            <b-col
+                                                                sm="3"
+                                                                class="text-sm-right"
+                                                                ><b
+                                                                    >Parentesco:</b
+                                                                ></b-col
+                                                            >
+                                                            <b-col>{{
+                                                                row.item
+                                                                    .parentesco
                                                             }}</b-col>
                                                         </b-row>
                                                         <b-button
@@ -198,22 +186,6 @@
                                                         >
                                                             <i
                                                                 class="fa fa-edit"
-                                                            ></i>
-                                                        </b-button>
-                                                        <b-button
-                                                            size="sm"
-                                                            pill
-                                                            variant="outline-info"
-                                                            class="btn-flat btn-block"
-                                                            title="Cambiar contraseña"
-                                                            @click="
-                                                                cambiarPassword(
-                                                                    row.item
-                                                                )
-                                                            "
-                                                        >
-                                                            <i
-                                                                class="fa fa-key"
                                                             ></i>
                                                         </b-button>
                                                         <b-button
@@ -308,20 +280,19 @@ export default {
             showOverlay: false,
             fields: [
                 {
-                    key: "cliente",
-                    label: "Cliente",
+                    key: "id",
+                    label: "Nro.",
                     sortable: true,
                 },
                 { key: "full_name", label: "Nombre", sortable: true },
                 { key: "full_ci", label: "C.I.", sortable: true },
-                { key: "tipo", label: "Tipo Cliente", sortable: true },
-                { key: "foto", label: "Foto" },
+                { key: "cel", label: "Celular", sortable: true },
+                { key: "edad", label: "Edad" },
                 {
                     key: "fecha_registro_t",
                     label: "Fecha de registro",
                     sortable: true,
                 },
-                { key: "acceso", label: "Acceso al sistema" },
                 { key: "mas", label: "Ver mas" },
                 { key: "accion", label: "Acción" },
             ],
@@ -335,15 +306,18 @@ export default {
             oCliente: {
                 id: 0,
                 nombre: "",
+                segundo_nombre: "",
                 paterno: "",
                 materno: "",
+                dir: "",
                 ci: "",
                 ci_exp: "",
-                dir: "",
-                fono: [],
-                tipo: "",
-                foto: null,
-                acceso: "",
+                cel: "",
+                fono: "",
+                edad: "",
+                referencia: "",
+                cel_ref: "",
+                parentesco: "",
             },
             currentPage: 1,
             perPage: 5,
@@ -368,14 +342,20 @@ export default {
         editarRegistro(item) {
             this.oCliente.id = item.id;
             this.oCliente.nombre = item.nombre ? item.nombre : "";
+            this.oCliente.segundo_nombre = item.segundo_nombre
+                ? item.segundo_nombre
+                : "";
             this.oCliente.paterno = item.paterno ? item.paterno : "";
             this.oCliente.materno = item.materno ? item.materno : "";
+            this.oCliente.dir = item.dir ? item.dir : "";
             this.oCliente.ci = item.ci ? item.ci : "";
             this.oCliente.ci_exp = item.ci_exp ? item.ci_exp : "";
-            this.oCliente.dir = item.dir ? item.dir : "";
-            this.oCliente.fono = item.fono ? item.fono.split("; ") : "";
-            this.oCliente.tipo = item.tipo ? item.tipo : "";
-            this.oCliente.acceso = item.acceso ? "" + item.acceso : "0";
+            this.oCliente.cel = item.cel ? item.cel : "";
+            this.oCliente.fono = item.fono ? item.fono : "";
+            this.oCliente.edad = item.edad ? item.edad : "";
+            this.oCliente.referencia = item.referencia ? item.referencia : "";
+            this.oCliente.cel_ref = item.cel_ref ? item.cel_ref : "";
+            this.oCliente.parentesco = item.parentesco ? item.parentesco : "";
             this.modal_accion = "edit";
             this.muestra_modal = true;
         },
@@ -397,48 +377,6 @@ export default {
                     this.listRegistros = res.data.clientes;
                     this.totalRows = res.data.total;
                 });
-        },
-        cambiarPassword(item) {
-            Swal.fire({
-                title: "Modificar contraseña",
-                html: "Cliente: " + item.full_name,
-                input: "text",
-                inputAttributes: {
-                    minlength: 4,
-                },
-                showCancelButton: true,
-                confirmButtonColor: "#17a2b8",
-                confirmButtonText: "Actualizar",
-                cancelButtonText: "Cancelar",
-                preConfirm: (texto) => {
-                    if (texto.length >= 4) {
-                        return axios
-                            .post("/admin/clientes/updatePassword/" + item.id, {
-                                password: texto,
-                            })
-                            .then((response) => {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: response.data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                });
-                            })
-                            .catch((error) => {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Ocurrío un error al enviar la contraseña",
-                                    confirmButtonColor: "#e0a800",
-                                    confirmButtonText: `<span class="text-black">Aceptar</span>`,
-                                });
-                            });
-                    } else {
-                        Swal.showValidationMessage(
-                            "El texto debe contener al menos 6 caracteres"
-                        );
-                    }
-                },
-            });
         },
         eliminaCliente(id, descripcion) {
             Swal.fire({
@@ -506,15 +444,18 @@ export default {
         },
         limpiaCliente() {
             this.oCliente.nombre = "";
+            this.oCliente.segundo_nombre = "";
             this.oCliente.paterno = "";
             this.oCliente.materno = "";
+            this.oCliente.dir = "";
             this.oCliente.ci = "";
             this.oCliente.ci_exp = "";
-            this.oCliente.dir = "";
-            this.oCliente.fono = [];
-            this.oCliente.tipo = "";
-            this.oCliente.foto = null;
-            this.oCliente.acceso = "0";
+            this.oCliente.cel = "";
+            this.oCliente.fono = "";
+            this.oCliente.edad = "";
+            this.oCliente.referencia = "";
+            this.oCliente.cel_ref = "";
+            this.oCliente.parentesco = "";
         },
         formatoFecha(date) {
             return this.$moment(String(date)).format("DD/MM/YYYY");

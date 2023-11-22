@@ -3,20 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\HistorialAccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
     public $validacion = [
         'nombre' => 'required|min:4',
         'paterno' => 'required|min:4',
-        'ci' => 'required|numeric|digits_between:4, 20|unique:clientes,ci',
         'ci_exp' => 'required',
         'dir' => 'required',
-        'fono' => 'required',
+        'cel' => 'required',
+        'edad' => 'required',
         'dir' => 'required',
-        'tipo' => 'required',
-        'acceso' => 'required',
+        'referencia' => 'required',
+        'cel_ref' => 'required',
+        'parentesco' => 'required',
     ];
 
     public $mensajes = [
@@ -30,11 +34,12 @@ class ClienteController extends Controller
         'ci_exp.required' => 'Este campo es obligatorio',
         'dir.required' => 'Este campo es obligatorio',
         'dir.min' => 'Debes ingresar al menos 4 carácteres',
-        'fono.required' => 'Este campo es obligatorio',
-        'fono.min' => 'Debes ingresar al menos 4 carácteres',
         'cel.required' => 'Este campo es obligatorio',
         'cel.min' => 'Debes ingresar al menos 4 carácteres',
-        'tipo.required' => 'Este campo es obligatorio',
+        'edad.required' => 'Este campo es obligatorio',
+        'dir.required' => 'Este campo es obligatorio',
+        'cel_ref.required' => 'Este campo es obligatorio',
+        'parentesco.required' => 'Este campo es obligatorio',
     ];
 
     public $permisos = [
@@ -62,10 +67,11 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->validacion, $this->mensajes);
+        $request["fecha_registro"] = date("Y-m-d");
         DB::beginTransaction();
         try {
             // crear el Cliente
-            $nuevo_cliente = Cliente::create(array_map('mb_strtoupper', $request->except('foto')));
+            $nuevo_cliente = Cliente::create(array_map('mb_strtoupper', $request->all()));
 
             $datos_original = HistorialAccion::getDetalleRegistro($nuevo_cliente, "clientes");
             HistorialAccion::create([
@@ -95,11 +101,13 @@ class ClienteController extends Controller
 
     public function update(Request $request, Cliente $cliente)
     {
+        $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci,' . $cliente->id;
+
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
-            $cliente->update(array_map('mb_strtoupper', $request->except('foto')));
+            $cliente->update(array_map('mb_strtoupper', $request->all()));
 
             $datos_nuevo = HistorialAccion::getDetalleRegistro($cliente, "clientes");
             HistorialAccion::create([

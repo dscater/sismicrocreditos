@@ -430,6 +430,7 @@ export default {
             this.usuario.foto = "";
             this.usuario.password = "";
             this.usuario.acceso = "0";
+            this.$refs.input_file.value = null;
         },
     },
 };
