@@ -4,6 +4,7 @@
     "/css/plantilla.css": "/css/plantilla.css",
     "/js/jquery.js": "/js/jquery.js",
     "/js/plantilla.js": "/js/plantilla.js",
+    "/imgs/1700500875_logo.png": "/imgs/1700500875_logo.png",
     "/imgs/avatar.png": "/imgs/avatar.png",
     "/imgs/catalogue.png": "/imgs/catalogue.png",
     "/imgs/checklist.png": "/imgs/checklist.png",
@@ -14,13 +15,11 @@
     "/imgs/icon_inscripcion.png": "/imgs/icon_inscripcion.png",
     "/imgs/icon_recursos.png": "/imgs/icon_recursos.png",
     "/imgs/icon_solicitud.png": "/imgs/icon_solicitud.png",
-    "/imgs/login.jpg": "/imgs/login.jpg",
     "/imgs/logo.jpg": "/imgs/logo.jpg",
     "/imgs/people.png": "/imgs/people.png",
     "/imgs/pinmap.gif": "/imgs/pinmap.gif",
     "/imgs/product-development.png": "/imgs/product-development.png",
     "/imgs/teamwork.png": "/imgs/teamwork.png",
-    "/imgs/users/1699452109_JPERES.jpg": "/imgs/users/1699452109_JPERES.jpg",
     "/imgs/users/default.png": "/imgs/users/default.png",
     "/imgs/video-player.png": "/imgs/video-player.png",
     "/imgs/volume.png": "/imgs/volume.png",
@@ -94,6 +93,5 @@
     "/fonts/Poppins/Poppins-Thin.ttf": "/fonts/Poppins/Poppins-Thin.ttf",
     "/fonts/Poppins/Poppins-ThinItalic.ttf": "/fonts/Poppins/Poppins-ThinItalic.ttf",
     "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf",
-    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff",
-    "/imgs/1700500875_logo.png": "/imgs/1700500875_logo.png"
+    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff"
 }

@@ -79,66 +79,41 @@
                         class="nav-header font-weight-bold"
                         v-if="
                             permisos.includes('usuarios.index') ||
-                            permisos.includes('plan_contingencias.index') ||
-                            permisos.includes('roles_funciones.index') ||
-                            permisos.includes('actividades_contingencias.index')
+                            permisos.includes('clientes.index')
                         "
                     >
                         ADMINISTRACIÓN:
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('plan_contingencias.index')"
+                        v-if="permisos.includes('clientes.index')"
+                        :class="[
+                            $route.name == 'clientes.index'
+                                ? 'menu-is-opening menu-open'
+                                : '',
+                        ]"
                     >
-                        <router-link
-                            :to="{ name: 'plan_contingencias.index' }"
-                            class="nav-link"
-                            v-loading.fullscreen.lock="fullscreenLoading"
-                        >
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-list-alt"></i>
-                            <p>Plan de Contingencias</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('roles_funciones.index')"
-                    >
-                        <router-link
-                            :to="{ name: 'roles_funciones.index' }"
-                            class="nav-link"
-                            v-loading.fullscreen.lock="fullscreenLoading"
-                        >
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>Roles y Funciones</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('amenazas_seguridad.index')"
-                    >
-                        <router-link
-                            :to="{ name: 'amenazas_seguridad.index' }"
-                            class="nav-link"
-                            v-loading.fullscreen.lock="fullscreenLoading"
-                        >
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>Amenazas y Seguridad</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
-                            permisos.includes('actividades_contingencias.index')
-                        "
-                    >
-                        <router-link
-                            :to="{ name: 'actividades_contingencias.index' }"
-                            class="nav-link"
-                            v-loading.fullscreen.lock="fullscreenLoading"
-                        >
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>Actividades de Contingencias</p>
-                        </router-link>
+                            <p>
+                                Préstamos
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('clientes.index')"
+                            >
+                                <router-link
+                                    :to="{ name: 'clientes.index' }"
+                                    class="nav-link"
+                                >
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Clientes</p>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
                     <li
                         class="nav-item"
@@ -151,7 +126,7 @@
                             v-loading.fullscreen.lock="fullscreenLoading"
                         >
                             <i class="nav-icon fas fa-users"></i>
-                            <p>Gestión de Usuarios</p>
+                            <p>Empleados</p>
                         </router-link>
                     </li>
                     <li
@@ -176,36 +151,6 @@
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
                             <p>Lista de Usuarios</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('reportes.plan_contingencia')"
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.plan_contingencia' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Plan de Contingencias</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
-                            permisos.includes(
-                                'reportes.cantidad_plan_contingencia'
-                            )
-                        "
-                    >
-                        <router-link
-                            :to="{
-                                name: 'reportes.cantidad_plan_contingencia',
-                            }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-chart-bar nav-icon"></i>
-                            <p>Cantidad de Plan de Contingencias</p>
                         </router-link>
                     </li>
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>

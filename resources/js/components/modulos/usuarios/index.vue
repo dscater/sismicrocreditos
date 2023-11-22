@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestión de Usuarios</h1>
+                        <h1>Empleados</h1>
                     </div>
                 </div>
             </div>
@@ -89,22 +89,6 @@
                                                         size="3rem"
                                                     ></b-avatar>
                                                 </template>
-                                                <template #cell(estado)="row">
-                                                    <span
-                                                        class="badge badge-success"
-                                                        v-if="
-                                                            row.item.estado == 1
-                                                        "
-                                                    >
-                                                        ACTIVO
-                                                    </span>
-                                                    <span
-                                                        v-else
-                                                        class="badge badge-danger"
-                                                    >
-                                                        RETIRADO
-                                                    </span>
-                                                </template>
                                                 <template #cell(acceso)="row">
                                                     <span
                                                         class="badge badge-success"
@@ -121,60 +105,6 @@
                                                         INHABILITADO
                                                     </span>
                                                 </template>
-                                                <template #cell(mas)="row">
-                                                    <b-button
-                                                        variant="primary"
-                                                        size="sm"
-                                                        @click="
-                                                            row.toggleDetails
-                                                        "
-                                                    >
-                                                        {{
-                                                            row.detailsShowing
-                                                                ? "Ocultar"
-                                                                : "Mostrar"
-                                                        }}
-                                                        Detalles
-                                                    </b-button>
-                                                </template>
-
-                                                <template #row-details="row">
-                                                    <b-card>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Dirección:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item.dir
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Teléfono/Celular:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item.fono
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-button
-                                                            size="sm"
-                                                            variant="primary"
-                                                            @click="
-                                                                row.toggleDetails
-                                                            "
-                                                            >Ocultar</b-button
-                                                        >
-                                                    </b-card>
-                                                </template>
-
                                                 <template #cell(accion)="row">
                                                     <div
                                                         class="row justify-content-between"
@@ -313,7 +243,6 @@ export default {
                     sortable: true,
                 },
                 { key: "full_name", label: "Nombre", sortable: true },
-                { key: "full_ci", label: "C.I.", sortable: true },
                 { key: "tipo", label: "Tipo Usuario", sortable: true },
                 { key: "foto", label: "Foto" },
                 {
@@ -322,7 +251,6 @@ export default {
                     sortable: true,
                 },
                 { key: "acceso", label: "Acceso al sistema" },
-                { key: "mas", label: "Ver mas" },
                 { key: "accion", label: "Acción" },
             ],
             loading: true,
@@ -333,17 +261,14 @@ export default {
             muestra_modal: false,
             modal_accion: "nuevo",
             oUsuario: {
-                id: 0,
+                usuario: "",
                 nombre: "",
                 paterno: "",
                 materno: "",
-                ci: "",
-                ci_exp: "",
-                dir: "",
-                fono: [],
                 tipo: "",
                 foto: null,
-                acceso: "",
+                password: "",
+                acceso: "0",
             },
             currentPage: 1,
             perPage: 5,
@@ -367,14 +292,14 @@ export default {
         // Seleccionar Opciones de Tabla
         editarRegistro(item) {
             this.oUsuario.id = item.id;
+            this.oUsuario.usuario = item.usuario ? item.usuario : "";
             this.oUsuario.nombre = item.nombre ? item.nombre : "";
             this.oUsuario.paterno = item.paterno ? item.paterno : "";
             this.oUsuario.materno = item.materno ? item.materno : "";
-            this.oUsuario.ci = item.ci ? item.ci : "";
-            this.oUsuario.ci_exp = item.ci_exp ? item.ci_exp : "";
-            this.oUsuario.dir = item.dir ? item.dir : "";
-            this.oUsuario.fono = item.fono ? item.fono.split("; ") : "";
             this.oUsuario.tipo = item.tipo ? item.tipo : "";
+            this.oUsuario.foto = item.foto ? item.foto : "";
+            this.oUsuario.password = item.password ? item.password : "";
+            this.oUsuario.nombre = item.nombre ? item.nombre : "";
             this.oUsuario.acceso = item.acceso ? "" + item.acceso : "0";
             this.modal_accion = "edit";
             this.muestra_modal = true;
@@ -505,15 +430,13 @@ export default {
             this.currentPage = 1;
         },
         limpiaUsuario() {
+            this.oUsuario.usuario = "";
             this.oUsuario.nombre = "";
             this.oUsuario.paterno = "";
             this.oUsuario.materno = "";
-            this.oUsuario.ci = "";
-            this.oUsuario.ci_exp = "";
-            this.oUsuario.dir = "";
-            this.oUsuario.fono = [];
             this.oUsuario.tipo = "";
-            this.oUsuario.foto = null;
+            this.oUsuario.foto = "";
+            this.oUsuario.password = "";
             this.oUsuario.acceso = "0";
         },
         formatoFecha(date) {

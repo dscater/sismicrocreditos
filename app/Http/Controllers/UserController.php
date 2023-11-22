@@ -20,11 +20,6 @@ class UserController extends Controller
     public $validacion = [
         'nombre' => 'required|min:4',
         'paterno' => 'required|min:4',
-        'ci' => 'required|numeric|digits_between:4, 20|unique:users,ci',
-        'ci_exp' => 'required',
-        'dir' => 'required',
-        'fono' => 'required',
-        'dir' => 'required',
         'tipo' => 'required',
         'acceso' => 'required',
     ];
@@ -54,12 +49,19 @@ class UserController extends Controller
             'usuarios.edit',
             'usuarios.destroy',
 
+            'clientes.index',
+            'clientes.create',
+            'clientes.edit',
+            'clientes.destroy',
+
             'configuracion.index',
             'configuracion.edit',
 
             "reportes.usuarios",
         ],
         "GERENTE" => [],
+        "OFICIAL DE CRÉDITO" => [],
+        "CAJERO" => [],
     ];
 
 
@@ -71,31 +73,17 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->hasFile('foto')) {
-            $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:2048';
-        }
+        $this->validacion['usuario'] = 'required|unique:users,usuario';
+        $this->validacion['password'] = 'required|min:6';
 
         $request->validate($this->validacion, $this->mensajes);
-
-        $cont = 0;
-        do {
-            $nombre_usuario = User::getNombreUsuario($request->nombre, $request->paterno);
-            if ($cont > 0) {
-                $nombre_usuario = $nombre_usuario . $cont;
-            }
-            $request['usuario'] = $nombre_usuario;
-            $cont++;
-        } while (User::where('usuario', $nombre_usuario)->get()->first());
-
-        $request['password'] = 'NoNulo';
         $request['fecha_registro'] = date('Y-m-d');
         DB::beginTransaction();
         try {
             // crear el Usuario
+            $request["password"] = "123456";
             $nuevo_usuario = User::create(array_map('mb_strtoupper', $request->except('foto')));
-            $nuevo_usuario->password = Hash::make($request->ci);
-            $nuevo_usuario->save();
-            $nuevo_usuario->foto = 'default.png';
+            $nuevo_usuario->password = Hash::make($request->password);
             if ($request->hasFile('foto')) {
                 $file = $request->foto;
                 $nom_foto = time() . '_' . $nuevo_usuario->usuario . '.' . $file->getClientOriginalExtension();
@@ -132,9 +120,9 @@ class UserController extends Controller
 
     public function update(Request $request, User $usuario)
     {
-        $this->validacion['ci'] = 'required|min:4|numeric|unique:users,ci,' . $usuario->id;
-        if ($request->hasFile('foto')) {
-            $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:2048';
+        $this->validacion['usuario'] = 'required|unique:users,usuario,' . $usuario->id;
+        if ($request->password && trim($request->password) != "") {
+            $this->validacion['password'] = 'required|min:6';
         }
 
         $request->validate($this->validacion, $this->mensajes);
@@ -142,6 +130,10 @@ class UserController extends Controller
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
             $usuario->update(array_map('mb_strtoupper', $request->except('foto')));
+
+            if ($request->password && trim($request->password) != "") {
+                $usuario->password = Hash::make($request->password);
+            }
 
             if ($request->hasFile('foto')) {
                 $antiguo = $usuario->foto;
@@ -256,10 +248,6 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $antiguo = $usuario->foto;
-            if ($antiguo != 'default.png') {
-                \File::delete(public_path() . '/imgs/users/' . $antiguo);
-            }
             $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
             $usuario->delete();
             HistorialAccion::create([

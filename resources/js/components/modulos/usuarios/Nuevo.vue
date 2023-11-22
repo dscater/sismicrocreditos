@@ -9,7 +9,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title" v-text="tituloModal"></h4>
+                    <h4 class="modal-title" v-html="tituloModal"></h4>
                     <button
                         type="button"
                         class="close"
@@ -87,94 +87,47 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.ci,
+                                        'text-danger': errors.usuario,
                                     }"
-                                    >C.I.*</label
+                                    >Nombre de Usuario*</label
                                 >
+
                                 <el-input
-                                    placeholder="Número de C.I."
-                                    :class="{ 'is-invalid': errors.ci }"
-                                    v-model="usuario.ci"
+                                    placeholder="Nombre de Usuario"
+                                    :class="{ 'is-invalid': errors.usuario }"
+                                    v-model="usuario.usuario"
                                     clearable
                                 >
                                 </el-input>
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.ci"
-                                    v-text="errors.ci[0]"
+                                    v-if="errors.usuario"
+                                    v-text="errors.usuario[0]"
                                 ></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.ci_exp,
+                                        'text-danger': errors.password,
                                     }"
-                                    >Expedido*</label
+                                    >Contraseña*</label
                                 >
-                                <el-select
-                                    class="w-100 d-block"
-                                    :class="{
-                                        'is-invalid': errors.ci_exp,
-                                    }"
-                                    v-model="usuario.ci_exp"
+
+                                <input
+                                    type="password"
+                                    placeholder="Contraseña"
+                                    class="form-control"
+                                    :class="{ 'is-invalid': errors.password }"
+                                    v-model="usuario.password"
                                     clearable
-                                >
-                                    <el-option
-                                        v-for="(item, index) in listExpedido"
-                                        :key="index"
-                                        :value="item.value"
-                                        :label="item.label"
-                                    >
-                                    </el-option>
-                                </el-select>
+                                />
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.ci_exp"
-                                    v-text="errors.ci_exp[0]"
+                                    v-if="errors.password"
+                                    v-text="errors.password[0]"
                                 ></span>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.fono,
-                                    }"
-                                    >Teléfono/Celular*</label
-                                >
-                                <b-form-tags
-                                    input-id="tags-basic"
-                                    placeholder="Teléfono/Celular"
-                                    :class="{ 'is-invalid': errors.fono }"
-                                    v-model="usuario.fono"
-                                    addButtonText="Añadir"
-                                    separator=" ,;"
-                                    remove-on-delete
-                                ></b-form-tags>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.fono"
-                                    v-text="errors.fono[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.dir,
-                                    }"
-                                    >Dirección*</label
-                                >
-                                <el-input
-                                    placeholder="Dirección"
-                                    :class="{ 'is-invalid': errors.dir }"
-                                    v-model="usuario.dir"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.dir"
-                                    v-text="errors.dir[0]"
-                                ></span>
-                            </div>
+
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
@@ -291,15 +244,13 @@ export default {
         usuario: {
             type: Object,
             default: {
+                usuario: "",
                 nombre: "",
                 paterno: "",
                 materno: "",
-                ci: "",
-                ci_exp: "",
-                dir: "",
-                fono: [],
                 tipo: "",
-                foto: null,
+                foto: "",
+                password: "",
                 acceso: "0",
             },
         },
@@ -318,9 +269,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "AGREGAR USUARIO";
+                return '<i class="fa fa-plus"></i> AGREGAR EMPLEADO';
             } else {
-                return "MODIFICAR REGISTRO";
+                return '<i class="fa fa-edit"></i> MODIFICAR REGISTRO';
             }
         },
         textoBoton() {
@@ -347,7 +298,12 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
-            listTipos: ["ADMINISTRADOR", "FUNCIONARIO"],
+            listTipos: [
+                "ADMINISTRADOR",
+                "GERENTE",
+                "CAJERO",
+                "OFICIAL DE CRÉDITO",
+            ],
             errors: [],
         };
     },
@@ -367,6 +323,10 @@ export default {
                 };
                 let formdata = new FormData();
                 formdata.append(
+                    "usuario",
+                    this.usuario.usuario ? this.usuario.usuario : ""
+                );
+                formdata.append(
                     "nombre",
                     this.usuario.nombre ? this.usuario.nombre : ""
                 );
@@ -378,19 +338,6 @@ export default {
                     "materno",
                     this.usuario.materno ? this.usuario.materno : ""
                 );
-                formdata.append("ci", this.usuario.ci ? this.usuario.ci : "");
-                formdata.append(
-                    "ci_exp",
-                    this.usuario.ci_exp ? this.usuario.ci_exp : ""
-                );
-                formdata.append(
-                    "dir",
-                    this.usuario.dir ? this.usuario.dir : ""
-                );
-                formdata.append(
-                    "fono",
-                    this.usuario.fono ? this.usuario.fono.join("; ") : ""
-                );
                 formdata.append(
                     "tipo",
                     this.usuario.tipo ? this.usuario.tipo : ""
@@ -398,6 +345,10 @@ export default {
                 formdata.append(
                     "foto",
                     this.usuario.foto ? this.usuario.foto : ""
+                );
+                formdata.append(
+                    "password",
+                    this.usuario.password ? this.usuario.password : ""
                 );
                 formdata.append(
                     "acceso",
@@ -471,17 +422,14 @@ export default {
         },
         limpiaUsuario() {
             this.errors = [];
+            this.usuario.usuario = "";
             this.usuario.nombre = "";
             this.usuario.paterno = "";
             this.usuario.materno = "";
-            this.usuario.ci = "";
-            this.usuario.ci_exp = "";
-            this.usuario.dir = "";
-            this.usuario.fono = [];
             this.usuario.tipo = "";
-            this.usuario.foto = null;
+            this.usuario.foto = "";
+            this.usuario.password = "";
             this.usuario.acceso = "0";
-            this.$refs.input_file.value = null;
         },
     },
 };

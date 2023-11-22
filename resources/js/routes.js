@@ -35,6 +35,14 @@ export default new Router({
                 .default,
         },
 
+        // Clientes
+        {
+            path: "/clientes",
+            name: "clientes.index",
+            component: require("./components/modulos/clientes/index.vue")
+                .default,
+        },
+
         // Configuración
         {
             path: "/configuracion",

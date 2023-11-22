@@ -2,9 +2,14 @@
 
 use App\Http\Controllers\ActividadContingenciaController;
 use App\Http\Controllers\AmenazaSeguridadController;
+use App\Http\Controllers\CajaController;
+use App\Http\Controllers\CajaMovimientoController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PlanContingenciaController;
+use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RolFuncionController;
 use App\Http\Controllers\UserController;
@@ -50,6 +55,31 @@ Route::middleware(['auth'])->group(function () {
 
         // plan_contingencias
         Route::resource('plan_contingencias', PlanContingenciaController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // clientes
+        Route::resource('clientes', ClienteController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // prestamos
+        Route::resource('prestamos', PrestamoController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // cajas
+        Route::resource('cajas', CajaController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // caja_movimientos
+        Route::resource('caja_movimientos', CajaMovimientoController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // pagos
+        Route::resource('pagos', PagoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
 
