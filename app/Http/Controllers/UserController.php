@@ -54,6 +54,11 @@ class UserController extends Controller
             'clientes.edit',
             'clientes.destroy',
 
+            'prestamos.individual',
+            'prestamos.individual_nuevo',
+            'prestamos.grupal',
+            'prestamos.grupal_nuevo',
+
             'configuracion.index',
             'configuracion.edit',
 

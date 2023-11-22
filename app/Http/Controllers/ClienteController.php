@@ -64,6 +64,15 @@ class ClienteController extends Controller
         return response()->JSON(['clientes' => $clientes, 'total' => count($clientes)], 200);
     }
 
+    public function buscar_ci(Request $request)
+    {
+        $cliente = Cliente::where("ci", $request->ci)->get()->first();
+        if ($cliente) {
+            return response()->JSON(['cliente' => $cliente], 200);
+        }
+        return response()->JSON(['message' => "No se encontrarón registros con ese número de C.I."], 404);
+    }
+
     public function store(Request $request)
     {
         $request->validate($this->validacion, $this->mensajes);

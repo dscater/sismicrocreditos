@@ -53422,6 +53422,10 @@ a.text-muted:hover {
     border: solid 0.5px white !important;
 }
 
+.small-box {
+    background-color: white;
+}
+
 .bg-secundario {
     background-color: var(--secondario);
     color: white;

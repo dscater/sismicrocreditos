@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // clientes
+        Route::get("clientes/buscar_ci", [ClienteController::class, 'buscar_ci']);
         Route::resource('clientes', ClienteController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);

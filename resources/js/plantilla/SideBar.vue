@@ -86,9 +86,14 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('clientes.index')"
+                        v-if="
+                            permisos.includes('prestamos.individual') ||
+                            permisos.includes('prestamos.grupal')
+                        "
                         :class="[
-                            $route.name == 'clientes.index'
+                            $route.name == 'prestamos.individual' ||
+                            $route.name == 'prestamos.grupal' ||
+                            $route.name == 'prestamos.individual_nuevo'
                                 ? 'menu-is-opening menu-open'
                                 : '',
                         ]"
@@ -103,17 +108,56 @@
                         <ul class="nav nav-treeview">
                             <li
                                 class="nav-item"
-                                v-if="permisos.includes('clientes.index')"
+                                v-if="permisos.includes('prestamos.individual')"
                             >
                                 <router-link
-                                    :to="{ name: 'clientes.index' }"
+                                    exact
+                                    :to="{ name: 'prestamos.individual' }"
                                     class="nav-link"
+                                    :class="[
+                                        $route.name == 'prestamos.individual' ||
+                                        $route.name ==
+                                            'prestamos.individual_nuevo'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
                                 >
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Clientes</p>
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('prestamos.grupal')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'prestamos.grupal' }"
+                                    class="nav-link"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Grupal</p>
                                 </router-link>
                             </li>
                         </ul>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('clientes.index')"
+                    >
+                        <router-link
+                            :to="{ name: 'clientes.index' }"
+                            class="nav-link"
+                        >
+                            <i class="fa fa-user-friends nav-icon"></i>
+                            <p>Clientes</p>
+                        </router-link>
                     </li>
                     <li
                         class="nav-item"

@@ -43,6 +43,27 @@ export default new Router({
                 .default,
         },
 
+        // Prestamos
+        {
+            path: "/prestamos/individual",
+            name: "prestamos.individual",
+            component: require("./components/modulos/prestamos/individual.vue")
+                .default,
+        },
+        {
+            path: "/prestamos/individual/nuevo",
+            name: "prestamos.individual_nuevo",
+            component:
+                require("./components/modulos/prestamos/individual_nuevo.vue")
+                    .default,
+        },
+        {
+            path: "/prestamos/grupal",
+            name: "prestamos.grupal",
+            component: require("./components/modulos/prestamos/grupal.vue")
+                .default,
+        },
+
         // Configuración
         {
             path: "/configuracion",

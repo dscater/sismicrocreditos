@@ -20,6 +20,7 @@ class CreatePrestamosTable extends Migration
             $table->string("tipo", 155);
             $table->unsignedBigInteger("grupo_id")->nullable();
             $table->decimal("monto", 24, 2);
+            $table->integer("plazo");
             $table->integer("f_ci");
             $table->integer("f_luz");
             $table->integer("f_agua");
