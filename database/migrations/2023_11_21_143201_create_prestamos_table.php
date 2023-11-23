@@ -30,6 +30,9 @@ class CreatePrestamosTable extends Migration
             $table->string("documento_3")->nullable();
             $table->string("documento_4")->nullable();
             $table->string("estado", 155);
+            $table->integer("desembolso")->default(0);
+            $table->date("fecha_desembolso")->nullable();
+            $table->integer("finalizado")->default(0);
             $table->date("fecha_registro");
             $table->timestamps();
 

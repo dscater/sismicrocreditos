@@ -144,6 +144,10 @@
         .img_celda img {
             width: 45px;
         }
+
+        .bold {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -159,7 +163,15 @@
         <h4 class="texto">PLAN DE PAGO</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
-   
+    <table>
+        <tbody>
+            <tr>
+                <td class="bold" width="8%">Cliente: </td>
+                <td>{{ $datos['cliente']['nombre'] }} {{ $datos['cliente']['paterno'] }}
+                    {{ $datos['cliente']['materno'] }}</td>
+            </tr>
+        </tbody>
+    </table>
     <table>
         <thead>
             <tr>

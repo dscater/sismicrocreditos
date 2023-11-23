@@ -1,19 +1,18 @@
 <?php
 
-use App\Http\Controllers\ActividadContingenciaController;
-use App\Http\Controllers\AmenazaSeguridadController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CajaMovimientoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\DesembolsoController;
+use App\Http\Controllers\DesembolsoIndividualController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagoController;
-use App\Http\Controllers\PlanContingenciaController;
 use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\PrestamoGrupalController;
+use App\Http\Controllers\PrestamoIndividualController;
 use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\RolFuncionController;
 use App\Http\Controllers\UserController;
-use App\Models\RolFuncion;
 use Illuminate\Support\Facades\Route;
 
 // VACIAR CACHE
@@ -53,11 +52,6 @@ Route::middleware(['auth'])->group(function () {
             'index', 'store', 'update', 'destroy', 'show'
         ]);
 
-        // plan_contingencias
-        Route::resource('plan_contingencias', PlanContingenciaController::class)->only([
-            'index', 'store', 'update', 'destroy', 'show'
-        ]);
-
         // clientes
         Route::get("clientes/buscar_ci", [ClienteController::class, 'buscar_ci']);
         Route::resource('clientes', ClienteController::class)->only([
@@ -65,10 +59,30 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos
+        Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
         Route::post("prestamos/simulacion/simulacion_plan_pago", [PrestamoController::class, 'simulacion_plan_pago']);
         Route::resource('prestamos', PrestamoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
+
+        // prestamos-individual
+        Route::put("prestamos/individual/rechazar/{prestamo}", [PrestamoIndividualController::class, 'rechazar']);
+        Route::put("prestamos/individual/aprobar/{prestamo}", [PrestamoIndividualController::class, 'aprobar']);
+        Route::get("prestamos/individual/cliente_ci", [PrestamoIndividualController::class, 'cliente_ci']);
+        Route::resource('prestamos/individual', PrestamoIndividualController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // prestamos-grupal
+        Route::resource('prestamos/grupal', PrestamoGrupalController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // desembolsos-individual
+        Route::post("desembolsos/individual/{prestamo}", [DesembolsoIndividualController::class, 'store']);
+
+        // desembolsos-grupal
+        Route::post("desembolsos/grupal/{grupo}", [PrestamoGrupalController::class, 'store']);
 
         // cajas
         Route::resource('cajas', CajaController::class)->only([

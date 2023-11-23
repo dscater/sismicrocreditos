@@ -59,6 +59,12 @@ class UserController extends Controller
             'prestamos.grupal',
             'prestamos.grupal_nuevo',
 
+            "desembolsos.individual",
+            "desembolsos.grupal",
+
+            "pagos.individual",
+            "pagos.grupal",
+
             'configuracion.index',
             'configuracion.edit',
 

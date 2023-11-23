@@ -6,7 +6,7 @@
             </div>
             <strong
                 >Copyright &copy; {{ fechaActual }}
-                <router-link :to="{ name: 'inicio' }" class="text-danger">{{
+                <router-link :to="{ name: 'inicio' }" class="text-primary">{{
                     configuracion.alias
                 }}</router-link
                 >.</strong

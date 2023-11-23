@@ -87,6 +87,128 @@
                     <li
                         class="nav-item"
                         v-if="
+                            permisos.includes('pagos.individual') ||
+                            permisos.includes('pagos.grupal')
+                        "
+                        :class="[
+                            $route.name == 'pagos.individual' ||
+                            $route.name == 'pagos.grupal'
+                                ? 'menu-is-opening menu-open'
+                                : '',
+                        ]"
+                    >
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-cash-register"></i>
+                            <p>
+                                Pagos
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('pagos.individual')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'pagos.individual' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name == 'pagos.individual'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('pagos.grupal')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'pagos.grupal' }"
+                                    class="nav-link"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Grupal</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes('desembolsos.individual') ||
+                            permisos.includes('desembolsos.grupal')
+                        "
+                        :class="[
+                            $route.name == 'desembolsos.individual' ||
+                            $route.name == 'desembolsos.grupal'
+                                ? 'menu-is-opening menu-open'
+                                : '',
+                        ]"
+                    >
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-hand-holding-usd"></i>
+                            <p>
+                                Desembolsos
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes('desembolsos.individual')
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'desembolsos.individual' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name == 'desembolsos.individual'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('desembolsos.grupal')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'desembolsos.grupal' }"
+                                    class="nav-link"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Grupal</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
                             permisos.includes('prestamos.individual') ||
                             permisos.includes('prestamos.grupal')
                         "

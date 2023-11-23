@@ -16,6 +16,7 @@ class CreatePlanPagosTable extends Migration
         Schema::create('plan_pagos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("prestamo_id");
+            $table->unsignedBigInteger("plan_pago_id");
             $table->integer("nro_cuota");
             $table->decimal("saldo_inicial", 24, 2);
             $table->decimal("capital", 24, 2);
@@ -23,7 +24,7 @@ class CreatePlanPagosTable extends Migration
             $table->decimal("saldo", 24, 2);
             $table->decimal("cuota", 24, 2);
             $table->string("cancelado", 100);
-            $table->date("fecha_pago");
+            $table->date("fecha_pago")->nullable();
             $table->timestamps();
         });
     }

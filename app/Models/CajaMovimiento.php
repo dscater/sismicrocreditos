@@ -8,4 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class CajaMovimiento extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "caja_id",
+        "user_id",
+        "monto",
+        "tipo",
+        "glosa",
+        "prestamo_id",
+    ];
+
+    public function caja()
+    {
+        return $this->belongsTo(Caja::class, 'caja_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function prestamo()
+    {
+        return $this->belongsTo(Prestamo::class, 'prestamo_id');
+    }
 }

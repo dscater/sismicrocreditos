@@ -1090,12 +1090,14 @@
                                                                 total_pasos
                                                             "
                                                             class="btn btn-primary ml-1"
-                                                        >
-                                                            Finalizar
-                                                            <i
-                                                                class="fa fa-flag-checkered"
-                                                            ></i>
-                                                        </button>
+                                                            v-html="
+                                                                txtBtnFinalizar
+                                                            "
+                                                            :disabled="enviando"
+                                                            @click="
+                                                                registrarPrestamo
+                                                            "
+                                                        ></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1174,9 +1176,16 @@ export default {
                 { value: "BN", label: "Beni" },
             ],
             errors: [],
+            enviando: false,
         };
     },
     computed: {
+        txtBtnFinalizar() {
+            if (this.enviando) {
+                return '<i class="fa fa-spinner fa-spin"></i> Enviando...';
+            }
+            return 'Finalizar <iclass="fa fa-flag-checkered"></iclass=>';
+        },
         tituloPaso() {
             let titulo = "";
             switch (this.paso_actual) {
@@ -1200,6 +1209,71 @@ export default {
         this.loadingWindow.close();
     },
     methods: {
+        registrarPrestamo() {
+            this.enviando = true;
+            axios
+                .post(main_url + "/admin/prestamos/individual", this.oPrestamo)
+                .then((res) => {
+                    setTimeout(() => {
+                        this.enviando = false;
+                    }, 1000);
+                    Swal.fire({
+                        icon: "success",
+                        title: res.data.msj,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    this.errors = [];
+                    this.$router.push({ name: "prestamos.individual" });
+                })
+                .catch(async (error) => {
+                    this.enviando = false;
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            this.errors = error.response.data.errors;
+                            let mensaje = `<ul class="text-left">`;
+                            for (let key in this.errors) {
+                                if (this.errors.hasOwnProperty(key)) {
+                                    const value = this.errors[key];
+                                    if (Array.isArray(value)) {
+                                        value.forEach((error) => {
+                                            mensaje += `<li><span>${error.trim()}</span></li>`;
+                                        });
+                                    }
+                                }
+                            }
+                            mensaje += `<ul/>`;
+                            Swal.fire({
+                                icon: "error",
+                                title: "Tienes los siguientes errores en el formulario",
+                                html: mensaje,
+                                showConfirmButton: true,
+                                confirmButtonColor: "#1976d2",
+                                confirmButtonText: "Aceptar",
+                            });
+                        }
+                        if (
+                            error.response.status === 420 ||
+                            error.response.status === 419 ||
+                            error.response.status === 401
+                        ) {
+                            window.location = "/";
+                        }
+                        if (
+                            error.response.status === 500 ||
+                            error.response.status == 400
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: error.response.data.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                        }
+                    }
+                });
+        },
         buscarCliente() {
             if (this.txt_ci.trim() != "") {
                 axios

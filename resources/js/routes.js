@@ -64,6 +64,34 @@ export default new Router({
                 .default,
         },
 
+        // Desembolsos
+        {
+            path: "/desembolsos/individual",
+            name: "desembolsos.individual",
+            component:
+                require("./components/modulos/desembolsos/individual.vue")
+                    .default,
+        },
+        {
+            path: "/desembolsos/grupal",
+            name: "desembolsos.grupal",
+            component: require("./components/modulos/desembolsos/grupal.vue")
+                .default,
+        },
+
+        // Desembolsos
+        {
+            path: "/pagos/individual",
+            name: "pagos.individual",
+            component: require("./components/modulos/pagos/individual.vue")
+                .default,
+        },
+        {
+            path: "/pagos/grupal",
+            name: "pagos.grupal",
+            component: require("./components/modulos/pagos/grupal.vue").default,
+        },
+
         // Configuración
         {
             path: "/configuracion",

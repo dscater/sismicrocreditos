@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Interes;
+use App\Models\PlanPago;
+use App\Models\Prestamo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -10,6 +13,32 @@ use PDF;
 
 class PrestamoController extends Controller
 {
+    public function get_pago(Prestamo $prestamo)
+    {
+        // obtener el primer pago
+        $dias_mora = 0;
+        $monto_mora = 0;
+        $plan_pago = PlanPago::where("prestamo_id", $prestamo->id)->where("cancelado", "NO")->orderBy("nro_cuota", "asc")->get()->first();
+
+        if ($plan_pago) {
+            // calcular monto mora
+
+            // fin calcular monto mora
+
+            return response()->JSON([
+                "sw" => true,
+                "plan_pago" => $plan_pago,
+                "dias_mora" => $dias_mora,
+                "monto_mora" => $monto_mora,
+            ]);
+        } else {
+            return response()->JSON([
+                "sw" => false,
+                "message" => "No se encontró ningun pago para realizar"
+            ], 400);
+        }
+    }
+
     public function simulacion_plan_pago(Request $request)
     {
         $datos = self::armarDatos($request);
@@ -147,6 +176,10 @@ class PrestamoController extends Controller
         }
         if (trim($datos["plazo"]) == '' || (float)$datos["plazo"] <= 0) {
             $errors["plazo"] = ["Debes ingresar un plazo valido"];
+        } else {
+            if ((float)$datos["plazo"] > 12) {
+                $errors["plazo"] = ["El plazo no puede ser mayor a 12 semanas"];
+            }
         }
         if (trim($datos["f_ci"]) == '' || !(float)$datos["f_ci"]) {
             $errors["f_ci"] = ["La fotocopia de C.I. es oblitagoria"];
@@ -169,6 +202,19 @@ class PrestamoController extends Controller
         if (!$cliente["paterno"] || trim($cliente["paterno"]) == '') {
             $errors["paterno"] = ["Debes ingresar el apellido paterno del cliente"];
         }
+
+        if ($registrar_como == 'NUEVO') {
+            $existe_ci = Cliente::where("ci", $datos["cliente"]["ci"])->get()->first();
+            if ($existe_ci) {
+                $errors["ci"] = ["Ya hay un cliente registrado con el C.I. " . $datos["cliente"]["ci"]];
+            }
+        } else {
+            $existe_ci = Cliente::where("ci", $datos["cliente"]["ci"])->where("id", "!=", $datos["cliente"]["id"])->get()->first();
+            if ($existe_ci) {
+                $errors["ci"] = ["Ya hay un cliente registrado con el C.I. " . $datos["cliente"]["ci"]];
+            }
+        }
+
         if (!$cliente["ci"] || trim($cliente["ci"]) == '') {
             $errors["ci"] = ["Debes ingresar el C.I. del cliente"];
         }
