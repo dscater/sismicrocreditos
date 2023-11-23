@@ -359,7 +359,7 @@
                                                                 <select
                                                                     class="form-control"
                                                                     v-model="
-                                                                        registrar_como
+                                                                        oPrestamo.registrar_como
                                                                     "
                                                                 >
                                                                     <option
@@ -392,7 +392,7 @@
                                                             <div
                                                                 class="col-md-8 offset-md-2"
                                                                 v-if="
-                                                                    registrar_como ==
+                                                                    oPrestamo.registrar_como ==
                                                                     'ANTIGUO'
                                                                 "
                                                             >
@@ -456,7 +456,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -496,7 +496,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -537,7 +537,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -577,7 +577,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -616,7 +616,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -655,7 +655,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -710,7 +710,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -749,7 +749,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -789,7 +789,7 @@
                                                                             .edad
                                                                     "
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 />
@@ -827,7 +827,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -867,7 +867,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -907,7 +907,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -946,7 +946,7 @@
                                                                     "
                                                                     clearable
                                                                     :readonly="
-                                                                        registrar_como ==
+                                                                        oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
                                                                 >
@@ -984,6 +984,16 @@
                                                                         oPrestamo.monto
                                                                     "
                                                                 />
+                                                                <span
+                                                                    class="error invalid-feedback"
+                                                                    v-if="
+                                                                        errors.monto
+                                                                    "
+                                                                    v-text="
+                                                                        errors
+                                                                            .monto[0]
+                                                                    "
+                                                                ></span>
                                                             </div>
                                                             <div
                                                                 class="col-md-6 col-md-offset-3 form-group"
@@ -999,6 +1009,16 @@
                                                                         oPrestamo.plazo
                                                                     "
                                                                 />
+                                                                <span
+                                                                    class="error invalid-feedback"
+                                                                    v-if="
+                                                                        errors.plazo
+                                                                    "
+                                                                    v-text="
+                                                                        errors
+                                                                            .plazo[0]
+                                                                    "
+                                                                ></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1013,6 +1033,9 @@
                                                             >
                                                                 <span
                                                                     class="btn_descargar"
+                                                                    @click="
+                                                                        descargarPlanPagos
+                                                                    "
                                                                 >
                                                                     <img
                                                                         :src="
@@ -1104,6 +1127,7 @@ export default {
             total_pasos: 4,
             paso_actual: 1,
             oPrestamo: {
+                registrar_como: "NUEVO",
                 user_id: "",
                 cliente_id: "",
                 tipo: "",
@@ -1120,6 +1144,7 @@ export default {
                 documento_4: "",
                 estado: "",
                 cliente: {
+                    id: 0,
                     nombre: "",
                     segundo_nombre: "",
                     paterno: "",
@@ -1136,7 +1161,6 @@ export default {
                 },
             },
             url_principal: main_url,
-            registrar_como: "NUEVO",
             txt_ci: "",
             listExpedido: [
                 { value: "LP", label: "La Paz" },
@@ -1221,6 +1245,76 @@ export default {
                     confirmButtonText: "Aceptar",
                 });
             }
+        },
+        descargarPlanPagos() {
+            let config = {
+                responseType: "blob",
+            };
+            axios
+                .post(
+                    main_url +
+                        "/admin/prestamos/simulacion/simulacion_plan_pago",
+                    this.oPrestamo,
+                    config
+                )
+                .then((res) => {
+                    this.errors = [];
+                    this.enviando = false;
+                    let pdfBlob = new Blob([res.data], {
+                        type: "application/pdf",
+                    });
+                    let urlReporte = URL.createObjectURL(pdfBlob);
+                    window.open(urlReporte);
+                })
+                .catch(async (error) => {
+                    let responseObj = await error.response.data.text();
+                    responseObj = JSON.parse(responseObj);
+                    console.log(error);
+                    this.enviando = false;
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            this.errors = responseObj.errors;
+                            let mensaje = `<ul class="text-left">`;
+                            for (let key in this.errors) {
+                                if (this.errors.hasOwnProperty(key)) {
+                                    const value = this.errors[key];
+                                    if (Array.isArray(value)) {
+                                        value.forEach((error) => {
+                                            mensaje += `<li><span>${error.trim()}</span></li>`;
+                                        });
+                                    }
+                                }
+                            }
+                            mensaje += `<ul/>`;
+                            Swal.fire({
+                                icon: "error",
+                                title: "Tienes los siguientes errores en el formulario",
+                                html: mensaje,
+                                showConfirmButton: true,
+                                confirmButtonColor: "#1976d2",
+                                confirmButtonText: "Aceptar",
+                            });
+                            1;
+                        }
+                        if (
+                            error.response.status === 420 ||
+                            error.response.status === 419 ||
+                            error.response.status === 401 ||
+                            error.response.status === 400
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: responseObj.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            if (error.response.status != 400) {
+                                window.location = "/";
+                            }
+                        }
+                    }
+                });
         },
         // PASOS
         irPaso(paso) {

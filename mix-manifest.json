@@ -15,6 +15,7 @@
     "/imgs/icon_inscripcion.png": "/imgs/icon_inscripcion.png",
     "/imgs/icon_recursos.png": "/imgs/icon_recursos.png",
     "/imgs/icon_solicitud.png": "/imgs/icon_solicitud.png",
+    "/imgs/listado.png": "/imgs/listado.png",
     "/imgs/logo.jpg": "/imgs/logo.jpg",
     "/imgs/people.png": "/imgs/people.png",
     "/imgs/pinmap.gif": "/imgs/pinmap.gif",
@@ -93,6 +94,5 @@
     "/fonts/Poppins/Poppins-Thin.ttf": "/fonts/Poppins/Poppins-Thin.ttf",
     "/fonts/Poppins/Poppins-ThinItalic.ttf": "/fonts/Poppins/Poppins-ThinItalic.ttf",
     "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf",
-    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff",
-    "/imgs/listado.png": "/imgs/listado.png"
+    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff"
 }

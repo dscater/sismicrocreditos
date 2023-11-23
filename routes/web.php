@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos
+        Route::post("prestamos/simulacion/simulacion_plan_pago", [PrestamoController::class, 'simulacion_plan_pago']);
         Route::resource('prestamos', PrestamoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);

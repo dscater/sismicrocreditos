@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 22-11-2023 a las 17:20:15
+-- Tiempo de generación: 23-11-2023 a las 05:07:18
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -170,6 +170,26 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `interes`
+--
+
+CREATE TABLE `interes` (
+  `id` bigint UNSIGNED NOT NULL,
+  `interes` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `interes`
+--
+
+INSERT INTO `interes` (`id`, `interes`, `created_at`, `updated_at`) VALUES
+(1, 4.9, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `migrations`
 --
 
@@ -194,7 +214,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2023_11_21_143214_create_plan_pagos_table', 2),
 (9, '2023_11_21_143240_create_pagos_table', 2),
 (10, '2023_11_21_143306_create_cajas_table', 2),
-(11, '2023_11_21_143314_create_caja_movimientos_table', 2);
+(11, '2023_11_21_143314_create_caja_movimientos_table', 2),
+(12, '2023_11_22_233737_create_interes_table', 3);
 
 -- --------------------------------------------------------
 
@@ -352,6 +373,12 @@ ALTER TABLE `historial_accions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `interes`
+--
+ALTER TABLE `interes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
@@ -433,10 +460,16 @@ ALTER TABLE `historial_accions`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `interes`
+--
+ALTER TABLE `interes`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
