@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ActividadContingencia;
 use App\Models\AmenazaSeguridad;
+use App\Models\Caja;
 use App\Models\HistorialAccion;
 use App\Models\PlanContingencia;
+use App\Models\Prestamo;
 use App\Models\RolFuncion;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -296,12 +298,62 @@ class UserController extends Controller
         $tipo = Auth::user()->tipo;
         $array_infos = [];
 
+        $saldo = Caja::find(1)->saldo;
+        $array_infos[] = [
+            'label' => 'Pago por Cuotas',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => ""
+        ];
+
+        $saldo = Caja::find(2)->saldo;
+        $array_infos[] = [
+            'label' => 'Gastos Administrativos',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => ""
+        ];
+
+        $saldo = Caja::find(3)->saldo;
+        $array_infos[] = [
+            'label' => 'Cargos por Multa',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => ""
+        ];
+
+        $saldo = Caja::find(4)->saldo;
+        $array_infos[] = [
+            'label' => 'Intereses',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => ""
+        ];
+
         if (in_array('usuarios.index', $this->permisos[$tipo])) {
             $array_infos[] = [
-                'label' => 'Usuarios',
+                'label' => 'Empleados',
                 'cantidad' => count(User::where('id', '!=', 1)->get()),
                 'icon' => asset("imgs/people.png"),
                 "url" => "usuarios.index"
+            ];
+        }
+
+        if (in_array('prestamos.individual', $this->permisos[$tipo])) {
+            $array_infos[] = [
+                'label' => 'Préstamos individual',
+                'cantidad' => count(Prestamo::where('tipo', 'INDIVIDUAL')->where("estado", "!=", "RECHAZADO")->get()),
+                'icon' => asset("imgs/icon_inscripcion.png"),
+                "url" => "prestamos.individual"
+            ];
+        }
+
+        if (in_array('prestamos.grupal', $this->permisos[$tipo])) {
+            $array_infos[] = [
+                'label' => 'Préstamos grupal',
+                'cantidad' => count(Prestamo::where('tipo', 'GRUPAL')->where("estado", "!=", "RECHAZADO")->get()),
+                'icon' => asset("imgs/icon_inscripcion.png"),
+                "url" => "prestamos.grupal"
             ];
         }
         return response()->JSON($array_infos);
