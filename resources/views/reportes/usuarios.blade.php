@@ -10,10 +10,10 @@
         }
 
         @page {
-            margin-top: 1.5cm;
-            margin-bottom: 0.3cm;
-            margin-left: 0.3cm;
-            margin-right: 0.3cm;
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+            margin-left: 1.5cm;
+            margin-right: 1cm;
         }
 
         table {
@@ -152,7 +152,6 @@
     <div class="encabezado">
         <div class="logo">
             <img src="{{ asset('imgs/' . $configuracion->first()->logo) }}">
-            {{ $configuracion->first()->logo }}
         </div>
         <h2 class="titulo">
             {{ $configuracion->first()->razon_social }}
@@ -164,14 +163,11 @@
         <thead class="bg-principal">
             <tr>
                 <th width="3%">N°</th>
-                <th width="5%">FOTO</th>
-                <th>USUARIO</th>
+                <th width="8%">FOTO</th>
+                <th width="7%">USUARIO</th>
                 <th>PATERNO</th>
                 <th>MATERNO</th>
                 <th>NOMBRE(S)</th>
-                <th>C.I.</th>
-                <th>DIRECCIÓN</th>
-                <th>TELÉFONO/CELULAR</th>
                 <th>TIPO DE USUARIO</th>
                 <th>ACCESO</th>
                 <th width="9%">FECHA DE REGISTRO</th>
@@ -184,14 +180,11 @@
             @foreach ($usuarios as $user)
                 <tr>
                     <td class="centreado">{{ $cont++ }}</td>
-                    <td class="img_celda"><img src="{{ asset('imgs/users/' . $user->foto) }}" alt="Foto"></td>
+                    <td class="img_celda"><img src="{{ $user->path_image }}" alt="Foto"></td>
                     <td>{{ $user->usuario }}</td>
                     <td class="centreado">{{ $user->paterno }}</td>
                     <td class="centreado">{{ $user->materno }}</td>
                     <td class="centreado">{{ $user->nombre }}</td>
-                    <td class="centreado">{{ $user->full_ci }}</td>
-                    <td class="centreado">{{ $user->dir }}</td>
-                    <td class="centreado">{{ $user->fono }}</td>
                     <td class="centreado">{{ $user->tipo }}</td>
                     <td class="centreado">{{ $user->acceso == 1 ? 'HABILITADO' : 'INHABILITADO' }}</td>
                     <td class="centreado">{{ $user->fecha_registro }}</td>

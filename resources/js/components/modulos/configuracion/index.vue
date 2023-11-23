@@ -23,7 +23,7 @@
                                                     'configuracion.edit'
                                                 )
                                             "
-                                            class="btn btn-danger btn-flat btn-block"
+                                            class="btn btn-primary btn-flat btn-block"
                                             @click="muestra_modal = true"
                                         >
                                             <i class="el-icon-edit-outline"></i>
@@ -40,7 +40,7 @@
                                         :column="1"
                                         border
                                         :labelStyle="{
-                                            background: '#222222',
+                                            background: '#1976d2',
                                             width: '180px',
                                             color: 'white',
                                         }"
@@ -91,13 +91,6 @@
                                         </el-descriptions-item>
                                         <el-descriptions-item>
                                             <template slot="label">
-                                                <i class="el-icon-link"></i>
-                                                Web
-                                            </template>
-                                            {{ oConfiguracion.web }}
-                                        </el-descriptions-item>
-                                        <el-descriptions-item>
-                                            <template slot="label">
                                                 <i class="el-icon-message"></i>
                                                 Correo eléctronico
                                             </template>
@@ -136,7 +129,7 @@
         >
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-dark">
+                    <div class="modal-header bg-primary">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
                         <button
                             type="button"
@@ -357,8 +350,8 @@
                             Cerrar
                         </button>
                         <el-button
-                            type="danger"
-                            class="bg-danger"
+                            type="primary"
+                            class="bg-primary"
                             :loading="enviando"
                             @click="setRegistroModal()"
                             >{{ textoBtn }}</el-button
@@ -561,6 +554,6 @@ export default {
 
 <style>
 .el-descriptions-item__cell.el-descriptions-item__label.is-bordered-label {
-    background: var(--dark) !important;
+    background: var(--principal) !important;
 }
 </style>

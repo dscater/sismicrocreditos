@@ -170,6 +170,10 @@
                 <td>{{ $datos['cliente']['nombre'] }} {{ $datos['cliente']['paterno'] }}
                     {{ $datos['cliente']['materno'] }}</td>
             </tr>
+            <tr>
+                <td class="bold">C.I.: </td>
+                <td>{{ $datos['cliente']['ci'] }} {{ $datos['cliente']['ci_exp'] }}</td>
+            </tr>
         </tbody>
     </table>
     <table>

@@ -139,8 +139,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <el-button
-                                                type="danger"
-                                                class="bg-danger w-full"
+                                                type="primary"
+                                                class="bg-primary w-full"
                                                 :loading="enviando"
                                                 @click="generaReporte()"
                                                 >{{ textoBtn }}</el-button
@@ -187,7 +187,12 @@ export default {
                 "Tipo de usuario",
                 // "Rango de fechas",
             ],
-            listTipos: ["ADMINISTRADOR", "FUNCIONARIO"],
+            listTipos: [
+                "ADMINISTRADOR",
+                "GERENTE",
+                "CAJERO",
+                "OFICIAL DE CRÉDITO",
+            ],
             errors: [],
         };
     },

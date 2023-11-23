@@ -98,7 +98,7 @@
                         ]"
                     >
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-cash-register"></i>
+                            <i class="nav-icon fas fa-clipboard-list"></i>
                             <p>
                                 Pagos
                                 <i class="fas fa-angle-left right"></i>
@@ -268,6 +268,14 @@
                                 </router-link>
                             </li>
                         </ul>
+                    </li>
+                    <li
+                        class="nav-item"
+                    >
+                        <a href="" class="nav-link">
+                            <i class="fa fa-cash-register nav-icon"></i>
+                            <p>Caja</p>
+                        </a>
                     </li>
                     <li
                         class="nav-item"
