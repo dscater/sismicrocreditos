@@ -27,6 +27,10 @@
                                 <strong>Cliente: </strong>
                                 {{ prestamo.cliente.full_name }}
                             </p>
+                            <p>
+                                <strong>C.I.: </strong>
+                                {{ prestamo.cliente.full_ci }}
+                            </p>
                             <p><strong>Monto: </strong>{{ prestamo.monto }}</p>
                             <p class="mb-0">
                                 <strong>Plazo: </strong> {{ prestamo.plazo }}
@@ -47,7 +51,7 @@
                             />
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Monto*</label>
+                            <label>Monto cuota*</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -70,6 +74,15 @@
                                 type="text"
                                 class="form-control"
                                 v-model="oPago.monto_mora"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Interes*</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="oPago.interes"
                                 readonly
                             />
                         </div>
@@ -198,6 +211,7 @@ export default {
                 cliente_id: "",
                 nro_cuota: "",
                 monto: "",
+                interes: "",
                 dias_mora: "",
                 monto_mora: "",
                 monto_total: "",
@@ -217,16 +231,18 @@ export default {
                             this.prestamo.id
                     )
                     .then((response) => {
-                        this.oPlanPago = this.prestamo.id;
                         this.oPlanPago = response.data.plan_pago;
+                        this.oPago.prestamo_id = this.prestamo.id;
                         this.oPago.plan_pago_id = this.oPlanPago.id;
                         this.oPago.cliente_id = this.prestamo.cliente_id;
                         this.oPago.nro_cuota = this.oPlanPago.nro_cuota;
+                        this.oPago.interes = this.oPlanPago.interes;
                         this.oPago.monto = this.oPlanPago.cuota;
                         this.oPago.dias_mora = response.data.dias_mora;
                         this.oPago.monto_mora = response.data.monto_mora;
                         this.oPago.monto_total =
                             parseFloat(this.oPago.monto) +
+                            parseFloat(this.oPago.interes) +
                             parseFloat(this.oPago.monto_mora);
                         this.oPago.monto_total = parseFloat(
                             this.oPago.monto_total
@@ -284,15 +300,7 @@ export default {
         setRegistroModal() {
             this.enviando = true;
             axios
-                .post(
-                    main_url +
-                        "/admin/prestamos/individual/aprobar/" +
-                        this.prestamo.id,
-                    {
-                        _method: "PUT",
-                        fecha_desembolso: this.fecha_desembolso,
-                    }
-                )
+                .post(main_url + "/admin/pagos", this.oPago)
                 .then((res) => {
                     this.enviando = false;
                     Swal.fire({

@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Interes;
 use App\Models\PlanPago;
 use App\Models\Prestamo;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,11 +21,18 @@ class PrestamoController extends Controller
         $monto_mora = 0;
         $plan_pago = PlanPago::where("prestamo_id", $prestamo->id)->where("cancelado", "NO")->orderBy("nro_cuota", "asc")->get()->first();
 
+        $prestamo = $plan_pago->prestamo;
         if ($plan_pago) {
-            // calcular monto mora
+            // VERIFICAR LOS DÍAS DE MORA
+            $fecha_actual = date("Y-m-d");
+            $fecha_pago = $plan_pago->fecha_pago;
+            // Obtener los días transcurridos
+            $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
+            if ($dias_mora > 0) {
+                $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora;
+            }
 
             // fin calcular monto mora
-
             return response()->JSON([
                 "sw" => true,
                 "plan_pago" => $plan_pago,
@@ -36,6 +44,20 @@ class PrestamoController extends Controller
                 "sw" => false,
                 "message" => "No se encontró ningun pago para realizar"
             ], 400);
+        }
+    }
+
+    public static function obtenerDiferenciaDias($fecha1, $fecha2)
+    {
+        $date1 = new DateTime($fecha1);
+        $date2 = new DateTime($fecha2);
+
+        $diferencia = $date1->diff($date2);
+
+        if ($date1 >= $date2) {
+            return $diferencia->days;
+        } else {
+            return -$diferencia->days;
         }
     }
 

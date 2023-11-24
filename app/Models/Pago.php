@@ -15,6 +15,7 @@ class Pago extends Model
         "cliente_id",
         "nro_cuota",
         "monto",
+        "interes",
         "dias_mora",
         "monto_mora",
         "monto_total",

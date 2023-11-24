@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-11-2023 a las 17:46:54
+-- Tiempo de generación: 24-11-2023 a las 16:22:52
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -40,10 +40,10 @@ CREATE TABLE `cajas` (
 --
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
-(1, 'Pago por Cuotas', -6000.00, NULL, '2023-11-23 15:55:22'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-23 15:55:22'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-23 15:55:22'),
-(4, 'Intereses', 0.00, NULL, '2023-11-23 15:55:22');
+(1, 'Pago por Cuotas', -10000.00, NULL, '2023-11-24 02:44:24'),
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-24 02:44:24'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-11-24 02:44:24'),
+(4, 'Intereses', 0.00, NULL, '2023-11-24 02:44:24');
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,8 @@ CREATE TABLE `caja_movimientos` (
 --
 
 INSERT INTO `caja_movimientos` (`id`, `caja_id`, `user_id`, `monto`, `tipo`, `glosa`, `prestamo_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 6000.00, 'DEBITO', 'DESEMBOLSO', 2, '2023-11-23 15:55:22', '2023-11-23 15:55:22');
+(1, 1, 1, 6000.00, 'DEBITO', 'DESEMBOLSO', 2, '2023-11-23 15:55:22', '2023-11-23 15:55:22'),
+(2, 1, 1, 4000.00, 'DEBITO', 'DESEMBOLSO', 1, '2023-11-24 02:44:24', '2023-11-24 02:44:24');
 
 -- --------------------------------------------------------
 
@@ -197,7 +198,12 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (24, 1, 'MODIFICACIÓN', 'EL USUARIO admin RECHAZO UN PRÉSTAMO', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-27<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 10:27:35<br/>', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: RECHAZADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-27<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:12:03<br/>', 'PRESTAMOS', '2023-11-23', '11:12:03', '2023-11-23 15:12:03', '2023-11-23 15:12:03'),
 (25, 1, 'MODIFICACIÓN', 'EL USUARIO admin APROBO UN PRÉSTAMO', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: RECHAZADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-27<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:12:03<br/>', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-24<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:12:15<br/>', 'PRESTAMOS', '2023-11-23', '11:12:15', '2023-11-23 15:12:15', '2023-11-23 15:12:15'),
 (26, 1, 'MODIFICACIÓN', 'EL USUARIO admin REALIZÓ EL DESEMBOLSO DE UN PRESTAMO', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:12:15<br/>', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 1<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:52:28<br/>', 'PRESTAMOS', '2023-11-23', '11:52:28', '2023-11-23 15:52:28', '2023-11-23 15:52:28'),
-(27, 1, 'MODIFICACIÓN', 'EL USUARIO admin REALIZÓ EL DESEMBOLSO DE UN PRESTAMO', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:52:28<br/>', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 1<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:55:22<br/>', 'PRESTAMOS', '2023-11-23', '11:55:22', '2023-11-23 15:55:22', '2023-11-23 15:55:22');
+(27, 1, 'MODIFICACIÓN', 'EL USUARIO admin REALIZÓ EL DESEMBOLSO DE UN PRESTAMO', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 0<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:52:28<br/>', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>tipo: INDIVIDUAL<br/>grupo_id: <br/>monto: 6000.00<br/>plazo: 12<br/>f_ci: 1<br/>f_luz: 1<br/>f_agua: 1<br/>croquis: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: documento 2<br/>documento_3: documento #3<br/>documento_4: doc. #4<br/>estado: APROBADO<br/>desembolso: 1<br/>finalizado: 0<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>created_at: 2023-11-23 09:08:00<br/>updated_at: 2023-11-23 11:55:22<br/>', 'PRESTAMOS', '2023-11-23', '11:55:22', '2023-11-23 15:55:22', '2023-11-23 15:55:22'),
+(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PRESTAMO', 'cliente_id: 3<br/>created_at: 2023-11-23 22:41:18<br/>croquis: 1<br/>desembolso: <br/>documento_1: papeles del coche<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-23<br/>finalizado: <br/>grupo_id: <br/>id: 3<br/>monto: 4000<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:41:18<br/>user_id: 1<br/>', NULL, 'PRESTAMOS', '2023-11-23', '22:41:18', '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(29, 1, 'MODIFICACIÓN', 'EL USUARIO admin APROBO UN PRÉSTAMO', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 09:05:08<br/>user_id: 1<br/>', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-27<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:42:31<br/>user_id: 1<br/>', 'PRESTAMOS', '2023-11-23', '22:42:31', '2023-11-24 02:42:31', '2023-11-24 02:42:31'),
+(30, 1, 'MODIFICACIÓN', 'EL USUARIO admin REALIZÓ EL DESEMBOLSO DE UN PRESTAMO', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:42:31<br/>user_id: 1<br/>', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:44:24<br/>user_id: 1<br/>', 'PRESTAMOS', '2023-11-23', '22:44:24', '2023-11-24 02:44:24', '2023-11-24 02:44:24'),
+(31, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'acceso: 1<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-22 10:59:58<br/>usuario: JPERES<br/>', 'acceso: 0<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:19<br/>usuario: JPERES<br/>', 'USUARIOS', '2023-11-23', '23:07:19', '2023-11-24 03:07:19', '2023-11-24 03:07:19'),
+(32, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'acceso: 0<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:19<br/>usuario: JPERES<br/>', 'acceso: 1<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:47<br/>usuario: JPERES<br/>', 'USUARIOS', '2023-11-23', '23:07:47', '2023-11-24 03:07:47', '2023-11-24 03:07:47');
 
 -- --------------------------------------------------------
 
@@ -262,6 +268,7 @@ CREATE TABLE `pagos` (
   `cliente_id` bigint UNSIGNED NOT NULL,
   `nro_cuota` int NOT NULL,
   `monto` decimal(24,2) NOT NULL,
+  `interes` decimal(24,2) NOT NULL,
   `dias_mora` int NOT NULL,
   `monto_mora` decimal(24,2) DEFAULT NULL,
   `monto_total` decimal(24,2) NOT NULL,
@@ -314,18 +321,18 @@ CREATE TABLE `plan_pagos` (
 --
 
 INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `capital`, `interes`, `saldo`, `cuota`, `cancelado`, `fecha_pago`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 4000.00, 311.47, 49.00, 3688.53, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(2, 1, 2, 3688.53, 315.28, 45.18, 3373.25, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(3, 1, 3, 3373.25, 319.14, 41.32, 3054.11, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(4, 1, 4, 3054.11, 323.05, 37.41, 2731.06, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(5, 1, 5, 2731.06, 327.01, 33.46, 2404.05, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(6, 1, 6, 2404.05, 331.02, 29.45, 2073.03, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(7, 1, 7, 2073.03, 335.07, 25.39, 1737.96, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(8, 1, 8, 1737.96, 339.17, 21.29, 1398.79, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(9, 1, 9, 1398.79, 343.33, 17.14, 1055.46, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(10, 1, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(11, 1, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(12, 1, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', NULL, '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
+(1, 1, 1, 4000.00, 311.47, 49.00, 3688.53, 360.47, 'NO', '2023-11-30', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(2, 1, 2, 3688.53, 315.28, 45.18, 3373.25, 360.47, 'NO', '2023-12-07', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(3, 1, 3, 3373.25, 319.14, 41.32, 3054.11, 360.47, 'NO', '2023-12-14', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(4, 1, 4, 3054.11, 323.05, 37.41, 2731.06, 360.47, 'NO', '2023-12-21', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(5, 1, 5, 2731.06, 327.01, 33.46, 2404.05, 360.47, 'NO', '2023-12-28', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(6, 1, 6, 2404.05, 331.02, 29.45, 2073.03, 360.47, 'NO', '2024-01-04', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(7, 1, 7, 2073.03, 335.07, 25.39, 1737.96, 360.47, 'NO', '2024-01-11', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(8, 1, 8, 1737.96, 339.17, 21.29, 1398.79, 360.47, 'NO', '2024-01-18', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(9, 1, 9, 1398.79, 343.33, 17.14, 1055.46, 360.47, 'NO', '2024-01-25', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(10, 1, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', '2024-02-01', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(11, 1, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', '2024-02-08', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(12, 1, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', '2024-02-15', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
 (13, 2, 1, 6000.00, 467.20, 73.50, 5532.80, 540.70, 'NO', '2023-11-30', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (14, 2, 2, 5532.80, 472.92, 67.78, 5059.88, 540.70, 'NO', '2023-12-07', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (15, 2, 3, 5059.88, 478.71, 61.98, 4581.17, 540.70, 'NO', '2023-12-14', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
@@ -337,7 +344,19 @@ INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `ca
 (21, 2, 9, 2098.20, 514.99, 25.70, 1583.20, 540.70, 'NO', '2024-01-25', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (22, 2, 10, 1583.21, 521.30, 19.39, 1061.90, 540.70, 'NO', '2024-02-01', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (23, 2, 11, 1061.91, 527.69, 13.01, 534.21, 540.70, 'NO', '2024-02-08', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
-(24, 2, 12, 534.22, 534.22, 6.54, 0.00, 540.70, 'NO', '2024-02-15', '2023-11-23 13:08:00', '2023-11-23 15:55:22');
+(24, 2, 12, 534.22, 534.22, 6.54, 0.00, 540.70, 'NO', '2024-02-15', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
+(25, 3, 1, 4000.00, 311.47, 49.00, 3688.53, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(26, 3, 2, 3688.53, 315.28, 45.18, 3373.25, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(27, 3, 3, 3373.25, 319.14, 41.32, 3054.11, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(28, 3, 4, 3054.11, 323.05, 37.41, 2731.06, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(29, 3, 5, 2731.06, 327.01, 33.46, 2404.05, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(30, 3, 6, 2404.05, 331.02, 29.45, 2073.03, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(31, 3, 7, 2073.03, 335.07, 25.39, 1737.96, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(32, 3, 8, 1737.96, 339.17, 21.29, 1398.79, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(33, 3, 9, 1398.79, 343.33, 17.14, 1055.46, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(34, 3, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(35, 3, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(36, 3, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18');
 
 -- --------------------------------------------------------
 
@@ -375,8 +394,9 @@ CREATE TABLE `prestamos` (
 --
 
 INSERT INTO `prestamos` (`id`, `user_id`, `cliente_id`, `tipo`, `grupo_id`, `monto`, `plazo`, `f_ci`, `f_luz`, `f_agua`, `croquis`, `documento_1`, `documento_2`, `documento_3`, `documento_4`, `estado`, `desembolso`, `finalizado`, `fecha_desembolso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, '2023-11-23', '2023-11-23 13:05:08', '2023-11-23 13:05:08'),
-(2, 1, 1, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', 'documento 2', 'documento #3', 'doc. #4', 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:08:00', '2023-11-23 15:55:22');
+(1, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(2, 1, 1, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', 'documento 2', 'documento #3', 'doc. #4', 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
+(3, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'papeles del coche', NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, '2023-11-23', '2023-11-24 02:41:18', '2023-11-24 02:41:18');
 
 -- --------------------------------------------------------
 
@@ -405,7 +425,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `tipo`, `foto`, `password`, `acceso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', 'admin', NULL, 'ADMINISTRADOR', NULL, '$2y$10$wuTuUildBSgVYfvHomvXWuVLF6T1PWByEZJelnC9LOSQ/Xwcw2N3S', 1, '2023-11-20', NULL, NULL),
-(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', 'CAJERO', NULL, '', 1, '2023-11-22', '2023-11-22 14:57:15', '2023-11-22 14:59:58');
+(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', 'CAJERO', NULL, '', 1, '2023-11-22', '2023-11-22 14:57:15', '2023-11-24 03:07:47');
 
 --
 -- Índices para tablas volcadas
@@ -509,7 +529,7 @@ ALTER TABLE `cajas`
 -- AUTO_INCREMENT de la tabla `caja_movimientos`
 --
 ALTER TABLE `caja_movimientos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -533,7 +553,7 @@ ALTER TABLE `grupos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `interes`
@@ -563,13 +583,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `plan_pagos`
 --
 ALTER TABLE `plan_pagos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

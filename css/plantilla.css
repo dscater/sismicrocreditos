@@ -53448,6 +53448,16 @@ a.text-muted:hover {
     border-color: var(--principal) !important;
 }
 
+[class*="sidebar-dark-"] .nav-sidebar > .nav-item.active.menu-open > .nav-link,
+[class*="sidebar-dark-"] .nav-sidebar > .nav-item.active:hover > .nav-link,
+[class*="sidebar-dark-"] .nav-sidebar > .nav-item.active > .nav-link:focus {
+    background-color: var(--principal);
+}
+
+a.nav-link {
+    width: 100% !important;
+}
+
 /* .el-button--warning.is-disabled,
 .el-button--warning.is-disabled:active,
 .el-button--warning.is-disabled:focus,

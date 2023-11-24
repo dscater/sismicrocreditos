@@ -57,9 +57,9 @@
             </div>
 
             <!-- Sidebar Menu -->
-            <nav class="mt-2 pr-1 pl-1">
+            <nav class="mt-2 pr-0 pl-1">
                 <ul
-                    class="nav nav-pills nav-sidebar flex-column text-xs nav-flat"
+                    class="nav nav-pills nav-sidebar flex-column text-xs nav-flat nav-child-indent"
                     data-widget="treeview"
                     role="menu"
                     data-accordion="false"
@@ -93,7 +93,7 @@
                         :class="[
                             $route.name == 'pagos.individual' ||
                             $route.name == 'pagos.grupal'
-                                ? 'menu-is-opening menu-open'
+                                ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
                     >
@@ -104,7 +104,16 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
+                        <ul
+                            class="nav nav-treeview"
+                            :style="{
+                                display:
+                                    $route.name == 'pagos.individual' ||
+                                    $route.name == 'pagos.grupal'
+                                        ? 'block'
+                                        : 'none',
+                            }"
+                        >
                             <li
                                 class="nav-item"
                                 v-if="permisos.includes('pagos.individual')"
@@ -153,7 +162,7 @@
                         :class="[
                             $route.name == 'desembolsos.individual' ||
                             $route.name == 'desembolsos.grupal'
-                                ? 'menu-is-opening menu-open'
+                                ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
                     >
@@ -164,7 +173,16 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
+                        <ul
+                            class="nav nav-treeview"
+                            :style="{
+                                display:
+                                    $route.name == 'desembolsos.individual' ||
+                                    $route.name == 'desembolsos.grupal'
+                                        ? 'block'
+                                        : 'none',
+                            }"
+                        >
                             <li
                                 class="nav-item"
                                 v-if="
@@ -216,7 +234,7 @@
                             $route.name == 'prestamos.individual' ||
                             $route.name == 'prestamos.grupal' ||
                             $route.name == 'prestamos.individual_nuevo'
-                                ? 'menu-is-opening menu-open'
+                                ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
                     >
@@ -227,7 +245,17 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
+                        <ul
+                            class="nav nav-treeview"
+                            :style="{
+                                display:
+                                    $route.name == 'prestamos.individual' ||
+                                    $route.name == 'prestamos.grupal' ||
+                                    $route.name == 'prestamos.individual_nuevo'
+                                        ? 'block'
+                                        : 'none',
+                            }"
+                        >
                             <li
                                 class="nav-item"
                                 v-if="permisos.includes('prestamos.individual')"
@@ -269,9 +297,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li
-                        class="nav-item"
-                    >
+                    <li class="nav-item">
                         <a href="" class="nav-link">
                             <i class="fa fa-cash-register nav-icon"></i>
                             <p>Caja</p>

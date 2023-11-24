@@ -11,7 +11,6 @@ class PlanPago extends Model
 
     protected $fillable = [
         "prestamo_id",
-        "plan_pago_id",
         "nro_cuota",
         "saldo_inicial",
         "capital",
@@ -21,4 +20,9 @@ class PlanPago extends Model
         "cancelado",
         "fecha_pago",
     ];
+
+    public function prestamo()
+    {
+        return $this->belongsTo(Prestamo::class, 'prestamo_id');
+    }
 }
