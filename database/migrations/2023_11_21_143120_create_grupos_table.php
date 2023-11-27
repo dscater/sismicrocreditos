@@ -15,9 +15,14 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("user_id");
             $table->string("nombre", 255)->unique();
             $table->integer("integrantes");
             $table->decimal("monto", 24, 2);
+            $table->integer("plazo");
+            $table->integer("desembolso");
+            $table->string("estado", 155);
+            $table->date("fecha_registro");
             $table->timestamps();
         });
     }

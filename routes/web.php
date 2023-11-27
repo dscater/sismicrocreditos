@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos-grupal
+        Route::get("prestamos/grupal/grupo_nombre", [PrestamoGrupalController::class, 'grupo_nombre']);
         Route::resource('prestamos/grupal', PrestamoGrupalController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);

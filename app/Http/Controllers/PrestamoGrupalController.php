@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Grupo;
+use App\Models\HistorialAccion;
+use App\Models\Interes;
+use App\Models\Prestamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PrestamoGrupalController extends Controller
 {
     public function grupo_nombre(Request $request)
     {
+        $grupo = Grupo::with(["prestamos", "grupo_pagos"])->where("nombre", $request->nombre)->get()->first();
         return response()->JSON([
             "sw" => true,
+            "grupo" => $grupo
         ]);
     }
 
@@ -116,51 +125,92 @@ class PrestamoGrupalController extends Controller
             $interes_semanal = ($valor_interes / 4) / 100;
             $interes_semanal = round($interes_semanal, 5);
             $interes_semanal = (float)$interes_semanal;
-            $cuota_fija = PrestamoController::getCuotaFija($datos["monto"], $datos["plazo"], $interes_semanal);
-            $plan_pago = PrestamoController::getPlanPago($datos["monto"], $datos["plazo"], $cuota_fija, $interes_semanal);
 
-            if ($datos["registrar_como"] == "NUEVO") {
-                $cliente = Cliente::create([
-                    "nombre" => mb_strtoupper($datos["cliente"]["nombre"]),
-                    "segundo_nombre" => mb_strtoupper($datos["cliente"]["segundo_nombre"]),
-                    "paterno" => mb_strtoupper($datos["cliente"]["paterno"]),
-                    "materno" => mb_strtoupper($datos["cliente"]["materno"]),
-                    "dir" => mb_strtoupper($datos["cliente"]["dir"]),
-                    "ci" => mb_strtoupper($datos["cliente"]["ci"]),
-                    "ci_exp" => mb_strtoupper($datos["cliente"]["ci_exp"]),
-                    "cel" => mb_strtoupper($datos["cliente"]["cel"]),
-                    "fono" => mb_strtoupper($datos["cliente"]["fono"]),
-                    "edad" => mb_strtoupper($datos["cliente"]["edad"]),
-                    "referencia" => mb_strtoupper($datos["cliente"]["referencia"]),
-                    "cel_ref" => mb_strtoupper($datos["cliente"]["cel_ref"]),
-                    "parentesco" => mb_strtoupper($datos["cliente"]["parentesco"]),
-                    "fecha_registro" => date("Y-m-d")
-                ]);
-            } else {
-                $cliente = Cliente::findOrFail($datos["cliente"]["id"]);
-            }
 
-            $nuevo_prestamo = Prestamo::create([
+            // REGISTRAR EL GRUPO
+            $grupo = Grupo::create([
                 "user_id" => Auth::user()->id,
-                "cliente_id" => $cliente->id,
-                "tipo" => "INDIVIDUAL",
+                "nombre" => mb_strtoupper($datos["nombre"]),
+                "integrantes" => $datos["integrantes"],
                 "monto" => $datos["monto"],
                 "plazo" => $datos["plazo"],
-                "f_ci" => (int)$datos["f_ci"],
-                "f_luz" => (int)$datos["f_luz"],
-                "f_agua" => (int)$datos["f_agua"],
-                "croquis" => (int)$datos["croquis"],
-                "documento_1" => $datos["documento_1"],
-                "documento_2" => $datos["documento_2"],
-                "documento_3" => $datos["documento_3"],
-                "documento_4" => $datos["documento_4"],
-                "estado" => "PRE APROBADO",
-                "fecha_registro" => date("Y-m-d")
+                "estado" => "PRE APROBADO"
             ]);
 
-            // registrar plan de pago
+            // REGISTRAR LOS PRESTAMOS CON SU PLAN DE PAGO
+            foreach ($datos["prestamos"] as $dp) {
+                $cuota_fija = PrestamoController::getCuotaFija($dp["monto"], $grupo->plazo, $interes_semanal);
+                $plan_pago = PrestamoController::getPlanPago($dp["monto"], $grupo->plazo, $cuota_fija, $interes_semanal);
+
+                if ($dp["registrar_como"] == "NUEVO") {
+                    $cliente = Cliente::create([
+                        "nombre" => mb_strtoupper($dp["cliente"]["nombre"]),
+                        "segundo_nombre" => mb_strtoupper($dp["cliente"]["segundo_nombre"]),
+                        "paterno" => mb_strtoupper($dp["cliente"]["paterno"]),
+                        "materno" => mb_strtoupper($dp["cliente"]["materno"]),
+                        "dir" => mb_strtoupper($dp["cliente"]["dir"]),
+                        "ci" => mb_strtoupper($dp["cliente"]["ci"]),
+                        "ci_exp" => mb_strtoupper($dp["cliente"]["ci_exp"]),
+                        "cel" => mb_strtoupper($dp["cliente"]["cel"]),
+                        "fono" => mb_strtoupper($dp["cliente"]["fono"]),
+                        "edad" => mb_strtoupper($dp["cliente"]["edad"]),
+                        "referencia" => mb_strtoupper($dp["cliente"]["referencia"]),
+                        "cel_ref" => mb_strtoupper($dp["cliente"]["cel_ref"]),
+                        "parentesco" => mb_strtoupper($dp["cliente"]["parentesco"]),
+                        "fecha_registro" => date("Y-m-d")
+                    ]);
+                } else {
+                    $cliente = Cliente::findOrFail($dp["cliente"]["id"]);
+                }
+
+                $nuevo_prestamo = $grupo->prestamos()->create([
+                    "user_id" => Auth::user()->id,
+                    "cliente_id" => $cliente->id,
+                    "tipo" => "GRUPAL",
+                    "monto" => $dp["monto"],
+                    "plazo" => $grupo->plazo,
+                    "f_ci" => (int)$dp["f_ci"],
+                    "f_luz" => (int)$dp["f_luz"],
+                    "f_agua" => (int)$dp["f_agua"],
+                    "croquis" => (int)$dp["croquis"],
+                    "documento_1" => $dp["documento_1"],
+                    "documento_2" => $dp["documento_2"],
+                    "documento_3" => $dp["documento_3"],
+                    "documento_4" => $dp["documento_4"],
+                    "estado" => $grupo->estado,
+                    "fecha_registro" => date("Y-m-d")
+                ]);
+
+                // registrar plan de pago
+                foreach ($plan_pago as $pp) {
+                    $nuevo_prestamo->plan_pagos()->create([
+                        "nro_cuota" => $pp["nro"],
+                        "saldo_inicial" => $pp["saldo_inicial"],
+                        "capital" => $pp["capital"],
+                        "interes" => $pp["interes"],
+                        "saldo" => $pp["saldo"],
+                        "cuota" => $cuota_fija,
+                        "cancelado" => "NO",
+                    ]);
+                }
+
+                $datos_original = HistorialAccion::getDetalleRegistro($nuevo_prestamo, "prestamos");
+                HistorialAccion::create([
+                    'user_id' => Auth::user()->id,
+                    'accion' => 'CREACIÓN',
+                    'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN PRESTAMO',
+                    'datos_original' => $datos_original,
+                    'modulo' => 'PRESTAMOS',
+                    'fecha' => date('Y-m-d'),
+                    'hora' => date('H:i:s')
+                ]);
+            }
+
+            // REGISTRAR EL PLAN DE PAGOS GRUPAL
+            $cuota_fija = PrestamoController::getCuotaFija($grupo->monto, $grupo->plazo, $interes_semanal);
+            $plan_pago = PrestamoController::getPlanPago($grupo->monto, $grupo->plazo, $cuota_fija, $interes_semanal);
             foreach ($plan_pago as $pp) {
-                $nuevo_prestamo->plan_pagos()->create([
+                $grupo->grupo_plan_pagos()->create([
                     "nro_cuota" => $pp["nro"],
                     "saldo_inicial" => $pp["saldo_inicial"],
                     "capital" => $pp["capital"],
@@ -170,18 +220,6 @@ class PrestamoGrupalController extends Controller
                     "cancelado" => "NO",
                 ]);
             }
-
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_prestamo, "prestamos");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN PRESTAMO',
-                'datos_original' => $datos_original,
-                'modulo' => 'PRESTAMOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
-
 
             DB::commit();
             return response()->JSON([
@@ -203,6 +241,7 @@ class PrestamoGrupalController extends Controller
             "nombre" => $request->nombre,
             "integrantes" => $request->integrantes,
             "monto" => $request->monto,
+            "plazo" => $request->plazo,
             "prestamos" => []
         ];
         if ($request["prestamos"]) {
@@ -249,7 +288,7 @@ class PrestamoGrupalController extends Controller
     public static function validarFormulario($datos)
     {
         $errors = [];
-        if (trim($datos["nombre"]) == '' || (float)$datos["nombre"] <= 0) {
+        if (!$datos["nombre"]  || trim($datos["nombre"]) == '') {
             $errors["nombre"] = ["Debes ingresar un nombre de grupo"];
         }
         $existe_grupo = Grupo::where("nombre", trim($datos["nombre"]))->get()->first();
@@ -273,73 +312,86 @@ class PrestamoGrupalController extends Controller
             $errors["prestamos"] = ["Debes agregar por lo menos dos préstamos"];
         }
 
+        if (self::getSumaPrestamos($datos["prestamos"]) != (float)$datos["monto"]) {
+            $errors["monto_grupal"] = ["La suma de montos de cada integrantes es de <strong>" . self::getSumaPrestamos($datos["prestamos"]) . "</strong> debe ser igual al monto grupal <strong>" . $datos["monto"] . "</strong>"];
+        }
+
         foreach ($datos["prestamos"] as $key => $prestamo) {
-            if (trim($datos["monto"]) == '' || (float)$datos["monto"] <= 0) {
-                $errors["monto_" . $key] = ["Debes ingresar un monto valido - Integrante " . ($key + 1)];
+            if (trim($prestamo["monto"]) == '' || (float)$prestamo["monto"] <= 0) {
+                $errors["monto_" . $key] = ["Debes ingresar un monto valido - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
-            if (trim($datos["plazo"]) == '' || (float)$datos["plazo"] <= 0) {
-                $errors["plazo_" . $key] = ["Debes ingresar un plazo valido - Integrante " . ($key + 1)];
+            if (trim($prestamo["plazo"]) == '' || (float)$prestamo["plazo"] <= 0) {
+                $errors["plazo_" . $key] = ["Debes ingresar un plazo valido - <strong>Integrante " . ($key + 1) . "</strong>"];
             } else {
-                if ((float)$datos["plazo"] > 12) {
-                    $errors["plazo_" . $key] = ["El plazo no puede ser mayor a 12 semanas - Integrante " . ($key + 1)];
+                if ((float)$prestamo["plazo"] > 12) {
+                    $errors["plazo_" . $key] = ["El plazo no puede ser mayor a 12 semanas - <strong>Integrante " . ($key + 1) . "</strong>"];
                 }
             }
-            if (trim($datos["f_ci"]) == '' || !(float)$datos["f_ci"]) {
-                $errors["f_ci_" . $key] = ["La fotocopia de C.I. es oblitagoria - Integrante " . ($key + 1)];
+            if (trim($prestamo["f_ci"]) == '' || !(float)$prestamo["f_ci"]) {
+                $errors["f_ci_" . $key] = ["La fotocopia de C.I. es oblitagoria - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
-            if (trim($datos["f_luz"]) == '' || !(float)$datos["f_luz"]) {
-                $errors["f_luz_" . $key] = ["La fotocopia de luz es oblitagoria - Integrante " . ($key + 1)];
+            if (trim($prestamo["f_luz"]) == '' || !(float)$prestamo["f_luz"]) {
+                $errors["f_luz_" . $key] = ["La fotocopia de luz es oblitagoria - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
-            if (trim($datos["f_agua"]) == '' || !(float)$datos["f_agua"]) {
-                $errors["f_agua_" . $key] = ["La fotocopia de agua es oblitagoria - Integrante " . ($key + 1)];
+            if (trim($prestamo["f_agua"]) == '' || !(float)$prestamo["f_agua"]) {
+                $errors["f_agua_" . $key] = ["La fotocopia de agua es oblitagoria - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
-            if (trim($datos["croquis"]) == '' || !(float)$datos["croquis"]) {
-                $errors["croquis_" . $key] = ["El croquis es oblitagorio - Integrante " . ($key + 1)];
+            if (trim($prestamo["croquis"]) == '' || !(float)$prestamo["croquis"]) {
+                $errors["croquis_" . $key] = ["El croquis es oblitagorio - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
 
-            $registrar_como = $datos["registrar_como"];
-            $cliente = $datos["cliente"];
+            $registrar_como = $prestamo["registrar_como"];
+            $cliente = $prestamo["cliente"];
             if (!$cliente["nombre"] || trim($cliente["nombre"]) == '') {
-                $errors["nombre_" . $key] = ["Debes ingresar ingresar el nombre del cliente - Integrante " . ($key + 1)];
+                $errors["nombre_" . $key] = ["Debes ingresar ingresar el nombre del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["paterno"] || trim($cliente["paterno"]) == '') {
-                $errors["paterno_" . $key] = ["Debes ingresar el apellido paterno del cliente - Integrante " . ($key + 1)];
+                $errors["paterno_" . $key] = ["Debes ingresar el apellido paterno del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
 
             if ($registrar_como == 'NUEVO') {
-                $existe_ci = Cliente::where("ci", $datos["cliente"]["ci"])->get()->first();
+                $existe_ci = Cliente::where("ci", $prestamo["cliente"]["ci"])->get()->first();
                 if ($existe_ci) {
-                    $errors["ci_" . $key] = ["Ya hay un cliente registrado con el C.I. " . $datos["cliente"]["ci"] . " - Integrante " . ($key + 1)];
+                    $errors["ci_" . $key] = ["Ya hay un cliente registrado con el C.I. " . $prestamo["cliente"]["ci"] . " - <strong>Integrante " . ($key + 1) . "</strong>"];
                 }
             } else {
-                $existe_ci = Cliente::where("ci", $datos["cliente"]["ci"])->where("id", "!=", $datos["cliente"]["id"])->get()->first();
+                $existe_ci = Cliente::where("ci", $prestamo["cliente"]["ci"])->where("id", "!=", $prestamo["cliente"]["id"])->get()->first();
                 if ($existe_ci) {
-                    $errors["ci_" . $key] = ["Ya hay un cliente registrado con el C.I. " . $datos["cliente"]["ci"] . " - Integrante " . ($key + 1)];
+                    $errors["ci_" . $key] = ["Ya hay un cliente registrado con el C.I. " . $prestamo["cliente"]["ci"] . " - <strong>Integrante " . ($key + 1) . "</strong>"];
                 }
             }
 
             if (!$cliente["ci"] || trim($cliente["ci"]) == '') {
-                $errors["ci_" . $key] = ["Debes ingresar el C.I. del cliente - Integrante " . ($key + 1)];
+                $errors["ci_" . $key] = ["Debes ingresar el C.I. del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["ci_exp"] || trim($cliente["ci_exp"]) == '') {
-                $errors["ci_exp_" . $key] = ["Debes seleccionar el campo Expedido - Integrante " . ($key + 1)];
+                $errors["ci_exp_" . $key] = ["Debes seleccionar el campo Expedido - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["cel"] || trim($cliente["cel"]) == '') {
-                $errors["cel_" . $key] = ["Debes ingresar el celular del cliente - Integrante " . ($key + 1)];
+                $errors["cel_" . $key] = ["Debes ingresar el celular del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["edad"] || trim($cliente["edad"]) == '') {
-                $errors["edad_" . $key] = ["Debes ingresar la edad del cliente - Integrante " . ($key + 1)];
+                $errors["edad_" . $key] = ["Debes ingresar la edad del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["referencia"] || trim($cliente["referencia"]) == '') {
-                $errors["referencia_" . $key] = ["Debes ingresar la referencia del cliente - Integrante " . ($key + 1)];
+                $errors["referencia_" . $key] = ["Debes ingresar la referencia del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["cel_ref"] || trim($cliente["cel_ref"]) == '') {
-                $errors["cel_ref_" . $key] = ["Debes ingresar el celular de referencia del cliente - Integrante " . ($key + 1)];
+                $errors["cel_ref_" . $key] = ["Debes ingresar el celular de referencia del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["parentesco"] || trim($cliente["parentesco"]) == '') {
-                $errors["parentesco_" . $key] = ["Debes ingresar el parentesco - Integrante " . ($key + 1)];
+                $errors["parentesco_" . $key] = ["Debes ingresar el parentesco - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
         }
         return $errors;
+    }
+
+    public static function getSumaPrestamos($prestamos)
+    {
+        $suma = 0;
+        foreach ($prestamos  as $p) {
+            $suma += (float)$p["monto"];
+        }
+        return $suma;
     }
 }

@@ -75,7 +75,8 @@
                                                 'is-invalid': errors.monto,
                                             }"
                                             v-model="oGrupo.monto"
-                                            clearable
+                                            @change="divideMonto"
+                                            @keyup="divideMonto"
                                         />
                                         <span
                                             class="error invalid-feedback"
@@ -83,12 +84,32 @@
                                             v-text="errors.monto[0]"
                                         ></span>
                                     </div>
+                                    <div class="col-md-4 form-group">
+                                        <label>Plazo*</label>
+                                        <input
+                                            type="number"
+                                            placeholder="Plazo"
+                                            class="form-control"
+                                            :class="{
+                                                'is-invalid': errors.plazo,
+                                            }"
+                                            v-model="oGrupo.plazo"
+                                        />
+                                        <span
+                                            class="error invalid-feedback"
+                                            v-if="errors.plazo"
+                                            v-text="errors.plazo[0]"
+                                        ></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div
+                    class="row"
+                    v-show="oGrupo.monto && parseFloat(oGrupo.monto) > 0"
+                >
                     <div class="col-md-12">
                         <div class="integrantes">
                             <div
@@ -118,9 +139,11 @@
                     <Prestamo
                         v-for="(item, index) in oGrupo.prestamos"
                         :key="index"
-                        :index="index"
+                        :index_prestamo="index"
+                        :errores="errors"
                         :prestamo="item"
                         v-show="i_integrante == index"
+                        :plazo_prestamos="oGrupo.plazo"
                     ></Prestamo>
                 </div>
                 <div class="row pb-4">
@@ -128,7 +151,11 @@
                         <button
                             class="btn btn-primary btn-block btn-flat"
                             v-html="txtBtnFinalizar"
-                            :disabled="enviando"
+                            :disabled="
+                                enviando ||
+                                !oGrupo.monto ||
+                                parseFloat(oGrupo.monto) <= 0
+                            "
                             @click="registrarPrestamo"
                         ></button>
                     </div>
@@ -159,6 +186,7 @@ export default {
                 nombre: "",
                 integrantes: 3,
                 monto: 0,
+                plazo: 12,
                 prestamos: [
                     {
                         registrar_como: "NUEVO",
@@ -346,6 +374,42 @@ export default {
                     }
                 });
         },
+        divideMonto() {
+            let nro_integrantes = this.oGrupo.prestamos.length;
+            if (
+                this.oGrupo.monto &&
+                parseFloat(this.oGrupo.monto) > 0 &&
+                nro_integrantes > 0
+            ) {
+                let monto_dividido =
+                    parseFloat(this.oGrupo.monto) / nro_integrantes;
+                monto_dividido = parseFloat(monto_dividido).toFixed(2);
+                this.oGrupo.prestamos.forEach((el) => {
+                    el.monto = monto_dividido;
+                });
+            }
+        },
+        verificaMontoGrupal(index, monto) {
+            let monto_grupal = this.oGrupo.monto;
+            let suma_actual = this.getSumaMontoPrestamos();
+            if (suma_actual != monto_grupal) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    html: "",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#1976d2",
+                    confirmButtonText: "Aceptar",
+                });
+            }
+        },
+        getSumaMontoPrestamos() {
+            const sumaTotal = this.oGrupo.prestamos.reduce(
+                (acumulador, objeto) => acumulador + objeto.monto,
+                0
+            );
+            return sumaTotal;
+        },
         actualizarIntegrantes() {
             if (
                 this.oGrupo &&
@@ -393,6 +457,7 @@ export default {
                 } else {
                     this.oGrupo.prestamos.splice(2, 1);
                 }
+                this.divideMonto();
             } else {
                 Swal.fire({
                     icon: "error",

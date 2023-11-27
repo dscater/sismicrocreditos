@@ -82,9 +82,19 @@
                                                     </label>
                                                 </div>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.f_ci"
-                                                    v-text="errors.f_ci[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'f_ci_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'f_ci_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="col-md-3">
@@ -102,9 +112,19 @@
                                                     </label>
                                                 </div>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.f_luz"
-                                                    v-text="errors.f_luz[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'f_luz_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'f_luz_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="col-md-3">
@@ -124,9 +144,19 @@
                                                     </label>
                                                 </div>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.f_agua"
-                                                    v-text="errors.f_agua[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'f_agua_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'f_agua_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="col-md-3">
@@ -146,9 +176,19 @@
                                                     </label>
                                                 </div>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.croquis"
-                                                    v-text="errors.croquis[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'croquis_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'croquis_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                         </div>
@@ -178,10 +218,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.documento_1"
-                                                    v-text="
-                                                        errors.documento_1[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'documento_1_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'documento_1_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -199,10 +247,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.documento_2"
-                                                    v-text="
-                                                        errors.documento_2[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'documento_2_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'documento_2_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -220,10 +276,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.documento_3"
-                                                    v-text="
-                                                        errors.documento_3[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'documento_3_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'documento_3_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -241,10 +305,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.documento_4"
-                                                    v-text="
-                                                        errors.documento_4[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'documento_4_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'documento_4_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -321,7 +393,10 @@
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.nombre,
+                                                            errors?.[
+                                                                'nombre_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Nombre*</label
                                                 >
@@ -329,7 +404,10 @@
                                                     placeholder="Nombre"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.nombre,
+                                                            errors?.[
+                                                                'nombre_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.nombre
@@ -342,16 +420,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.nombre"
-                                                    v-text="errors.nombre[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'nombre_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'nombre_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.segundo_nombre,
+                                                            errors?.[
+                                                                'segundo_nombre_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Segundo Nombre</label
                                                 >
@@ -359,7 +450,10 @@
                                                     placeholder="Segundo Nombre"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.segundo_nombre,
+                                                            errors?.[
+                                                                'segundo_nombre_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente
@@ -373,10 +467,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.segundo_nombre"
-                                                    v-text="
-                                                        errors.segundo_nombre[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'segundo_nombre_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'segundo_nombre_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -384,7 +486,10 @@
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.paterno,
+                                                            errors?.[
+                                                                'paterno_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Ap. Paterno*</label
                                                 >
@@ -393,7 +498,10 @@
                                                     placeholder="Ap. Paterno"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.paterno,
+                                                            errors?.[
+                                                                'paterno_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.paterno
@@ -406,16 +514,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.paterno"
-                                                    v-text="errors.paterno[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'paterno_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'paterno_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.materno,
+                                                            errors?.[
+                                                                'materno_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Ap. Materno</label
                                                 >
@@ -423,7 +544,10 @@
                                                     placeholder="Ap. Materno"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.materno,
+                                                            errors?.[
+                                                                'materno_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.materno
@@ -436,23 +560,40 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.materno"
-                                                    v-text="errors.materno[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'materno_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'materno_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.ci,
+                                                            errors?.[
+                                                                'ci_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >C.I.*</label
                                                 >
                                                 <el-input
                                                     placeholder="Número de C.I."
                                                     :class="{
-                                                        'is-invalid': errors.ci,
+                                                        'is-invalid':
+                                                            errors?.[
+                                                                'ci_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.ci
@@ -465,16 +606,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.ci"
-                                                    v-text="errors.ci[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'ci_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'ci_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.ci_exp,
+                                                            errors?.[
+                                                                'ci_exp_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Expedido*</label
                                                 >
@@ -482,7 +636,10 @@
                                                     class="w-100 d-block"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.ci_exp,
+                                                            errors?.[
+                                                                'ci_exp_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.ci_exp
@@ -504,16 +661,29 @@
                                                     </el-option>
                                                 </el-select>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.ci_exp"
-                                                    v-text="errors.ci_exp[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'ci_exp_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'ci_exp_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.cel,
+                                                            errors?.[
+                                                                'cel_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Celular*</label
                                                 >
@@ -521,7 +691,10 @@
                                                     placeholder="Celular"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.cel,
+                                                            errors?.[
+                                                                'cel_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.cel
@@ -534,16 +707,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.cel"
-                                                    v-text="errors.cel[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'cel_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'cel_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.fono,
+                                                            errors?.[
+                                                                'fono_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Teléfono</label
                                                 >
@@ -551,7 +737,10 @@
                                                     placeholder="Teléfono"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.fono,
+                                                            errors?.[
+                                                                'fono_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.fono
@@ -564,16 +753,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.fono"
-                                                    v-text="errors.fono[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'fono_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'fono_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.edad,
+                                                            errors?.[
+                                                                'edad_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Edad*</label
                                                 >
@@ -583,7 +785,10 @@
                                                     class="form-control"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.edad,
+                                                            errors?.[
+                                                                'edad_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.edad
@@ -594,16 +799,29 @@
                                                     "
                                                 />
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.edad"
-                                                    v-text="errors.edad[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'edad_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'edad_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.dir,
+                                                            errors?.[
+                                                                'dir_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Dirección*</label
                                                 >
@@ -611,7 +829,10 @@
                                                     placeholder="Dirección"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.dir,
+                                                            errors?.[
+                                                                'dir_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.dir
@@ -624,16 +845,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.dir"
-                                                    v-text="errors.dir[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'dir_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'dir_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.referencia,
+                                                            errors?.[
+                                                                'referencia_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Nombre Referencia*</label
                                                 >
@@ -641,7 +875,10 @@
                                                     placeholder="Nombre Referencia"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.referencia,
+                                                            errors?.[
+                                                                'referencia_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente
@@ -655,10 +892,15 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.referencia"
-                                                    v-text="
-                                                        errors.referencia[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'referencia_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.['referencia_'+index_prestamo][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -666,7 +908,10 @@
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.cel_ref,
+                                                            errors?.[
+                                                                'cel_ref_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Teléfono Referencia*</label
                                                 >
@@ -674,7 +919,10 @@
                                                     placeholder="Teléfono Referencia"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.cel_ref,
+                                                            errors?.[
+                                                                'cel_ref_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente.cel_ref
@@ -687,16 +935,29 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.cel_ref"
-                                                    v-text="errors.cel_ref[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'cel_ref_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'cel_ref_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label
                                                     :class="{
                                                         'text-danger':
-                                                            errors.parentesco,
+                                                            errors?.[
+                                                                'parentesco_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     >Parentesco*</label
                                                 >
@@ -704,7 +965,10 @@
                                                     placeholder="Parentesco"
                                                     :class="{
                                                         'is-invalid':
-                                                            errors.parentesco,
+                                                            errors?.[
+                                                                'parentesco_' +
+                                                                    index_prestamo
+                                                            ],
                                                     }"
                                                     v-model="
                                                         prestamo.cliente
@@ -718,10 +982,18 @@
                                                 >
                                                 </el-input>
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.parentesco"
-                                                    v-text="
-                                                        errors.parentesco[0]
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'parentesco_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'parentesco_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -741,11 +1013,23 @@
                                                     type="number"
                                                     class="form-control"
                                                     v-model="prestamo.monto"
+                                                    @change="modificaMonto"
+                                                    @keyup="modificaMonto"
                                                 />
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.monto"
-                                                    v-text="errors.monto[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'monto_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'monto_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                             <div
@@ -756,11 +1040,22 @@
                                                     type="number"
                                                     class="form-control"
                                                     v-model="prestamo.plazo"
+                                                    readonly
                                                 />
                                                 <span
-                                                    class="error invalid-feedback"
-                                                    v-if="errors.plazo"
-                                                    v-text="errors.plazo[0]"
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'plazo_' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'plazo_' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
                                                 ></span>
                                             </div>
                                         </div>
@@ -825,7 +1120,12 @@
 <script>
 export default {
     props: {
-        index: {
+        errores: null,
+        plazo_prestamos: {
+            type: Number,
+            default: 12,
+        },
+        index_prestamo: {
             type: Number,
             default: 0,
         },
@@ -884,9 +1184,17 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
-            errors: [],
+            errors: this.errores,
             enviando: false,
         };
+    },
+    watch: {
+        errores(newVal) {
+            this.errors = newVal;
+        },
+        plazo_prestamos(newVal) {
+            this.prestamo.plazo = newVal;
+        },
     },
     computed: {
         txtBtnFinalizar() {
@@ -916,6 +1224,9 @@ export default {
     },
     mounted() {},
     methods: {
+        modificaMonto() {
+            // this.$emit("actualiza_monto", this.index_prestamo, this.prestamo.monto);
+        },
         buscarCliente() {
             if (this.txt_ci.trim() != "") {
                 axios
