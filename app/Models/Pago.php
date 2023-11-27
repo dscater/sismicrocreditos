@@ -10,6 +10,7 @@ class Pago extends Model
     use HasFactory;
 
     protected $fillable  = [
+        "user_id",
         "prestamo_id",
         "plan_pago_id",
         "cliente_id",
@@ -21,6 +22,11 @@ class Pago extends Model
         "monto_total",
         "fecha_pago",
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function prestamo()
     {

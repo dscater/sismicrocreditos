@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 24-11-2023 a las 16:22:52
+-- Tiempo de generación: 27-11-2023 a las 16:32:20
 -- Versión del servidor: 8.0.30
--- Versión de PHP: 7.4.19
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cajas` (
   `id` bigint UNSIGNED NOT NULL,
-  `caja` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caja` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `saldo` decimal(24,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -40,10 +40,10 @@ CREATE TABLE `cajas` (
 --
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
-(1, 'Pago por Cuotas', -10000.00, NULL, '2023-11-24 02:44:24'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-24 02:44:24'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-24 02:44:24'),
-(4, 'Intereses', 0.00, NULL, '2023-11-24 02:44:24');
+(1, 'Pago por Cuotas', -9532.80, NULL, '2023-11-27 16:14:38'),
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-27 16:14:38'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-11-27 16:14:38'),
+(4, 'Intereses', 73.50, NULL, '2023-11-27 16:14:38');
 
 -- --------------------------------------------------------
 
@@ -56,8 +56,8 @@ CREATE TABLE `caja_movimientos` (
   `caja_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `monto` decimal(24,2) NOT NULL,
-  `tipo` enum('CRÉDITO','DEBITO') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `glosa` enum('GASTOS ADMINISTRATIVOS','DESEMBOLSO','PAGO CUOTA PRESTAMO','INTERES','PAGO MORA','ABONO CAPITAL') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` enum('CRÉDITO','DEBITO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `glosa` enum('GASTOS ADMINISTRATIVOS','DESEMBOLSO','PAGO CUOTA PRESTAMO','INTERES','PAGO MORA','ABONO CAPITAL') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `prestamo_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -69,7 +69,9 @@ CREATE TABLE `caja_movimientos` (
 
 INSERT INTO `caja_movimientos` (`id`, `caja_id`, `user_id`, `monto`, `tipo`, `glosa`, `prestamo_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 6000.00, 'DEBITO', 'DESEMBOLSO', 2, '2023-11-23 15:55:22', '2023-11-23 15:55:22'),
-(2, 1, 1, 4000.00, 'DEBITO', 'DESEMBOLSO', 1, '2023-11-24 02:44:24', '2023-11-24 02:44:24');
+(2, 1, 1, 4000.00, 'DEBITO', 'DESEMBOLSO', 1, '2023-11-24 02:44:24', '2023-11-24 02:44:24'),
+(3, 1, 1, 467.20, 'CRÉDITO', 'PAGO CUOTA PRESTAMO', 2, '2023-11-27 16:14:38', '2023-11-27 16:14:38'),
+(4, 4, 1, 73.50, 'CRÉDITO', 'INTERES', 2, '2023-11-27 16:14:38', '2023-11-27 16:14:38');
 
 -- --------------------------------------------------------
 
@@ -79,19 +81,19 @@ INSERT INTO `caja_movimientos` (`id`, `caja_id`, `user_id`, `monto`, `tipo`, `gl
 
 CREATE TABLE `clientes` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `segundo_nombre` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `paterno` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `materno` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dir` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ci` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ci_exp` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cel` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fono` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `segundo_nombre` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paterno` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `materno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dir` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ci` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ci_exp` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cel` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fono` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `edad` int NOT NULL,
-  `referencia` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cel_ref` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `parentesco` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `referencia` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cel_ref` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parentesco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -113,15 +115,15 @@ INSERT INTO `clientes` (`id`, `nombre`, `segundo_nombre`, `paterno`, `materno`, 
 
 CREATE TABLE `configuracions` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre_sistema` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alias` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `razon_social` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dir` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `actividad` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `correo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_sistema` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `razon_social` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `actividad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `correo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,7 +143,7 @@ INSERT INTO `configuracions` (`id`, `nombre_sistema`, `alias`, `razon_social`, `
 
 CREATE TABLE `grupos` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `integrantes` int NOT NULL,
   `monto` decimal(24,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -157,11 +159,11 @@ CREATE TABLE `grupos` (
 CREATE TABLE `historial_accions` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `accion` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datos_original` text COLLATE utf8mb4_unicode_ci,
-  `datos_nuevo` text COLLATE utf8mb4_unicode_ci,
-  `modulo` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `accion` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datos_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `datos_nuevo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `modulo` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -203,7 +205,8 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (29, 1, 'MODIFICACIÓN', 'EL USUARIO admin APROBO UN PRÉSTAMO', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 09:05:08<br/>user_id: 1<br/>', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-27<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:42:31<br/>user_id: 1<br/>', 'PRESTAMOS', '2023-11-23', '22:42:31', '2023-11-24 02:42:31', '2023-11-24 02:42:31'),
 (30, 1, 'MODIFICACIÓN', 'EL USUARIO admin REALIZÓ EL DESEMBOLSO DE UN PRESTAMO', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:42:31<br/>user_id: 1<br/>', 'cliente_id: 3<br/>created_at: 2023-11-23 09:05:08<br/>croquis: 1<br/>desembolso: 1<br/>documento_1: documentos de vehiculo<br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-23<br/>fecha_registro: 2023-11-23<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-23 22:44:24<br/>user_id: 1<br/>', 'PRESTAMOS', '2023-11-23', '22:44:24', '2023-11-24 02:44:24', '2023-11-24 02:44:24'),
 (31, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'acceso: 1<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-22 10:59:58<br/>usuario: JPERES<br/>', 'acceso: 0<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:19<br/>usuario: JPERES<br/>', 'USUARIOS', '2023-11-23', '23:07:19', '2023-11-24 03:07:19', '2023-11-24 03:07:19'),
-(32, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'acceso: 0<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:19<br/>usuario: JPERES<br/>', 'acceso: 1<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:47<br/>usuario: JPERES<br/>', 'USUARIOS', '2023-11-23', '23:07:47', '2023-11-24 03:07:47', '2023-11-24 03:07:47');
+(32, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'acceso: 0<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:19<br/>usuario: JPERES<br/>', 'acceso: 1<br/>created_at: 2023-11-22 10:57:15<br/>fecha_registro: 2023-11-22<br/>foto: <br/>id: 2<br/>materno: MAMANI<br/>nombre: JUAN<br/>password: <br/>paterno: PERES<br/>tipo: CAJERO<br/>updated_at: 2023-11-23 23:07:47<br/>usuario: JPERES<br/>', 'USUARIOS', '2023-11-23', '23:07:47', '2023-11-24 03:07:47', '2023-11-24 03:07:47'),
+(33, 1, 'MODIFICACIÓN', 'EL USUARIO admin REGISTRO EL PAGO DE UN PRESTAMO', 'id: 1<br/>prestamo_id: 2<br/>plan_pago_id: 13<br/>cliente_id: 1<br/>nro_cuota: 1<br/>monto: 467.20<br/>interes: 73.50<br/>dias_mora: -3<br/>monto_mora: 0<br/>monto_total: 540.70<br/>fecha_pago: 2023-11-27<br/>created_at: 2023-11-27 12:14:38<br/>updated_at: 2023-11-27 12:14:38<br/>', NULL, 'PAGOS', '2023-11-27', '12:14:38', '2023-11-27 16:14:38', '2023-11-27 16:14:38');
 
 -- --------------------------------------------------------
 
@@ -233,7 +236,7 @@ INSERT INTO `interes` (`id`, `interes`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -263,6 +266,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `pagos` (
   `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
   `prestamo_id` bigint UNSIGNED NOT NULL,
   `plan_pago_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
@@ -277,6 +281,13 @@ CREATE TABLE `pagos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id`, `user_id`, `prestamo_id`, `plan_pago_id`, `cliente_id`, `nro_cuota`, `monto`, `interes`, `dias_mora`, `monto_mora`, `monto_total`, `fecha_pago`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 13, 1, 1, 467.20, 73.50, -3, 0.00, 540.70, '2023-11-27', '2023-11-27 16:14:38', '2023-11-27 16:14:38');
+
 -- --------------------------------------------------------
 
 --
@@ -285,11 +296,11 @@ CREATE TABLE `pagos` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -310,7 +321,7 @@ CREATE TABLE `plan_pagos` (
   `interes` decimal(24,2) NOT NULL,
   `saldo` decimal(24,2) NOT NULL,
   `cuota` decimal(24,2) NOT NULL,
-  `cancelado` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cancelado` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_pago` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -333,7 +344,7 @@ INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `ca
 (10, 1, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', '2024-02-01', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
 (11, 1, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', '2024-02-08', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
 (12, 1, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', '2024-02-15', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
-(13, 2, 1, 6000.00, 467.20, 73.50, 5532.80, 540.70, 'NO', '2023-11-30', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
+(13, 2, 1, 6000.00, 467.20, 73.50, 5532.80, 540.70, 'SI', '2023-11-30', '2023-11-23 13:08:00', '2023-11-27 16:14:38'),
 (14, 2, 2, 5532.80, 472.92, 67.78, 5059.88, 540.70, 'NO', '2023-12-07', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (15, 2, 3, 5059.88, 478.71, 61.98, 4581.17, 540.70, 'NO', '2023-12-14', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (16, 2, 4, 4581.17, 484.58, 56.12, 4096.59, 540.70, 'NO', '2023-12-21', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
@@ -368,7 +379,7 @@ CREATE TABLE `prestamos` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
-  `tipo` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `grupo_id` bigint UNSIGNED DEFAULT NULL,
   `monto` decimal(24,2) NOT NULL,
   `plazo` int NOT NULL DEFAULT '12',
@@ -376,11 +387,11 @@ CREATE TABLE `prestamos` (
   `f_luz` int NOT NULL,
   `f_agua` int NOT NULL,
   `croquis` int NOT NULL,
-  `documento_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `documento_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `documento_3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `documento_4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `estado` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `documento_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `documento_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `documento_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `documento_4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `desembolso` int NOT NULL DEFAULT '0',
   `finalizado` int NOT NULL DEFAULT '0',
   `fecha_desembolso` date DEFAULT NULL,
@@ -406,13 +417,13 @@ INSERT INTO `prestamos` (`id`, `user_id`, `cliente_id`, `tipo`, `grupo_id`, `mon
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `usuario` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paterno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `materno` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tipo` enum('ADMINISTRADOR','GERENTE','CAJERO','OFICIAL DE CRÉDITO') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `usuario` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paterno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `materno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` enum('ADMINISTRADOR','GERENTE','CAJERO','OFICIAL DE CRÉDITO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `acceso` int NOT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -529,7 +540,7 @@ ALTER TABLE `cajas`
 -- AUTO_INCREMENT de la tabla `caja_movimientos`
 --
 ALTER TABLE `caja_movimientos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -553,7 +564,7 @@ ALTER TABLE `grupos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `interes`
@@ -571,7 +582,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`

@@ -82,4 +82,8 @@ class Prestamo extends Model
     {
         return $this->hasMany(PlanPago::class, 'prestamo_id');
     }
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'prestamo_id')->orderBy("id", "desc");
+    }
 }

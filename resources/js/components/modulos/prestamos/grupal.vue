@@ -15,9 +15,9 @@
                     <div class="col-md-3">
                         <router-link
                             v-if="
-                                permisos.includes('prestamos.individual_nuevo')
+                                permisos.includes('prestamos.grupal_nuevo')
                             "
-                            :to="{ name: 'prestamos.individual_nuevo' }"
+                            :to="{ name: 'prestamos.grupal_nuevo' }"
                             class="btn btn-primary btn-flat btn-block"
                         >
                             <i class="fa fa-plus"></i>
@@ -40,7 +40,7 @@
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                placeholder="Ingresar C.I."
+                                                placeholder="Nombre Grupo"
                                                 v-model="txt_ci"
                                                 @keyup="empezarBusqueda"
                                             />

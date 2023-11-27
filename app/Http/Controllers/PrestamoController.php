@@ -14,6 +14,13 @@ use PDF;
 
 class PrestamoController extends Controller
 {
+    public function show(Prestamo $prestamo)
+    {
+        return response()->JSON([
+            "prestamo" => $prestamo->load(["cliente", "plan_pagos", "pagos.user"]),
+        ]);
+    }
+
     public function get_pago(Prestamo $prestamo)
     {
         // obtener el primer pago
@@ -258,8 +265,6 @@ class PrestamoController extends Controller
         if (!$cliente["parentesco"] || trim($cliente["parentesco"]) == '') {
             $errors["parentesco"] = ["Debes ingresar el parentesco"];
         }
-
-
         return $errors;
     }
 }

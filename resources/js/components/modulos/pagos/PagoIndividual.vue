@@ -51,7 +51,7 @@
                             />
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Monto cuota*</label>
+                            <label>Capital*</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -237,7 +237,7 @@ export default {
                         this.oPago.cliente_id = this.prestamo.cliente_id;
                         this.oPago.nro_cuota = this.oPlanPago.nro_cuota;
                         this.oPago.interes = this.oPlanPago.interes;
-                        this.oPago.monto = this.oPlanPago.cuota;
+                        this.oPago.monto = this.oPlanPago.capital;
                         this.oPago.dias_mora = response.data.dias_mora;
                         this.oPago.monto_mora = response.data.monto_mora;
                         this.oPago.monto_total =

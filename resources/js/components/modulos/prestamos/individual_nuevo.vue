@@ -1184,7 +1184,7 @@ export default {
             if (this.enviando) {
                 return '<i class="fa fa-spinner fa-spin"></i> Enviando...';
             }
-            return 'Finalizar <iclass="fa fa-flag-checkered"></iclass=>';
+            return 'Finalizar <i class="fa fa-flag-checkered"></i>';
         },
         tituloPaso() {
             let titulo = "";
@@ -1418,6 +1418,7 @@ export default {
 
 .pasos .paso {
     cursor: pointer;
+    text-align: center;
 }
 
 .pasos .paso .nro_paso {
@@ -1446,5 +1447,11 @@ export default {
 }
 .btn_descargar img {
     width: 100px;
+}
+
+@media (max-width: 800px) {
+    .txt_paso {
+        display: none;
+    }
 }
 </style>

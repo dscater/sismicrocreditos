@@ -44,6 +44,7 @@ export default new Router({
         },
 
         // Prestamos
+        // individual
         {
             path: "/prestamos/individual",
             name: "prestamos.individual",
@@ -57,11 +58,19 @@ export default new Router({
                 require("./components/modulos/prestamos/individual_nuevo.vue")
                     .default,
         },
+        // grupal
         {
             path: "/prestamos/grupal",
             name: "prestamos.grupal",
             component: require("./components/modulos/prestamos/grupal.vue")
                 .default,
+        },
+        {
+            path: "/prestamos/grupal/nuevo",
+            name: "prestamos.grupal_nuevo",
+            component:
+                require("./components/modulos/prestamos/grupal_nuevo.vue")
+                    .default,
         },
 
         // Desembolsos
@@ -79,13 +88,23 @@ export default new Router({
                 .default,
         },
 
-        // Desembolsos
+        // Pagos
+        // individual
         {
             path: "/pagos/individual",
             name: "pagos.individual",
             component: require("./components/modulos/pagos/individual.vue")
                 .default,
         },
+        {
+            path: "/pagos/individual/ver_pagos/:id",
+            name: "pagos.ver_pagos_individual",
+            component:
+                require("./components/modulos/pagos/VerPagosIndividual.vue")
+                    .default,
+            props: true,
+        },
+        // grupal
         {
             path: "/pagos/grupal",
             name: "pagos.grupal",

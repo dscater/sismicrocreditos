@@ -18,7 +18,7 @@ class PrestamoIndividualController extends Controller
         $prestamos = [];
         if ($cliente) {
             $filtro = $request->filtro;
-            $prestamos = Prestamo::with(["cliente"])->where("cliente_id", $cliente->id)->orderBy("id", "desc")->get();
+            $prestamos = Prestamo::with(["cliente", "pagos"])->where("cliente_id", $cliente->id)->orderBy("id", "desc")->get();
         }
         return response()->JSON([
             "sw" => true,

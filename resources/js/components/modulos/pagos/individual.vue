@@ -99,6 +99,24 @@
                                                             ></i>
                                                             Registrar Pago
                                                         </button>
+                                                        <router-link
+                                                            class="inline-block btn btn-xs btn-success"
+                                                            v-if="
+                                                                item.pagos
+                                                                    .length > 0
+                                                            "
+                                                            :to="{
+                                                                name: 'pagos.ver_pagos_individual',
+                                                                params: {
+                                                                    id: item.id,
+                                                                },
+                                                            }"
+                                                        >
+                                                            <i
+                                                                class="fa fa-list-alt"
+                                                            ></i>
+                                                            Pagos realizados
+                                                        </router-link>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -192,6 +210,7 @@ export default {
                     fecha_registro: "",
                     full_name: "",
                 },
+                pagos: [],
             },
         };
     },

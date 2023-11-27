@@ -92,7 +92,8 @@
                         "
                         :class="[
                             $route.name == 'pagos.individual' ||
-                            $route.name == 'pagos.grupal'
+                            $route.name == 'pagos.grupal' ||
+                            $route.name == 'pagos.ver_pagos_individual'
                                 ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
@@ -109,7 +110,8 @@
                             :style="{
                                 display:
                                     $route.name == 'pagos.individual' ||
-                                    $route.name == 'pagos.grupal'
+                                    $route.name == 'pagos.grupal' ||
+                                    $route.name == 'pagos.ver_pagos_individual'
                                         ? 'block'
                                         : 'none',
                             }"
@@ -123,7 +125,9 @@
                                     :to="{ name: 'pagos.individual' }"
                                     class="nav-link"
                                     :class="[
-                                        $route.name == 'pagos.individual'
+                                        $route.name == 'pagos.individual' ||
+                                        $route.name ==
+                                            'pagos.ver_pagos_individual'
                                             ? 'active'
                                             : '',
                                     ]"
@@ -251,7 +255,9 @@
                                 display:
                                     $route.name == 'prestamos.individual' ||
                                     $route.name == 'prestamos.grupal' ||
-                                    $route.name == 'prestamos.individual_nuevo'
+                                    $route.name ==
+                                        'prestamos.individual_nuevo' ||
+                                    $route.name == 'prestamos.grupal_nuevo'
                                         ? 'block'
                                         : 'none',
                             }"
@@ -287,6 +293,12 @@
                                     exact
                                     :to="{ name: 'prestamos.grupal' }"
                                     class="nav-link"
+                                    :class="[
+                                        $route.name == 'prestamos.grupal' ||
+                                        $route.name == 'prestamos.grupal_nuevo'
+                                            ? 'active'
+                                            : '',
+                                    ]"
                                     v-loading.fullscreen.lock="
                                         fullscreenLoading
                                     "

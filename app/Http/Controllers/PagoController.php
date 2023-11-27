@@ -18,6 +18,7 @@ class PagoController extends Controller
         DB::beginTransaction();
         try {
             $pago = Pago::create([
+                "user_id" => Auth::user()->id,
                 "prestamo_id" => $request->prestamo_id,
                 "plan_pago_id" => $request->plan_pago_id,
                 "cliente_id" => $request->cliente_id,
@@ -49,6 +50,18 @@ class PagoController extends Controller
                 "glosa" => "INTERES",
                 "prestamo_id" => $pago->prestamo_id,
             ]);
+
+            if ((int)$pago->dias_mora > 0) {
+                // registrar movimiento MORA si existe
+                CajaMovimiento::create([
+                    "caja_id" => 4,
+                    "user_id" => Auth::user()->id,
+                    "monto" => $pago->interes,
+                    "tipo" => "CRÉDITO",
+                    "glosa" => "PAGO MORA",
+                    "prestamo_id" => $pago->prestamo_id,
+                ]);
+            }
 
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
