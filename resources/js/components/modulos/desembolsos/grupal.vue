@@ -26,8 +26,8 @@
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                placeholder="Ingresar C.I."
-                                                v-model="txt_ci"
+                                                placeholder="Nombre Grupo"
+                                                v-model="txt_nombre"
                                                 @keyup="empezarBusqueda"
                                             />
                                             <div class="input-group-append">
@@ -42,7 +42,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3" v-if="txt_ci != ''">
+                                <div class="row mt-3" v-if="txt_nombre != ''">
                                     <div
                                         class="col-md-12"
                                         v-if="
@@ -54,11 +54,12 @@
                                         >
                                             <thead class="bg-primary">
                                                 <tr>
-                                                    <th>Nombre Cliente</th>
+                                                    <th>Nombre Grupo</th>
+                                                    <th>Nro. Integrantes</th>
                                                     <th>Monto</th>
                                                     <th>Plazo</th>
-                                                    <th>Estado</th>
-                                                    <th>Fecha Registro</th>
+                                                    <th>Fecha de Desembolso</th>
+                                                    <th>Estado Desembolso</th>
                                                     <th width="20%">Acción</th>
                                                 </tr>
                                             </thead>
@@ -67,75 +68,63 @@
                                                     v-for="item in listPrestamos"
                                                 >
                                                     <td>
-                                                        {{
-                                                            item.cliente
-                                                                .full_name
-                                                        }}
+                                                        {{ item.nombre }}
+                                                    </td>
+                                                    <td>
+                                                        {{ item.integrantes }}
                                                     </td>
                                                     <td>{{ item.monto }}</td>
                                                     <td>{{ item.plazo }}</td>
+                                                    <td>
+                                                        {{
+                                                            item.fecha_desembolso_t
+                                                                ? item.fecha_desembolso_t
+                                                                : "S/A"
+                                                        }}
+                                                    </td>
                                                     <td
                                                         class="text-center font-weight-bold"
                                                         :class="{
                                                             'bg-warning':
-                                                                item.estado ==
-                                                                'PRE APROBADO',
-                                                            'bg-danger':
-                                                                item.estado ==
-                                                                'RECHAZADO',
+                                                                item.desembolso ==
+                                                                0,
                                                             'bg-success':
-                                                                item.estado ==
-                                                                'APROBADO',
-                                                            'bg-gray':
-                                                                item.estado ==
-                                                                'FINALIZADO',
+                                                                item.desembolso ==
+                                                                1,
                                                         }"
                                                     >
-                                                        {{ item.estado }}
-                                                    </td>
-                                                    <td>
                                                         {{
-                                                            item.fecha_registro_t
+                                                            item.desembolso == 1
+                                                                ? "ENTREGADO"
+                                                                : "PENDIENTE"
                                                         }}
                                                     </td>
                                                     <td>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-success"
-                                                            v-if="
-                                                                item.desembolso ==
-                                                                    0 &&
-                                                                item.estado !=
-                                                                    'APROBADO' &&
-                                                                item.estado !=
-                                                                    'FINALIZADO'
-                                                            "
-                                                            @click="
-                                                                aprobarPrestamo(
-                                                                    item
-                                                                )
-                                                            "
+                                                            class="inline-block btn btn-xs btn-primary"
                                                         >
                                                             <i
-                                                                class="fa fa-thumbs-up"
+                                                                class="fa fa-file-pdf"
                                                             ></i>
-                                                            Aprobar
+                                                            Plan de Pago
                                                         </button>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-danger"
+                                                            class="inline-block btn btn-xs btn-success"
                                                             v-if="
+                                                                item.sw_desembolso &&
                                                                 item.desembolso ==
-                                                                0
+                                                                    0
                                                             "
                                                             @click="
-                                                                rechazarPrestamo(
+                                                                realizarDesembolso(
                                                                     item
                                                                 )
                                                             "
                                                         >
                                                             <i
-                                                                class="fa fa-thumbs-down"
+                                                                class="fa fa-hand-holding-usd"
                                                             ></i>
-                                                            Rechazar
+                                                            Realizar Desembolso
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -162,20 +151,20 @@
                 </div>
             </div>
         </section>
-        <DesembolsoIndividual
+        <DesembolsoGrupal
             :muestra_modal="muestra_modal"
-            :prestamo="oPrestamo"
+            :grupo="oGrupo"
             @close="muestra_modal = false"
             @envioModal="empezarBusqueda"
-        ></DesembolsoIndividual>
+        ></DesembolsoGrupal>
     </div>
 </template>
 
 <script>
-import DesembolsoIndividual from "./DesembolsoIndividual.vue";
+import DesembolsoGrupal from "./DesembolsoGrupal.vue";
 export default {
     components: {
-        DesembolsoIndividual,
+        DesembolsoGrupal,
     },
     data() {
         return {
@@ -189,47 +178,16 @@ export default {
                 fullscreen: this.fullscreenLoading,
             }),
             listPrestamos: [],
-            txt_ci: "",
+            txt_nombre: "",
             loading: false,
             setTimeOutBusqueda: null,
             muestra_modal: false,
-            oPrestamo: {
-                user_id: "",
-                cliente_id: "",
-                tipo: "",
-                grupo_id: "",
-                monto: "",
-                plazo: "",
-                f_ci: "",
-                f_luz: "",
-                f_agua: "",
-                croquis: "",
-                documento_1: "",
-                documento_2: "",
-                documento_3: "",
-                documento_4: "",
-                estado: "",
-                desembolso: "",
-                fecha_desembolso: "",
-                fecha_registro: "",
-                finalizado: "",
-                cliente: {
-                    nombre: "",
-                    segundo_nombre: "",
-                    paterno: "",
-                    materno: "",
-                    dir: "",
-                    ci: "",
-                    ci_exp: "",
-                    cel: "",
-                    fono: "",
-                    edad: "",
-                    referencia: "",
-                    cel_ref: "",
-                    parentesco: "",
-                    fecha_registro: "",
-                    full_name: "",
-                },
+            oGrupo: {
+                nombre: "",
+                integrantes: 3,
+                monto: 0,
+                plazo: 12,
+                prestamos: [],
             },
         };
     },
@@ -237,90 +195,28 @@ export default {
         this.loadingWindow.close();
     },
     methods: {
-        aprobarPrestamo(item) {
-            this.oPrestamo = item;
+        realizarDesembolso(item) {
+            this.oGrupo = item;
             this.muestra_modal = true;
-        },
-        rechazarPrestamo(item) {
-            let id = item.id;
-            let descripcion = `<div clas="text-center">`;
-            descripcion += `<p><strong>Cliente: </strong> ${item.cliente.full_name}</p>`;
-            descripcion += `<p><strong>Monto: </strong> ${item.monto}</p>`;
-            descripcion += `<p><strong>Plazo: </strong> ${item.plazo}</p>`;
-            descripcion += `</div>`;
-            Swal.fire({
-                title: "¿Quierés rechazar este préstamo?",
-                html: descripcion,
-                showCancelButton: true,
-                confirmButtonColor: "#c82333",
-                confirmButtonText: "Si, rechazar",
-                cancelButtonText: "No, cancelar",
-                denyButtonText: `No, cancelar`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    axios
-                        .post(
-                            main_url +
-                                "/admin/prestamos/individual/rechazar/" +
-                                id,
-                            {
-                                _method: "PUT",
-                            }
-                        )
-                        .then((res) => {
-                            this.empezarBusqueda();
-                            Swal.fire({
-                                icon: "success",
-                                title: res.data.msj,
-                                showConfirmButton: false,
-                                timer: 1500,
-                            });
-                        })
-                        .catch((error) => {
-                            if (error.response) {
-                                if (error.response.status === 422) {
-                                    this.errors = error.response.data.errors;
-                                }
-                                if (
-                                    error.response.status === 420 ||
-                                    error.response.status === 419 ||
-                                    error.response.status === 401
-                                ) {
-                                    window.location = "/";
-                                }
-                                if (error.response.status === 500) {
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Error",
-                                        html: error.response.data.message,
-                                        showConfirmButton: false,
-                                        timer: 2000,
-                                    });
-                                }
-                            }
-                        });
-                }
-            });
         },
         empezarBusqueda() {
             this.muestra_modal = false;
             this.loading = true;
             clearInterval(this.setTimeOutBusqueda);
             this.setTimeOutBusqueda = setTimeout(() => {
-                this.buscaPrestamosCliente();
+                this.buscaPrestamosGrupo();
             }, 700);
         },
-        buscaPrestamosCliente() {
+        buscaPrestamosGrupo() {
             axios
-                .get(main_url + "/admin/prestamos/individual/cliente_ci", {
+                .get(main_url + "/admin/prestamos/grupal/grupo_nombre", {
                     params: {
-                        ci: this.txt_ci,
+                        ci: this.txt_nombre,
                     },
                 })
                 .then((response) => {
                     this.loading = false;
-                    this.listPrestamos = response.data.prestamos;
+                    this.listPrestamos = response.data.grupos;
                 })
                 .catch((error) => {
                     this.loading = false;

@@ -87,6 +87,55 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
+                                        'text-danger': errors.ci,
+                                    }"
+                                    >C.I.*</label
+                                >
+                                <el-input
+                                    placeholder="Número de C.I."
+                                    :class="{ 'is-invalid': errors.ci }"
+                                    v-model="usuario.ci"
+                                    clearable
+                                >
+                                </el-input>
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.ci"
+                                    v-text="errors.ci[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
+                                        'text-danger': errors.ci_exp,
+                                    }"
+                                    >Expedido*</label
+                                >
+                                <el-select
+                                    class="w-100 d-block"
+                                    :class="{
+                                        'is-invalid': errors.ci_exp,
+                                    }"
+                                    v-model="usuario.ci_exp"
+                                    clearable
+                                >
+                                    <el-option
+                                        v-for="(item, index) in listExpedido"
+                                        :key="index"
+                                        :value="item.value"
+                                        :label="item.label"
+                                    >
+                                    </el-option>
+                                </el-select>
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.ci_exp"
+                                    v-text="errors.ci_exp[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
                                         'text-danger': errors.usuario,
                                     }"
                                     >Nombre de Usuario*</label
@@ -248,6 +297,8 @@ export default {
                 nombre: "",
                 paterno: "",
                 materno: "",
+                ci: "",
+                ci_exp: "",
                 tipo: "",
                 foto: "",
                 password: "",
@@ -338,6 +389,11 @@ export default {
                     "materno",
                     this.usuario.materno ? this.usuario.materno : ""
                 );
+                formdata.append("ci", this.usuario.ci ? this.usuario.ci : "");
+                formdata.append(
+                    "ci_exp",
+                    this.usuario.ci_exp ? this.usuario.ci_exp : ""
+                );
                 formdata.append(
                     "tipo",
                     this.usuario.tipo ? this.usuario.tipo : ""
@@ -426,6 +482,8 @@ export default {
             this.usuario.nombre = "";
             this.usuario.paterno = "";
             this.usuario.materno = "";
+            this.usuario.ci = "";
+            this.usuario.ci_exp = "";
             this.usuario.tipo = "";
             this.usuario.foto = "";
             this.usuario.password = "";

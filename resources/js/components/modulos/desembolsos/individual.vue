@@ -101,10 +101,6 @@
                                                     <td>
                                                         <button
                                                             class="inline-block btn btn-xs btn-primary"
-                                                            v-if="
-                                                                item.desembolso ==
-                                                                1
-                                                            "
                                                         >
                                                             <i
                                                                 class="fa fa-file-pdf"

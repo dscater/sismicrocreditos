@@ -22,6 +22,7 @@ class UserController extends Controller
     public $validacion = [
         'nombre' => 'required|min:4',
         'paterno' => 'required|min:4',
+        'ci_exp' => 'required',
         'tipo' => 'required',
         'acceso' => 'required',
     ];
@@ -86,6 +87,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:users,ci';
         $this->validacion['usuario'] = 'required|unique:users,usuario';
         $this->validacion['password'] = 'required|min:6';
 
@@ -133,6 +135,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $usuario)
     {
+        $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:users,ci,' . $usuario->id;
         $this->validacion['usuario'] = 'required|unique:users,usuario,' . $usuario->id;
         if ($request->password && trim($request->password) != "") {
             $this->validacion['password'] = 'required|min:6';

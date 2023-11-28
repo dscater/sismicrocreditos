@@ -5,6 +5,7 @@ use App\Http\Controllers\CajaMovimientoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DesembolsoController;
+use App\Http\Controllers\DesembolsoGrupalController;
 use App\Http\Controllers\DesembolsoIndividualController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagoController;
@@ -74,6 +75,8 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos-grupal
+        Route::put("prestamos/grupal/rechazar/{grupo}", [PrestamoGrupalController::class, 'rechazar']);
+        Route::put("prestamos/grupal/aprobar/{grupo}", [PrestamoGrupalController::class, 'aprobar']);
         Route::get("prestamos/grupal/grupo_nombre", [PrestamoGrupalController::class, 'grupo_nombre']);
         Route::resource('prestamos/grupal', PrestamoGrupalController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
@@ -83,7 +86,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post("desembolsos/individual/{prestamo}", [DesembolsoIndividualController::class, 'store']);
 
         // desembolsos-grupal
-        Route::post("desembolsos/grupal/{grupo}", [PrestamoGrupalController::class, 'store']);
+        Route::post("desembolsos/grupal/{grupo}", [DesembolsoGrupalController::class, 'store']);
 
         // cajas
         Route::resource('cajas', CajaController::class)->only([

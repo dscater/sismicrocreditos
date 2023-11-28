@@ -16,11 +16,37 @@ class Grupo extends Model
         "monto",
         "plazo",
         "desembolso",
+        "fecha_desembolso",
         "estado",
         "fecha_registro"
     ];
 
-    protected $appends = ["fecha_registro_t"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados"];
+
+    public function getNroPagosRealizadosAttribute()
+    {
+        $nro_pagos = GrupoPlanPago::where("grupo_id", $this->id)->where("cancelado", "SI")->get();
+        return count($nro_pagos);
+    }
+
+    public function getSwDesembolsoAttribute()
+    {
+        if ($this->fecha_desembolso) {
+            $fecha_actual = date("Y-m-d");
+            if ($this->fecha_desembolso == $fecha_actual) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getFechaDesembolsoTAttribute()
+    {
+        if ($this->fecha_desembolso) {
+            return date("d-m-Y", strtotime($this->fecha_desembolso));
+        }
+        return null;
+    }
 
     public function getFechaRegistroTAttribute()
     {

@@ -75,6 +75,7 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
+        $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci';
         $request->validate($this->validacion, $this->mensajes);
         $request["fecha_registro"] = date("Y-m-d");
         DB::beginTransaction();

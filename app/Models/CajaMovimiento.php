@@ -15,7 +15,9 @@ class CajaMovimiento extends Model
         "monto",
         "tipo",
         "glosa",
+        "tipo_prestamo",
         "prestamo_id",
+        "grupo_id",
     ];
 
     public function caja()
@@ -31,5 +33,10 @@ class CajaMovimiento extends Model
     public function prestamo()
     {
         return $this->belongsTo(Prestamo::class, 'prestamo_id');
+    }
+
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo_id');
     }
 }

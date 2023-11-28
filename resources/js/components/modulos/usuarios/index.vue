@@ -243,6 +243,7 @@ export default {
                     sortable: true,
                 },
                 { key: "full_name", label: "Nombre", sortable: true },
+                { key: "full_ci", label: "C.I.", sortable: true },
                 { key: "tipo", label: "Tipo Usuario", sortable: true },
                 { key: "foto", label: "Foto" },
                 {
@@ -265,6 +266,8 @@ export default {
                 nombre: "",
                 paterno: "",
                 materno: "",
+                ci: "",
+                ci_exp: "",
                 tipo: "",
                 foto: null,
                 password: "",
@@ -296,6 +299,8 @@ export default {
             this.oUsuario.nombre = item.nombre ? item.nombre : "";
             this.oUsuario.paterno = item.paterno ? item.paterno : "";
             this.oUsuario.materno = item.materno ? item.materno : "";
+            this.oUsuario.ci = item.ci ? item.ci : "";
+            this.oUsuario.ci_exp = item.ci_exp ? item.ci_exp : "";
             this.oUsuario.tipo = item.tipo ? item.tipo : "";
             this.oUsuario.foto = item.foto ? item.foto : "";
             this.oUsuario.password = item.password ? item.password : "";
@@ -434,6 +439,8 @@ export default {
             this.oUsuario.nombre = "";
             this.oUsuario.paterno = "";
             this.oUsuario.materno = "";
+            this.oUsuario.ci = "";
+            this.oUsuario.ci_exp = "";
             this.oUsuario.tipo = "";
             this.oUsuario.foto = "";
             this.oUsuario.password = "";

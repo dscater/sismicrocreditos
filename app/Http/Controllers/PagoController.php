@@ -38,6 +38,7 @@ class PagoController extends Controller
                 "monto" => $pago->monto,
                 "tipo" => "CRÉDITO",
                 "glosa" => "PAGO CUOTA PRESTAMO",
+                "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $pago->prestamo_id,
             ]);
 
@@ -48,6 +49,7 @@ class PagoController extends Controller
                 "monto" => $pago->interes,
                 "tipo" => "CRÉDITO",
                 "glosa" => "INTERES",
+                "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $pago->prestamo_id,
             ]);
 
@@ -59,6 +61,7 @@ class PagoController extends Controller
                     "monto" => $pago->interes,
                     "tipo" => "CRÉDITO",
                     "glosa" => "PAGO MORA",
+                    "tipo_prestamo" => "INDIVIDUAL",
                     "prestamo_id" => $pago->prestamo_id,
                 ]);
             }

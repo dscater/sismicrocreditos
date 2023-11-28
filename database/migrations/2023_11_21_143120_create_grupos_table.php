@@ -20,7 +20,8 @@ class CreateGruposTable extends Migration
             $table->integer("integrantes");
             $table->decimal("monto", 24, 2);
             $table->integer("plazo");
-            $table->integer("desembolso");
+            $table->integer("desembolso")->default(0);
+            $table->date("fecha_desembolso")->nullable();
             $table->string("estado", 155);
             $table->date("fecha_registro");
             $table->timestamps();

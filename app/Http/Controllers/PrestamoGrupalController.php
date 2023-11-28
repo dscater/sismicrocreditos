@@ -16,14 +16,14 @@ class PrestamoGrupalController extends Controller
 {
     public function grupo_nombre(Request $request)
     {
-        $grupo = Grupo::with(["prestamos", "grupo_pagos"])->where("nombre", $request->nombre)->get()->first();
+        $grupos = Grupo::with(["prestamos.cliente", "grupo_pagos"])->where("nombre", "LIKE", "%$request->nombre%")->orderBy("id", "desc")->get();
         return response()->JSON([
             "sw" => true,
-            "grupo" => $grupo
+            "grupos" => $grupos
         ]);
     }
 
-    public function aprobar(Prestamo $prestamo, Request $request)
+    public function aprobar(Grupo $grupo, Request $request)
     {
         $request->validate([
             "fecha_desembolso" => "required|date"
@@ -43,16 +43,24 @@ class PrestamoGrupalController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
-            $prestamo->estado = 'APROBADO';
-            $prestamo->fecha_desembolso = $request->fecha_desembolso;
-            $prestamo->save();
+            $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
+            // actualizando el estado del grupo
+            $grupo->estado = 'APROBADO';
+            $grupo->fecha_desembolso = $request->fecha_desembolso;
+            $grupo->save();
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
+            // actualizando el estado de los integrantes por separado
+            foreach ($grupo->prestamos  as $prestamo) {
+                $prestamo->estado = 'APROBADO';
+                $prestamo->fecha_desembolso = $request->fecha_desembolso;
+                $prestamo->save();
+            }
+
+            $datos_nuevo = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' APROBO UN PRÉSTAMO',
+                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' APROBO UN PRÉSTAMO GRUPAL',
                 'datos_original' => $datos_original,
                 'datos_nuevo' => $datos_nuevo,
                 'modulo' => 'PRESTAMOS',
@@ -62,7 +70,7 @@ class PrestamoGrupalController extends Controller
             DB::commit();
             return response()->JSON([
                 'sw' => true,
-                'prestamo' => $prestamo,
+                'grupo' => $grupo,
                 'msj' => 'El préstamo se aprobo correctamente',
             ], 200);
         } catch (\Exception $e) {
@@ -73,19 +81,27 @@ class PrestamoGrupalController extends Controller
         }
     }
 
-    public function rechazar(Prestamo $prestamo)
+    public function rechazar(Grupo $grupo)
     {
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
-            $prestamo->estado = 'RECHAZADO';
-            $prestamo->save();
+            $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
+            // actualizando el estado del grupo
+            $grupo->estado = 'RECHAZADO';
+            $grupo->fecha_desembolso = NULL;
+            $grupo->save();
+            // actualizando el estado de los integrantes por separado
+            foreach ($grupo->prestamos  as $prestamo) {
+                $prestamo->estado = 'RECHAZADO';
+                $prestamo->fecha_desembolso = NULL;
+                $prestamo->save();
+            }
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
+            $datos_nuevo = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' RECHAZO UN PRÉSTAMO',
+                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' RECHAZO UN PRÉSTAMO GRUPAL',
                 'datos_original' => $datos_original,
                 'datos_nuevo' => $datos_nuevo,
                 'modulo' => 'PRESTAMOS',
@@ -95,7 +111,7 @@ class PrestamoGrupalController extends Controller
             DB::commit();
             return response()->JSON([
                 'sw' => true,
-                'prestamo' => $prestamo,
+                'grupo' => $grupo,
                 'msj' => 'El préstamo se rechazo correctamente',
             ], 200);
         } catch (\Exception $e) {

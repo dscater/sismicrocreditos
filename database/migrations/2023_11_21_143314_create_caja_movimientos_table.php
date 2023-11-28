@@ -20,7 +20,9 @@ class CreateCajaMovimientosTable extends Migration
             $table->decimal("monto", 24, 2);
             $table->enum("tipo", ["CRÉDITO", "DEBITO"]);
             $table->enum("glosa", ["GASTOS ADMINISTRATIVOS", "DESEMBOLSO", "PAGO CUOTA PRESTAMO", "INTERES", "PAGO MORA", "ABONO CAPITAL"]);
+            $table->string("tipo_prestamo", 155)->nullable();
             $table->unsignedBigInteger("prestamo_id")->nullable();
+            $table->unsignedBigInteger("grupo_id")->nullable();
             $table->timestamps();
         });
     }

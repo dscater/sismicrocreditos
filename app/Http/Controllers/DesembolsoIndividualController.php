@@ -37,6 +37,7 @@ class DesembolsoIndividualController extends Controller
                 "monto" => $prestamo->monto,
                 "tipo" => "DEBITO",
                 "glosa" => "DESEMBOLSO",
+                "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $prestamo->id,
             ]);
 

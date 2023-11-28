@@ -24,9 +24,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <p>
-                                <strong>Cliente: </strong>
+                                <strong>Nombre del grupo: </strong>
                                 {{ grupo?.nombre }}
                             </p>
+                            <p><strong>Integrantes: </strong></p>
+                            <ul>
+                                <li v-for="item in grupo?.prestamos">
+                                    {{ item.cliente.full_name }} -  {{ item.cliente.full_ci }}
+                                </li>
+                            </ul>
                             <p><strong>Monto: </strong>{{ grupo?.monto }}</p>
                             <p><strong>Plazo: </strong> {{ grupo?.plazo }}</p>
                         </div>
@@ -123,7 +129,7 @@ export default {
             axios
                 .post(
                     main_url +
-                        "/admin/prestamos/individual/aprobar/" +
+                        "/admin/prestamos/grupal/aprobar/" +
                         this.grupo.id,
                     {
                         _method: "PUT",

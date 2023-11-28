@@ -22,6 +22,8 @@ class User extends Authenticatable
         "nombre",
         "paterno",
         "materno",
+        "ci",
+        "ci_exp",
         "tipo",
         "foto",
         "password",

@@ -57,7 +57,9 @@
                                 <div class="row mt-3" v-if="txt_nombre != ''">
                                     <div
                                         class="col-md-12"
-                                        v-if="oGrupo && !loading"
+                                        v-if="
+                                            listPrestamos.length > 0 && !loading
+                                        "
                                     >
                                         <table
                                             class="table table-bordered tabla_prestamos"
@@ -74,51 +76,53 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>{{ oGrupo.nombre }}</td>
+                                                <tr
+                                                    v-for="item in listPrestamos"
+                                                >
+                                                    <td>{{ item.nombre }}</td>
                                                     <td>
-                                                        {{ oGrupo.integrantes }}
+                                                        {{ item.integrantes }}
                                                     </td>
-                                                    <td>{{ oGrupo.monto }}</td>
-                                                    <td>{{ oGrupo.plazo }}</td>
+                                                    <td>{{ item.monto }}</td>
+                                                    <td>{{ item.plazo }}</td>
                                                     <td
                                                         class="text-center font-weight-bold"
                                                         :class="{
                                                             'bg-warning':
-                                                                oGrupo.estado ==
+                                                                item.estado ==
                                                                 'PRE APROBADO',
                                                             'bg-danger':
-                                                                oGrupo.estado ==
+                                                                item.estado ==
                                                                 'RECHAZADO',
                                                             'bg-success':
-                                                                oGrupo.estado ==
+                                                                item.estado ==
                                                                 'APROBADO',
                                                             'bg-gray':
-                                                                oGrupo.estado ==
+                                                                item.estado ==
                                                                 'FINALIZADO',
                                                         }"
                                                     >
-                                                        {{ oGrupo.estado }}
+                                                        {{ item.estado }}
                                                     </td>
                                                     <td>
                                                         {{
-                                                            oGrupo.fecha_registro_t
+                                                            item.fecha_registro_t
                                                         }}
                                                     </td>
                                                     <td>
                                                         <button
                                                             class="inline-block btn btn-xs btn-success"
                                                             v-if="
-                                                                oGrupo.desembolso ==
+                                                                item.desembolso ==
                                                                     0 &&
-                                                                oGrupo.estado !=
+                                                                item.estado !=
                                                                     'APROBADO' &&
-                                                                oGrupo.estado !=
+                                                                item.estado !=
                                                                     'FINALIZADO'
                                                             "
                                                             @click="
                                                                 aprobarPrestamo(
-                                                                    oGrupo
+                                                                    item
                                                                 )
                                                             "
                                                         >
@@ -130,12 +134,12 @@
                                                         <button
                                                             class="inline-block btn btn-xs btn-danger"
                                                             v-if="
-                                                                oGrupo.desembolso ==
+                                                                item.desembolso ==
                                                                 0
                                                             "
                                                             @click="
                                                                 rechazarPrestamo(
-                                                                    oGrupo
+                                                                    item
                                                                 )
                                                             "
                                                         >
@@ -199,7 +203,14 @@ export default {
             loading: false,
             setTimeOutBusqueda: null,
             muestra_modal: false,
-            oGrupo: null,
+            oGrupo: {
+                nombre: "",
+                integrantes: 3,
+                monto: 0,
+                plazo: 12,
+                prestamos: [],
+            },
+            listPrestamos: [],
         };
     },
     mounted() {
@@ -207,14 +218,21 @@ export default {
     },
     methods: {
         aprobarPrestamo(item) {
-            this.oPrestamo = item;
+            this.oGrupo = item;
             this.muestra_modal = true;
         },
         rechazarPrestamo(item) {
             let id = item.id;
-            let descripcion = `<div clas="text-center">`;
-            descripcion += `<p><strong>Cliente: </strong> ${item.cliente.full_name}</p>`;
+            let descripcion = `<div clas="text-left">`;
             descripcion += `<p><strong>Monto: </strong> ${item.monto}</p>`;
+            descripcion += `<p><strong>Integrantes: </strong></p>
+                            <ul class="text-left">`;
+            item.prestamos.forEach((item) => {
+                descripcion += `<li v-for="item in grupo?.prestamos">
+                                    ${item.cliente.full_name} -  ${item.cliente.full_ci}
+                                </li>`;
+            });
+            descripcion += `</ul>`;
             descripcion += `<p><strong>Plazo: </strong> ${item.plazo}</p>`;
             descripcion += `</div>`;
             Swal.fire({
@@ -230,9 +248,7 @@ export default {
                 if (result.isConfirmed) {
                     axios
                         .post(
-                            main_url +
-                                "/admin/prestamos/individual/rechazar/" +
-                                id,
+                            main_url + "/admin/prestamos/grupal/rechazar/" + id,
                             {
                                 _method: "PUT",
                             }
@@ -289,7 +305,7 @@ export default {
                 })
                 .then((response) => {
                     this.loading = false;
-                    this.oGrupo = response.data.grupo;
+                    this.listPrestamos = response.data.grupos;
                 })
                 .catch((error) => {
                     this.loading = false;
