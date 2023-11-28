@@ -11,9 +11,12 @@ class Pago extends Model
 
     protected $fillable  = [
         "user_id",
+        "tipo_prestamo",
         "prestamo_id",
         "plan_pago_id",
         "cliente_id",
+        "grupo_id",
+        "grupo_plan_pago_id",
         "nro_cuota",
         "monto",
         "interes",

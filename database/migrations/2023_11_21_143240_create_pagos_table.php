@@ -16,9 +16,12 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("prestamo_id");
-            $table->unsignedBigInteger("plan_pago_id");
-            $table->unsignedBigInteger("cliente_id");
+            $table->string("tipo_prestamo", 155)->nullable();
+            $table->unsignedBigInteger("prestamo_id")->nullable();
+            $table->unsignedBigInteger("plan_pago_id")->nullable();
+            $table->unsignedBigInteger("cliente_id")->nullable();
+            $table->unsignedBigInteger("grupo_id")->nullable();
+            $table->unsignedBigInteger("grupo_plan_pago_id")->nullable();
             $table->integer("nro_cuota");
             $table->decimal("monto", 24, 2);
             $table->decimal("interes", 24, 2);

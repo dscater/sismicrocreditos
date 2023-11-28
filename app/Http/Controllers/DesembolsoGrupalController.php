@@ -39,6 +39,8 @@ class DesembolsoGrupalController extends Controller
                     $pp->fecha_pago = $gpp->fecha_pago;
                     $pp->save();
                 }
+                $prestamo->desembolso = 1;
+                $prestamo->save();
             }
 
             // registrar movimiento de caja

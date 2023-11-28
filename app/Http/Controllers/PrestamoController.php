@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Grupo;
+use App\Models\GrupoPlanPago;
 use App\Models\Interes;
 use App\Models\PlanPago;
 use App\Models\Prestamo;
@@ -37,6 +39,39 @@ class PrestamoController extends Controller
             $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
             if ($dias_mora > 0) {
                 $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora;
+            }
+
+            // fin calcular monto mora
+            return response()->JSON([
+                "sw" => true,
+                "plan_pago" => $plan_pago,
+                "dias_mora" => $dias_mora,
+                "monto_mora" => $monto_mora,
+            ]);
+        } else {
+            return response()->JSON([
+                "sw" => false,
+                "message" => "No se encontró ningun pago para realizar"
+            ], 400);
+        }
+    }
+
+    public function get_pago_grupal(Grupo $grupo)
+    {
+        // obtener el primer pago
+        $dias_mora = 0;
+        $monto_mora = 0;
+        $plan_pago = GrupoPlanPago::where("grupo_id", $grupo->id)->where("cancelado", "NO")->orderBy("nro_cuota", "asc")->get()->first();
+
+        $grupo = $plan_pago->grupo;
+        if ($plan_pago) {
+            // VERIFICAR LOS DÍAS DE MORA
+            $fecha_actual = date("Y-m-d");
+            $fecha_pago = $plan_pago->fecha_pago;
+            // Obtener los días transcurridos
+            $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
+            if ($dias_mora > 0) {
+                $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;
             }
 
             // fin calcular monto mora

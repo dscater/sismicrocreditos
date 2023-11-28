@@ -110,6 +110,14 @@ export default new Router({
             name: "pagos.grupal",
             component: require("./components/modulos/pagos/grupal.vue").default,
         },
+        {
+            path: "/pagos/grupal/ver_pagos/:id",
+            name: "pagos.ver_pagos_grupal",
+            component:
+                require("./components/modulos/pagos/VerPagosIndividual.vue")
+                    .default,
+            props: true,
+        },
 
         // Configuración
         {

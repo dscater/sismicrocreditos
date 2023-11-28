@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos
+        Route::get("prestamos/get_pago_grupal/{grupo}", [PrestamoController::class, 'get_pago_grupal']);
         Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
         Route::post("prestamos/simulacion/simulacion_plan_pago", [PrestamoController::class, 'simulacion_plan_pago']);
         Route::resource('prestamos', PrestamoController::class)->only([
@@ -99,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // pagos
+        Route::post("pagos/store_grupal", [PagoController::class, 'store_grupal']);
         Route::resource('pagos', PagoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);

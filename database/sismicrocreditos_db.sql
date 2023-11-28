@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 28-11-2023 a las 15:16:53
+-- Tiempo de generación: 28-11-2023 a las 15:53:20
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -40,10 +40,10 @@ CREATE TABLE `cajas` (
 --
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
-(1, 'Pago por Cuotas', -19532.80, NULL, '2023-11-28 14:56:23'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-28 14:56:23'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-28 14:56:23'),
-(4, 'Intereses', 73.50, NULL, '2023-11-28 14:56:23');
+(1, 'Pago por Cuotas', -18754.13, NULL, '2023-11-28 15:51:26'),
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-28 15:51:26'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-11-28 15:51:26'),
+(4, 'Intereses', 196.00, NULL, '2023-11-28 15:51:26');
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,9 @@ INSERT INTO `caja_movimientos` (`id`, `caja_id`, `user_id`, `monto`, `tipo`, `gl
 (2, 1, 1, 4000.00, 'DEBITO', 'DESEMBOLSO', NULL, 1, NULL, '2023-11-24 02:44:24', '2023-11-24 02:44:24'),
 (3, 1, 1, 467.20, 'CRÉDITO', 'PAGO CUOTA PRESTAMO', NULL, 2, NULL, '2023-11-27 16:14:38', '2023-11-27 16:14:38'),
 (4, 4, 1, 73.50, 'CRÉDITO', 'INTERES', NULL, 2, NULL, '2023-11-27 16:14:38', '2023-11-27 16:14:38'),
-(5, 1, 1, 10000.00, 'DEBITO', 'DESEMBOLSO', 'GRUPAL', NULL, 3, '2023-11-28 14:56:23', '2023-11-28 14:56:23');
+(5, 1, 1, 10000.00, 'DEBITO', 'DESEMBOLSO', 'GRUPAL', NULL, 3, '2023-11-28 14:56:23', '2023-11-28 14:56:23'),
+(6, 1, 1, 778.67, 'CRÉDITO', 'PAGO CUOTA PRESTAMO', 'GRUPAL', NULL, 3, '2023-11-28 15:51:26', '2023-11-28 15:51:26'),
+(7, 4, 1, 122.50, 'CRÉDITO', 'INTERES', 'GRUPAL', NULL, 3, '2023-11-28 15:51:26', '2023-11-28 15:51:26');
 
 -- --------------------------------------------------------
 
@@ -171,29 +173,6 @@ INSERT INTO `grupos` (`id`, `user_id`, `nombre`, `integrantes`, `monto`, `plazo`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo_pagos`
---
-
-CREATE TABLE `grupo_pagos` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `grupo_id` bigint UNSIGNED NOT NULL,
-  `grupal_plan_pago_id` bigint UNSIGNED NOT NULL,
-  `cliente_id` bigint UNSIGNED NOT NULL,
-  `nro_cuota` int NOT NULL,
-  `monto` decimal(24,2) NOT NULL,
-  `interes` decimal(24,2) NOT NULL,
-  `dias_mora` int NOT NULL,
-  `monto_mora` decimal(24,2) DEFAULT NULL,
-  `monto_total` decimal(24,2) NOT NULL,
-  `fecha_pago` date NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `grupo_plan_pagos`
 --
 
@@ -217,7 +196,7 @@ CREATE TABLE `grupo_plan_pagos` (
 --
 
 INSERT INTO `grupo_plan_pagos` (`id`, `grupo_id`, `nro_cuota`, `saldo_inicial`, `capital`, `interes`, `saldo`, `cuota`, `cancelado`, `fecha_pago`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 10000.00, 778.67, 122.50, 9221.33, 901.17, 'NO', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
+(1, 3, 1, 10000.00, 778.67, 122.50, 9221.33, 901.17, 'SI', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 15:51:26'),
 (2, 3, 2, 9221.33, 788.20, 112.96, 8433.12, 901.17, 'NO', '2023-12-12', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (3, 3, 3, 8433.13, 797.86, 103.31, 7635.27, 901.17, 'NO', '2023-12-19', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (4, 3, 4, 7635.27, 807.63, 93.53, 6827.64, 901.17, 'NO', '2023-12-26', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
@@ -297,7 +276,8 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (43, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>cI_exp: LP<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:09:55<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>cI_exp: LP<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:10:27<br/>', 'USUARIOS', '2023-11-28', '11:10:27', '2023-11-28 15:10:27', '2023-11-28 15:10:27'),
 (44, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: LP<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:10:27<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: CB<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:11:34<br/>', 'USUARIOS', '2023-11-28', '11:11:34', '2023-11-28 15:11:34', '2023-11-28 15:11:34'),
 (45, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: CB<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:11:34<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: CB<br/>tipo: CAJERO<br/>foto: <br/>password: <br/>acceso: 1<br/>fecha_registro: 2023-11-22<br/>created_at: 2023-11-22 10:57:15<br/>updated_at: 2023-11-28 11:11:34<br/>', 'USUARIOS', '2023-11-28', '11:11:42', '2023-11-28 15:11:42', '2023-11-28 15:11:42'),
-(46, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 3<br/>usuario: NBURGOS<br/>nombre: NORMA ROXANA<br/>paterno: MAMANI<br/>materno: BURGOS<br/>ci: 4849549<br/>ci_exp: LP<br/>tipo: OFICIAL DE CRÉDITO<br/>foto: 1701184355_NBURGOS.jpg<br/>password: $2y$10$WsSoVwTbEbK64PcC8Q/7O.Zso4rlXLvViCZ6f2VmZt5opNgKOBUPe<br/>acceso: 1<br/>fecha_registro: 2023-11-28<br/>created_at: 2023-11-28 11:12:35<br/>updated_at: 2023-11-28 11:12:35<br/>', NULL, 'USUARIOS', '2023-11-28', '11:12:35', '2023-11-28 15:12:35', '2023-11-28 15:12:35');
+(46, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 3<br/>usuario: NBURGOS<br/>nombre: NORMA ROXANA<br/>paterno: MAMANI<br/>materno: BURGOS<br/>ci: 4849549<br/>ci_exp: LP<br/>tipo: OFICIAL DE CRÉDITO<br/>foto: 1701184355_NBURGOS.jpg<br/>password: $2y$10$WsSoVwTbEbK64PcC8Q/7O.Zso4rlXLvViCZ6f2VmZt5opNgKOBUPe<br/>acceso: 1<br/>fecha_registro: 2023-11-28<br/>created_at: 2023-11-28 11:12:35<br/>updated_at: 2023-11-28 11:12:35<br/>', NULL, 'USUARIOS', '2023-11-28', '11:12:35', '2023-11-28 15:12:35', '2023-11-28 15:12:35'),
+(47, 1, 'MODIFICACIÓN', 'EL USUARIO admin REGISTRO EL PAGO DE UN PRESTAMO GRUPAL', 'id: 2<br/>user_id: 1<br/>tipo_prestamo: GRUPAL<br/>prestamo_id: <br/>plan_pago_id: <br/>grupo_id: 3<br/>grupo_plan_pago_id: 1<br/>cliente_id: <br/>nro_cuota: 1<br/>monto: 778.67<br/>interes: 122.50<br/>dias_mora: -7<br/>monto_mora: 0<br/>monto_total: 901.17<br/>fecha_pago: 2023-11-28<br/>created_at: 2023-11-28 11:51:26<br/>updated_at: 2023-11-28 11:51:26<br/>', NULL, 'PAGOS', '2023-11-28', '11:51:26', '2023-11-28 15:51:26', '2023-11-28 15:51:26');
 
 -- --------------------------------------------------------
 
@@ -348,8 +328,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2023_11_21_143306_create_cajas_table', 2),
 (11, '2023_11_21_143314_create_caja_movimientos_table', 2),
 (12, '2023_11_22_233737_create_interes_table', 3),
-(15, '2023_11_27_175039_create_grupo_plan_pagos_table', 4),
-(16, '2023_11_27_175047_create_grupo_pagos_table', 4);
+(15, '2023_11_27_175039_create_grupo_plan_pagos_table', 4);
 
 -- --------------------------------------------------------
 
@@ -360,9 +339,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `pagos` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `prestamo_id` bigint UNSIGNED NOT NULL,
-  `plan_pago_id` bigint UNSIGNED NOT NULL,
-  `cliente_id` bigint UNSIGNED NOT NULL,
+  `tipo_prestamo` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prestamo_id` bigint UNSIGNED DEFAULT NULL,
+  `plan_pago_id` bigint UNSIGNED DEFAULT NULL,
+  `grupo_id` bigint UNSIGNED DEFAULT NULL,
+  `grupo_plan_pago_id` bigint UNSIGNED DEFAULT NULL,
+  `cliente_id` bigint UNSIGNED DEFAULT NULL,
   `nro_cuota` int NOT NULL,
   `monto` decimal(24,2) NOT NULL,
   `interes` decimal(24,2) NOT NULL,
@@ -378,8 +360,9 @@ CREATE TABLE `pagos` (
 -- Volcado de datos para la tabla `pagos`
 --
 
-INSERT INTO `pagos` (`id`, `user_id`, `prestamo_id`, `plan_pago_id`, `cliente_id`, `nro_cuota`, `monto`, `interes`, `dias_mora`, `monto_mora`, `monto_total`, `fecha_pago`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 13, 1, 1, 467.20, 73.50, -3, 0.00, 540.70, '2023-11-27', '2023-11-27 16:14:38', '2023-11-27 16:14:38');
+INSERT INTO `pagos` (`id`, `user_id`, `tipo_prestamo`, `prestamo_id`, `plan_pago_id`, `grupo_id`, `grupo_plan_pago_id`, `cliente_id`, `nro_cuota`, `monto`, `interes`, `dias_mora`, `monto_mora`, `monto_total`, `fecha_pago`, `created_at`, `updated_at`) VALUES
+(1, 1, 'INDIVIDUAL', 2, 13, NULL, NULL, 1, 1, 467.20, 73.50, -3, 0.00, 540.70, '2023-11-27', '2023-11-27 16:14:38', '2023-11-27 16:14:38'),
+(2, 1, 'GRUPAL', NULL, NULL, 3, 1, NULL, 1, 778.67, 122.50, -7, 0.00, 901.17, '2023-11-28', '2023-11-28 15:51:26', '2023-11-28 15:51:26');
 
 -- --------------------------------------------------------
 
@@ -461,7 +444,7 @@ INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `ca
 (34, 3, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
 (35, 3, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
 (36, 3, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', NULL, '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
-(73, 7, 1, 4000.00, 311.47, 49.00, 3688.53, 360.47, 'NO', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
+(73, 7, 1, 4000.00, 311.47, 49.00, 3688.53, 360.47, 'SI', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 15:51:26'),
 (74, 7, 2, 3688.53, 315.28, 45.18, 3373.25, 360.47, 'NO', '2023-12-12', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (75, 7, 3, 3373.25, 319.14, 41.32, 3054.11, 360.47, 'NO', '2023-12-19', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (76, 7, 4, 3054.11, 323.05, 37.41, 2731.06, 360.47, 'NO', '2023-12-26', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
@@ -473,7 +456,7 @@ INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `ca
 (82, 7, 10, 1055.46, 347.54, 12.93, 707.92, 360.47, 'NO', '2024-02-06', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (83, 7, 11, 707.92, 351.79, 8.67, 356.13, 360.47, 'NO', '2024-02-13', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (84, 7, 12, 356.13, 356.13, 4.36, 0.00, 360.47, 'NO', '2024-02-20', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
-(85, 8, 1, 6000.00, 467.20, 73.50, 5532.80, 540.70, 'NO', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
+(85, 8, 1, 6000.00, 467.20, 73.50, 5532.80, 540.70, 'SI', '2023-12-05', '2023-11-27 21:59:45', '2023-11-28 15:51:26'),
 (86, 8, 2, 5532.80, 472.92, 67.78, 5059.88, 540.70, 'NO', '2023-12-12', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (87, 8, 3, 5059.88, 478.71, 61.98, 4581.17, 540.70, 'NO', '2023-12-19', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
 (88, 8, 4, 4581.17, 484.58, 56.12, 4096.59, 540.70, 'NO', '2023-12-26', '2023-11-27 21:59:45', '2023-11-28 14:56:23'),
@@ -525,8 +508,8 @@ INSERT INTO `prestamos` (`id`, `user_id`, `cliente_id`, `tipo`, `grupo_id`, `mon
 (1, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
 (2, 1, 1, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', 'documento 2', 'documento #3', 'doc. #4', 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
 (3, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'papeles del coche', NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, '2023-11-23', '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
-(7, 1, 7, 'GRUPAL', 3, 4000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 0, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45'),
-(8, 1, 8, 'GRUPAL', 3, 6000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 0, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45');
+(7, 1, 7, 'GRUPAL', 3, 4000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45'),
+(8, 1, 8, 'GRUPAL', 3, 6000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45');
 
 -- --------------------------------------------------------
 
@@ -594,12 +577,6 @@ ALTER TABLE `configuracions`
 ALTER TABLE `grupos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `grupos_nombre_unique` (`nombre`);
-
---
--- Indices de la tabla `grupo_pagos`
---
-ALTER TABLE `grupo_pagos`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `grupo_plan_pagos`
@@ -674,7 +651,7 @@ ALTER TABLE `cajas`
 -- AUTO_INCREMENT de la tabla `caja_movimientos`
 --
 ALTER TABLE `caja_movimientos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -695,12 +672,6 @@ ALTER TABLE `grupos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `grupo_pagos`
---
-ALTER TABLE `grupo_pagos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `grupo_plan_pagos`
 --
 ALTER TABLE `grupo_plan_pagos`
@@ -710,7 +681,7 @@ ALTER TABLE `grupo_plan_pagos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `interes`
@@ -728,7 +699,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`

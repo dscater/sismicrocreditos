@@ -211,7 +211,7 @@ export default {
             axios
                 .get(main_url + "/admin/prestamos/grupal/grupo_nombre", {
                     params: {
-                        ci: this.txt_nombre,
+                        nombre: this.txt_nombre,
                     },
                 })
                 .then((response) => {

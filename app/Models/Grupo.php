@@ -65,6 +65,6 @@ class Grupo extends Model
 
     public function grupo_pagos()
     {
-        return $this->hasMany(GrupoPago::class, 'grupo_id');
+        return $this->hasMany(Pago::class, 'grupo_id');
     }
 }
