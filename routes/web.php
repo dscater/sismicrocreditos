@@ -7,6 +7,7 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DesembolsoController;
 use App\Http\Controllers\DesembolsoGrupalController;
 use App\Http\Controllers\DesembolsoIndividualController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PrestamoController;
@@ -102,6 +103,11 @@ Route::middleware(['auth'])->group(function () {
         // pagos
         Route::post("pagos/store_grupal", [PagoController::class, 'store_grupal']);
         Route::resource('pagos', PagoController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // grupos
+        Route::resource('grupos', GrupoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
 

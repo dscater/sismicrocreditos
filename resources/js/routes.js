@@ -114,7 +114,7 @@ export default new Router({
             path: "/pagos/grupal/ver_pagos/:id",
             name: "pagos.ver_pagos_grupal",
             component:
-                require("./components/modulos/pagos/VerPagosIndividual.vue")
+                require("./components/modulos/pagos/VerPagosGrupal.vue")
                     .default,
             props: true,
         },

@@ -50,14 +50,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12" v-if="oPrestamo.pagos.length > 0">
+                    <div class="col-md-12" v-if="oPrestamo?.pagos?.length > 0">
                         <h4 class="w-100 text-center">
                             LISTA DE PAGOS REALIZADOS
                         </h4>
                     </div>
                     <div
                         class="col-md-12"
-                        v-if="oPrestamo.pagos.length > 0"
+                        v-if="oPrestamo?.pagos?.length > 0"
                         v-for="item in oPrestamo.pagos"
                     >
                         <div class="card">

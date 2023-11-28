@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Pagos Individual > Ver Pagos</h1>
+                        <h1>Pagos Grupal > Ver Pagos</h1>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                         <router-link
                             class="btn btn-default btn-flat btn-block"
                             :to="{
-                                name: 'pagos.individual',
+                                name: 'pagos.grupal',
                             }"
                         >
                             <i class="fa fa-arrow-left"></i> Volver
@@ -30,35 +30,43 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p>
-                                            <strong>Cliente: </strong>
-                                            {{ oPrestamo.cliente.full_name }}
+                                            <strong>Nombre del grupo: </strong>
+                                            {{ oGrupo?.nombre }}
                                         </p>
-                                        <p>
-                                            <strong>C.I.: </strong>
-                                            {{ oPrestamo.cliente.full_ci }}
-                                        </p>
+                                        <p><strong>Integrantes: </strong></p>
+                                        <ul>
+                                            <li
+                                                v-for="item in oGrupo?.prestamos"
+                                            >
+                                                {{ item.cliente.full_name }} -
+                                                {{ item.cliente.full_ci }}
+                                            </li>
+                                        </ul>
                                         <p>
                                             <strong>Monto: </strong
-                                            >{{ oPrestamo.monto }}
+                                            >{{ oGrupo?.monto }}
                                         </p>
-                                        <p class="mb-0">
+                                        <p>
                                             <strong>Plazo: </strong>
-                                            {{ oPrestamo.plazo }}
+                                            {{ oGrupo?.plazo }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12" v-if="oPrestamo.pagos.length > 0">
+                    <div
+                        class="col-md-12"
+                        v-if="oGrupo?.grupo_pagos.length > 0"
+                    >
                         <h4 class="w-100 text-center">
                             LISTA DE PAGOS REALIZADOS
                         </h4>
                     </div>
                     <div
                         class="col-md-12"
-                        v-if="oPrestamo.pagos.length > 0"
-                        v-for="item in oPrestamo.pagos"
+                        v-if="oGrupo?.grupo_pagos.length > 0"
+                        v-for="item in oGrupo?.grupo_pagos"
                     >
                         <div class="card">
                             <div class="card-body">
@@ -129,57 +137,26 @@ export default {
             loadingWindow: Loading.service({
                 fullscreen: this.fullscreenLoading,
             }),
-            listPrestamos: [],
-            oPrestamo: {
-                user_id: "",
-                cliente_id: "",
-                tipo: "",
-                grupo_id: "",
-                monto: "",
-                plazo: "",
-                f_ci: "",
-                f_luz: "",
-                f_agua: "",
-                croquis: "",
-                documento_1: "",
-                documento_2: "",
-                documento_3: "",
-                documento_4: "",
-                estado: "",
-                desembolso: "",
-                fecha_desembolso: "",
-                fecha_registro: "",
-                finalizado: "",
-                cliente: {
-                    nombre: "",
-                    segundo_nombre: "",
-                    paterno: "",
-                    materno: "",
-                    dir: "",
-                    ci: "",
-                    ci_exp: "",
-                    cel: "",
-                    fono: "",
-                    edad: "",
-                    referencia: "",
-                    cel_ref: "",
-                    parentesco: "",
-                    fecha_registro: "",
-                    full_name: "",
-                },
+            oGrupo: {
+                nombre: "",
+                integrantes: 3,
+                monto: 0,
+                plazo: 12,
+                grupo_pagos: [],
+                prestamos: [],
             },
         };
     },
     mounted() {
         this.loadingWindow.close();
-        this.getPrestamo();
+        this.getGrupo();
     },
     methods: {
-        getPrestamo() {
+        getGrupo() {
             axios
-                .get(main_url + "/admin/prestamos/" + this.id)
+                .get(main_url + "/admin/grupos/" + this.id)
                 .then((response) => {
-                    this.oPrestamo = response.data.prestamo;
+                    this.oGrupo = response.data.grupo;
                 });
         },
     },

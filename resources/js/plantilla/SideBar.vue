@@ -93,7 +93,8 @@
                         :class="[
                             $route.name == 'pagos.individual' ||
                             $route.name == 'pagos.grupal' ||
-                            $route.name == 'pagos.ver_pagos_individual'
+                            $route.name == 'pagos.ver_pagos_individual' ||
+                            $route.name == 'pagos.ver_pagos_grupal'
                                 ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
@@ -111,7 +112,9 @@
                                 display:
                                     $route.name == 'pagos.individual' ||
                                     $route.name == 'pagos.grupal' ||
-                                    $route.name == 'pagos.ver_pagos_individual'
+                                    $route.name ==
+                                        'pagos.ver_pagos_individual' ||
+                                    $route.name == 'pagos.ver_pagos_grupal'
                                         ? 'block'
                                         : 'none',
                             }"
@@ -147,6 +150,12 @@
                                     exact
                                     :to="{ name: 'pagos.grupal' }"
                                     class="nav-link"
+                                    :class="[
+                                        $route.name == 'pagos.grupal' ||
+                                        $route.name == 'pagos.ver_pagos_grupal'
+                                            ? 'active'
+                                            : '',
+                                    ]"
                                     v-loading.fullscreen.lock="
                                         fullscreenLoading
                                     "
