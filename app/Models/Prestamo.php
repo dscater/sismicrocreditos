@@ -11,6 +11,7 @@ class Prestamo extends Model
 
     protected $fillable = [
         "user_id",
+        "user_desembolso_id",
         "cliente_id",
         "tipo",
         "grupo_id",
@@ -31,7 +32,16 @@ class Prestamo extends Model
         "finalizado"
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago"];
+
+    public function getUltimaFechaPagoAttribute()
+    {
+        $ultimo_plan = PlanPago::where("prestamo_id", $this->id)->orderBy("nro_cuota", "desc")->get()->first();
+        if ($ultimo_plan->fecha_pago) {
+            return date("d/m/Y", strtotime($ultimo_plan->fecha_pago));
+        }
+        return "S/D";
+    }
 
     public function getNroPagosRealizadosAttribute()
     {
@@ -66,6 +76,11 @@ class Prestamo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function user_desembolso()
+    {
+        return $this->belongsTo(User::class, 'user_desembolso_id');
     }
 
     public function cliente()

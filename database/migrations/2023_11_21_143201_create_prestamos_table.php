@@ -16,6 +16,7 @@ class CreatePrestamosTable extends Migration
         Schema::create('prestamos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_desembolso_id")->nullable();
             $table->unsignedBigInteger("cliente_id");
             $table->string("tipo", 155);
             $table->unsignedBigInteger("grupo_id")->nullable();

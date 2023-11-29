@@ -16,6 +16,7 @@ class CreateGruposTable extends Migration
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_desembolso_id")->nullable();
             $table->string("nombre", 255)->unique();
             $table->integer("integrantes");
             $table->decimal("monto", 24, 2);

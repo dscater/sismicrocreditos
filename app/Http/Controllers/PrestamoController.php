@@ -130,7 +130,7 @@ class PrestamoController extends Controller
             $array_monto = explode('.', $datos["monto"]);
             $literal = $convertir->convertir($array_monto[0]);
             $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
-            $pdf = PDF::loadView('reportes.plan_pago', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal"))->setPaper('letter', 'portrait');
+            $pdf = PDF::loadView('reportes.plan_pago', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "valor_interes"))->setPaper('letter', 'portrait');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
             $pdf->output();
@@ -174,7 +174,7 @@ class PrestamoController extends Controller
                 $grupo = Grupo::find($datos["id"]);
             }
 
-            $pdf = PDF::loadView('reportes.plan_pago_grupal', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "grupo", "convertir"))->setPaper('letter', 'portrait');
+            $pdf = PDF::loadView('reportes.plan_pago_grupal', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "valor_interes", "grupo", "convertir"))->setPaper('letter', 'portrait');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
             $pdf->output();
@@ -191,6 +191,42 @@ class PrestamoController extends Controller
             ], 400);
         }
     }
+
+    public function contrato_individual(Prestamo $prestamo)
+    {
+        try {
+            $interes = Interes::get()->last();
+            $valor_interes = 4.9;
+            if ($interes) {
+                $valor_interes = (float)$interes->interes;
+            }
+
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $prestamo->monto);
+            $literal = $convertir->convertir($array_monto[0]);
+            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+            $pdf = PDF::loadView('reportes.contrato_individual', compact('prestamo', "literal", "valor_interes"))->setPaper('legal', 'portrait');
+
+            // ENUMERAR LAS PÁGINAS USANDO CANVAS
+            $pdf->output();
+            $dom_pdf = $pdf->getDomPDF();
+            $canvas = $dom_pdf->get_canvas();
+            $alto = $canvas->get_height();
+            $ancho = $canvas->get_width();
+            $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+            return $pdf->download('PlanPagoSimulacion.pdf');
+        } catch (\Exception $e) {
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function contrato_grupal(Grupo $grupo)
+    {
+    }
+
     public static function armarDatos($request)
     {
         $datos = [

@@ -26,6 +26,7 @@ class DesembolsoGrupalController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
+            $grupo->user_desembolso_id = Auth::user()->id;
             $grupo->desembolso = 1;
             $grupo->save();
             // registrar las fechas de pagos
@@ -46,6 +47,7 @@ class DesembolsoGrupalController extends Controller
                     $pp->fecha_pago = $gpp->fecha_pago;
                     $pp->save();
                 }
+                $prestamo->user_desembolso_id = Auth::user()->id;
                 $prestamo->desembolso = 1;
                 $prestamo->save();
             }

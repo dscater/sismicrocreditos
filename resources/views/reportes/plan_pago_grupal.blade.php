@@ -183,7 +183,7 @@
                 <td class="bold gray">Plazo: </td>
                 <td>{{ $datos['plazo'] }} cuotas</td>
                 <td class="bold gray">Interés: </td>
-                <td>4.9%</td>
+                <td>{{ $valor_interes }}%</td>
             </tr>
         </tbody>
     </table>
@@ -249,7 +249,7 @@
                         <td class="bold gray">Plazo: </td>
                         <td>{{ $prestamo->plazo }} cuotas</td>
                         <td class="bold gray">Interés: </td>
-                        <td>4.9%</td>
+                        <td>{{ $valor_interes }}%</td>
                     </tr>
                 </tbody>
             </table>

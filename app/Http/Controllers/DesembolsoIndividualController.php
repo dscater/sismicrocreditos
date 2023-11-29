@@ -24,6 +24,7 @@ class DesembolsoIndividualController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
+            $prestamo->user_desembolso_id = Auth::user()->id;
             $prestamo->desembolso = 1;
             $prestamo->save();
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-11-2023 a las 15:41:39
+-- Tiempo de generación: 29-11-2023 a las 16:24:13
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -41,9 +41,9 @@ CREATE TABLE `cajas` (
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
 (1, 'Pago por Cuotas', 1245.87, NULL, '2023-11-29 14:29:40'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-29 15:07:11'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-29 15:07:11'),
-(4, 'Intereses', 196.00, NULL, '2023-11-29 15:07:11');
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-29 16:24:05'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-11-29 16:24:05'),
+(4, 'Intereses', 196.00, NULL, '2023-11-29 16:24:05');
 
 -- --------------------------------------------------------
 
@@ -154,6 +154,7 @@ INSERT INTO `configuracions` (`id`, `nombre_sistema`, `alias`, `razon_social`, `
 CREATE TABLE `grupos` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
+  `user_desembolso_id` bigint UNSIGNED DEFAULT NULL,
   `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `integrantes` int NOT NULL,
   `monto` decimal(24,2) NOT NULL,
@@ -170,8 +171,8 @@ CREATE TABLE `grupos` (
 -- Volcado de datos para la tabla `grupos`
 --
 
-INSERT INTO `grupos` (`id`, `user_id`, `nombre`, `integrantes`, `monto`, `plazo`, `desembolso`, `fecha_desembolso`, `estado`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(3, 1, 'GRUPO 1', 2, 10000.00, 12, 1, '2023-11-28', 'APROBADO', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:56:23');
+INSERT INTO `grupos` (`id`, `user_id`, `user_desembolso_id`, `nombre`, `integrantes`, `monto`, `plazo`, `desembolso`, `fecha_desembolso`, `estado`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(3, 1, 1, 'GRUPO 1', 2, 10000.00, 12, 1, '2023-11-28', 'APROBADO', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:56:23');
 
 -- --------------------------------------------------------
 
@@ -483,6 +484,7 @@ INSERT INTO `plan_pagos` (`id`, `prestamo_id`, `nro_cuota`, `saldo_inicial`, `ca
 CREATE TABLE `prestamos` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
+  `user_desembolso_id` bigint UNSIGNED DEFAULT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
   `tipo` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `grupo_id` bigint UNSIGNED DEFAULT NULL,
@@ -509,12 +511,12 @@ CREATE TABLE `prestamos` (
 -- Volcado de datos para la tabla `prestamos`
 --
 
-INSERT INTO `prestamos` (`id`, `user_id`, `cliente_id`, `tipo`, `grupo_id`, `monto`, `plazo`, `f_ci`, `f_luz`, `f_agua`, `croquis`, `documento_1`, `documento_2`, `documento_3`, `documento_4`, `estado`, `desembolso`, `finalizado`, `fecha_desembolso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
-(2, 1, 1, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', 'documento 2', 'documento #3', 'doc. #4', 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
-(3, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'papeles del coche', NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, '2023-11-23', '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
-(7, 1, 7, 'GRUPAL', 3, 4000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45'),
-(8, 1, 8, 'GRUPAL', 3, 6000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45');
+INSERT INTO `prestamos` (`id`, `user_id`, `user_desembolso_id`, `cliente_id`, `tipo`, `grupo_id`, `monto`, `plazo`, `f_ci`, `f_luz`, `f_agua`, `croquis`, `documento_1`, `documento_2`, `documento_3`, `documento_4`, `estado`, `desembolso`, `finalizado`, `fecha_desembolso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:05:08', '2023-11-24 02:44:24'),
+(2, 1, 1, 1, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, 'documentos de vehiculo', 'documento 2', 'documento #3', 'doc. #4', 'APROBADO', 1, 0, '2023-11-23', '2023-11-23', '2023-11-23 13:08:00', '2023-11-23 15:55:22'),
+(3, 1, NULL, 3, 'INDIVIDUAL', NULL, 4000.00, 12, 1, 1, 1, 1, 'papeles del coche', NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, '2023-11-23', '2023-11-24 02:41:18', '2023-11-24 02:41:18'),
+(7, 1, 1, 7, 'GRUPAL', 3, 4000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45'),
+(8, 1, 1, 8, 'GRUPAL', 3, 6000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2023-11-29', '2023-11-27', '2023-11-27 21:59:45', '2023-11-28 14:31:45');
 
 -- --------------------------------------------------------
 

@@ -174,13 +174,14 @@
             </tr>
             <tr>
                 <td class="bold gray" width="8%">Monto: </td>
-                <td colspan="3">{{ number_format($datos['monto'], 2, '.', ',') }} <span class="literal">({{ $literal }})</span></td>
+                <td colspan="3">{{ number_format($datos['monto'], 2, '.', ',') }} <span
+                        class="literal">({{ $literal }})</span></td>
             </tr>
             <tr>
                 <td class="bold gray">Plazo: </td>
                 <td>{{ $datos['plazo'] }} cuotas</td>
                 <td class="bold gray">Interés: </td>
-                <td>4.9%</td>
+                <td>{{ $valor_interes }}%</td>
             </tr>
         </tbody>
     </table>

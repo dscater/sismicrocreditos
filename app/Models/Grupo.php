@@ -11,6 +11,7 @@ class Grupo extends Model
 
     protected $fillable = [
         "user_id",
+        "user_desembolso_id",
         "nombre",
         "integrantes",
         "monto",
@@ -51,6 +52,16 @@ class Grupo extends Model
     public function getFechaRegistroTAttribute()
     {
         return date("d-m-Y", strtotime($this->fecha_registro));
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function user_desembolso()
+    {
+        return $this->belongsTo(User::class, 'user_desembolso_id');
     }
 
     public function prestamos()
