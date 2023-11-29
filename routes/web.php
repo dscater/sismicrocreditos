@@ -63,7 +63,8 @@ Route::middleware(['auth'])->group(function () {
         // prestamos
         Route::get("prestamos/get_pago_grupal/{grupo}", [PrestamoController::class, 'get_pago_grupal']);
         Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
-        Route::post("prestamos/simulacion/simulacion_plan_pago", [PrestamoController::class, 'simulacion_plan_pago']);
+        Route::post("prestamos/simulacion/plan_pago_grupal", [PrestamoController::class, 'plan_pago_grupal']);
+        Route::post("prestamos/simulacion/plan_pago_individual", [PrestamoController::class, 'plan_pago_individual']);
         Route::resource('prestamos', PrestamoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);

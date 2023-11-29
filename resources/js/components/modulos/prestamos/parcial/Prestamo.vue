@@ -1280,7 +1280,7 @@ export default {
             axios
                 .post(
                     main_url +
-                        "/admin/prestamos/simulacion/simulacion_plan_pago",
+                        "/admin/prestamos/simulacion/plan_pago_individual",
                     this.prestamo,
                     config
                 )

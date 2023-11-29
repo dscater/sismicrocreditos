@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-11-2023 a las 14:51:03
+-- Tiempo de generación: 29-11-2023 a las 15:41:39
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -41,9 +41,9 @@ CREATE TABLE `cajas` (
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
 (1, 'Pago por Cuotas', 1245.87, NULL, '2023-11-29 14:29:40'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-29 14:50:53'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-29 14:50:53'),
-(4, 'Intereses', 196.00, NULL, '2023-11-29 14:50:53');
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-29 15:07:11'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-11-29 15:07:11'),
+(4, 'Intereses', 196.00, NULL, '2023-11-29 15:07:11');
 
 -- --------------------------------------------------------
 

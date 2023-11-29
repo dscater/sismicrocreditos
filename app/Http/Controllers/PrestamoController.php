@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PDF;
+use App\library\numero_a_letras\src\NumeroALetras;
 
 class PrestamoController extends Controller
 {
@@ -103,7 +104,7 @@ class PrestamoController extends Controller
         }
     }
 
-    public function simulacion_plan_pago(Request $request)
+    public function plan_pago_individual(Request $request)
     {
         $datos = self::armarDatos($request);
 
@@ -125,7 +126,11 @@ class PrestamoController extends Controller
             $cuota_fija = self::getCuotaFija($datos["monto"], $datos["plazo"], $interes_semanal);
             $plan_pago = self::getPlanPago($datos["monto"], $datos["plazo"], $cuota_fija, $interes_semanal);
 
-            $pdf = PDF::loadView('reportes.plan_pago_simulacion', compact('datos', "interes_semanal", "cuota_fija", "plan_pago"))->setPaper('letter', 'portrait');
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $datos["monto"]);
+            $literal = $convertir->convertir($array_monto[0]);
+            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+            $pdf = PDF::loadView('reportes.plan_pago', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal"))->setPaper('letter', 'portrait');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
             $pdf->output();
@@ -143,6 +148,49 @@ class PrestamoController extends Controller
         }
     }
 
+    public function plan_pago_grupal(Request $request)
+    {
+        $datos = PrestamoGrupalController::armarDatos($request);
+        try {
+            $interes = Interes::get()->last();
+            $valor_interes = 4.9;
+            if ($interes) {
+                $valor_interes = (float)$interes->interes;
+            }
+            $interes_semanal = ($valor_interes / 4) / 100;
+            $interes_semanal = round($interes_semanal, 5);
+            $interes_semanal = (float)$interes_semanal;
+            $cuota_fija = self::getCuotaFija($datos["monto"], $datos["plazo"], $interes_semanal);
+            $plan_pago = self::getPlanPago($datos["monto"], $datos["plazo"], $cuota_fija, $interes_semanal);
+
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $datos["monto"]);
+            $literal = $convertir->convertir($array_monto[0]);
+            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+
+            $id = 0;
+            $grupo = null;
+            if ($datos["id"] != 0) {
+                $grupo = Grupo::find($datos["id"]);
+            }
+
+            $pdf = PDF::loadView('reportes.plan_pago_grupal', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "grupo", "convertir"))->setPaper('letter', 'portrait');
+
+            // ENUMERAR LAS PÁGINAS USANDO CANVAS
+            $pdf->output();
+            $dom_pdf = $pdf->getDomPDF();
+            $canvas = $dom_pdf->get_canvas();
+            $alto = $canvas->get_height();
+            $ancho = $canvas->get_width();
+            $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+            return $pdf->download('PlanPagoSimulacion.pdf');
+        } catch (\Exception $e) {
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+    }
     public static function armarDatos($request)
     {
         $datos = [

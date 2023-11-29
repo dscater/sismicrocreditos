@@ -158,7 +158,7 @@ class PrestamoGrupalController extends Controller
                 $cuota_fija = PrestamoController::getCuotaFija($dp["monto"], $grupo->plazo, $interes_semanal);
                 $plan_pago = PrestamoController::getPlanPago($dp["monto"], $grupo->plazo, $cuota_fija, $interes_semanal);
 
-                if ($dp["registrar_como"] == "NUEVO") {
+                if (isset($dp["registrar_como"]) && $dp["registrar_como"] == "NUEVO") {
                     $cliente = Cliente::create([
                         "nombre" => mb_strtoupper($dp["cliente"]["nombre"]),
                         "segundo_nombre" => mb_strtoupper($dp["cliente"]["segundo_nombre"]),
@@ -254,6 +254,7 @@ class PrestamoGrupalController extends Controller
     public static function armarDatos($request)
     {
         $datos = [
+            "id" => isset($request->id) ? $request->id : 0,
             "nombre" => $request->nombre,
             "integrantes" => $request->integrantes,
             "monto" => $request->monto,
@@ -263,7 +264,7 @@ class PrestamoGrupalController extends Controller
         if ($request["prestamos"]) {
             foreach ($request["prestamos"] as $prestamo) {
                 $datos["prestamos"][] = [
-                    "registrar_como" => $prestamo["registrar_como"],
+                    "registrar_como" => isset($prestamo["registrar_como"]) ? $prestamo["registrar_como"] : '',
                     "user_id" => $prestamo["user_id"],
                     "cliente_id" => $prestamo["cliente_id"],
                     "tipo" => $prestamo["tipo"],

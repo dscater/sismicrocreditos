@@ -133,7 +133,6 @@ class PrestamoIndividualController extends Controller
             $cuota_fija = PrestamoController::getCuotaFija($datos["monto"], $datos["plazo"], $interes_semanal);
             $plan_pago = PrestamoController::getPlanPago($datos["monto"], $datos["plazo"], $cuota_fija, $interes_semanal);
 
-
             if ($datos["registrar_como"] == "NUEVO") {
                 $cliente = Cliente::create([
                     "nombre" => mb_strtoupper($datos["cliente"]["nombre"]),

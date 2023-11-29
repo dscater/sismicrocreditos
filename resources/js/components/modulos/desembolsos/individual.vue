@@ -100,14 +100,6 @@
                                                     </td>
                                                     <td>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-primary"
-                                                        >
-                                                            <i
-                                                                class="fa fa-file-pdf"
-                                                            ></i>
-                                                            Plan de Pago
-                                                        </button>
-                                                        <button
                                                             class="inline-block btn btn-xs btn-success"
                                                             v-if="
                                                                 item.sw_desembolso &&

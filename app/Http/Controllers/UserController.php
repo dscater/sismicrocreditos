@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ActividadContingencia;
 use App\Models\AmenazaSeguridad;
 use App\Models\Caja;
+use App\Models\Grupo;
 use App\Models\HistorialAccion;
 use App\Models\PlanContingencia;
 use App\Models\Prestamo;
@@ -311,7 +312,7 @@ class UserController extends Controller
             'label' => 'Pago por Cuotas',
             'cantidad' => $saldo,
             'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => ""
+            "url" => "cajas.index"
         ];
 
         $saldo = Caja::find(2)->saldo;
@@ -319,7 +320,7 @@ class UserController extends Controller
             'label' => 'Gastos Administrativos',
             'cantidad' => $saldo,
             'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => ""
+            "url" => "cajas.index"
         ];
 
         $saldo = Caja::find(3)->saldo;
@@ -327,7 +328,7 @@ class UserController extends Controller
             'label' => 'Cargos por Multa',
             'cantidad' => $saldo,
             'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => ""
+            "url" => "cajas.index"
         ];
 
         $saldo = Caja::find(4)->saldo;
@@ -335,7 +336,7 @@ class UserController extends Controller
             'label' => 'Intereses',
             'cantidad' => $saldo,
             'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => ""
+            "url" => "cajas.index"
         ];
 
         if (in_array('usuarios.index', $this->permisos[$tipo])) {
@@ -359,7 +360,7 @@ class UserController extends Controller
         if (in_array('prestamos.grupal', $this->permisos[$tipo])) {
             $array_infos[] = [
                 'label' => 'Préstamos grupal',
-                'cantidad' => count(Prestamo::where('tipo', 'GRUPAL')->where("estado", "!=", "RECHAZADO")->get()),
+                'cantidad' => count(Grupo::all()),
                 'icon' => asset("imgs/icon_inscripcion.png"),
                 "url" => "prestamos.grupal"
             ];

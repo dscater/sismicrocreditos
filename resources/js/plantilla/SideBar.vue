@@ -246,7 +246,8 @@
                         :class="[
                             $route.name == 'prestamos.individual' ||
                             $route.name == 'prestamos.grupal' ||
-                            $route.name == 'prestamos.individual_nuevo'
+                            $route.name == 'prestamos.individual_nuevo'||
+                            $route.name == 'prestamos.grupal_nuevo'
                                 ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
