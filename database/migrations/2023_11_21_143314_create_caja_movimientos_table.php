@@ -23,6 +23,7 @@ class CreateCajaMovimientosTable extends Migration
             $table->string("tipo_prestamo", 155)->nullable();
             $table->unsignedBigInteger("prestamo_id")->nullable();
             $table->unsignedBigInteger("grupo_id")->nullable();
+            $table->date("fecha_registro")->nullable();
             $table->timestamps();
         });
     }

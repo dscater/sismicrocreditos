@@ -43,6 +43,13 @@ export default new Router({
                 .default,
         },
 
+        // Cajas
+        {
+            path: "/caja",
+            name: "cajas.index",
+            component: require("./components/modulos/cajas/index.vue").default,
+        },
+
         // Prestamos
         // individual
         {
@@ -113,9 +120,8 @@ export default new Router({
         {
             path: "/pagos/grupal/ver_pagos/:id",
             name: "pagos.ver_pagos_grupal",
-            component:
-                require("./components/modulos/pagos/VerPagosGrupal.vue")
-                    .default,
+            component: require("./components/modulos/pagos/VerPagosGrupal.vue")
+                .default,
             props: true,
         },
 

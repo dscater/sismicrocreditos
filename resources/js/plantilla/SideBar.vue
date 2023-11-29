@@ -319,10 +319,13 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <router-link
+                            :to="{ name: 'cajas.index' }"
+                            class="nav-link"
+                        >
                             <i class="fa fa-cash-register nav-icon"></i>
                             <p>Caja</p>
-                        </a>
+                        </router-link>
                     </li>
                     <li
                         class="nav-item"

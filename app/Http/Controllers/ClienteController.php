@@ -42,22 +42,6 @@ class ClienteController extends Controller
         'parentesco.required' => 'Este campo es obligatorio',
     ];
 
-    public $permisos = [
-        'ADMINISTRADOR' => [
-            'clientes.index',
-            'clientes.create',
-            'clientes.edit',
-            'clientes.destroy',
-
-            'configuracion.index',
-            'configuracion.edit',
-
-            "reportes.clientes",
-        ],
-        "GERENTE" => [],
-    ];
-
-
     public function index(Request $request)
     {
         $clientes = Cliente::orderBy("id", "desc")->get();

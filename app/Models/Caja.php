@@ -42,4 +42,27 @@ class Caja extends Model
         $caja->save();
         return true;
     }
+
+    public static function getSaldoTotal()
+    {
+        self::actualizaSaldos();
+        $suma_saldo = 0;
+        // Pagos por Cuotas
+        $caja = Caja::find(1);
+        $suma_saldo += (float)$caja->saldo;
+
+        // Gastos Administrativos
+        $caja = Caja::find(2);
+        $suma_saldo += (float)$caja->saldo;
+
+        // Cargos por Multa
+        $caja = Caja::find(3);
+        $suma_saldo += (float)$caja->saldo;
+
+        // Intereses
+        $caja = Caja::find(4);
+        $suma_saldo += (float)$caja->saldo;
+
+        return $suma_saldo;
+    }
 }

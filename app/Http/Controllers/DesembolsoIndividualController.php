@@ -39,6 +39,7 @@ class DesembolsoIndividualController extends Controller
                 "glosa" => "DESEMBOLSO",
                 "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $prestamo->id,
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             // actualizar saldos en cajas

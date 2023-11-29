@@ -18,7 +18,15 @@ class CajaMovimiento extends Model
         "tipo_prestamo",
         "prestamo_id",
         "grupo_id",
+        "fecha_registro",
     ];
+
+    protected $appends = ["fecha_registro_t"];
+    
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d-m-Y", strtotime($this->fecha_registro));
+    }
 
     public function caja()
     {

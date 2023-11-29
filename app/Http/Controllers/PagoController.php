@@ -44,6 +44,7 @@ class PagoController extends Controller
                 "glosa" => "PAGO CUOTA PRESTAMO",
                 "tipo_prestamo" => "GRUPAL",
                 "prestamo_id" => $pago->prestamo_id,
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             // registrar movimiento INTERES
@@ -55,6 +56,7 @@ class PagoController extends Controller
                 "glosa" => "INTERES",
                 "tipo_prestamo" => "GRUPAL",
                 "prestamo_id" => $pago->prestamo_id,
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             if ((int)$pago->dias_mora > 0) {
@@ -67,6 +69,7 @@ class PagoController extends Controller
                     "glosa" => "PAGO MORA",
                     "tipo_prestamo" => "GRUPAL",
                     "prestamo_id" => $pago->prestamo_id,
+                    "fecha_registro" => date("Y-m-d")
                 ]);
             }
 
@@ -128,6 +131,7 @@ class PagoController extends Controller
                 "glosa" => "PAGO CUOTA PRESTAMO",
                 "tipo_prestamo" => "GRUPAL",
                 "grupo_id" => $pago->grupo_id,
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             // registrar movimiento INTERES
@@ -139,6 +143,7 @@ class PagoController extends Controller
                 "glosa" => "INTERES",
                 "tipo_prestamo" => "GRUPAL",
                 "grupo_id" => $pago->grupo_id,
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             if ((int)$pago->dias_mora > 0) {
@@ -151,6 +156,7 @@ class PagoController extends Controller
                     "glosa" => "PAGO MORA",
                     "tipo_prestamo" => "GRUPAL",
                     "grupo_id" => $pago->grupo_id,
+                    "fecha_registro" => date("Y-m-d")
                 ]);
             }
 

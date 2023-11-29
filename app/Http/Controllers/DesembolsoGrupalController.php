@@ -52,6 +52,7 @@ class DesembolsoGrupalController extends Controller
                 "glosa" => "DESEMBOLSO",
                 "tipo_prestamo" => "GRUPAL",
                 "grupo_id" => $grupo->id,
+                "fecha_registro" => date("Y-m-d")
             ]);
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
