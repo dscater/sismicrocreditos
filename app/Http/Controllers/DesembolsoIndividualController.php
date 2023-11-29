@@ -6,6 +6,7 @@ use App\Models\Caja;
 use App\Models\CajaMovimiento;
 use App\Models\HistorialAccion;
 use App\Models\Prestamo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,12 @@ class DesembolsoIndividualController extends Controller
     {
         DB::beginTransaction();
         try {
+            // validar saldo desembolso en caja
+            $total_saldo_desembolso = Caja::getSaldoDesembolsos();
+            if ((float)$prestamo->monto > (float)$total_saldo_desembolso) {
+                throw new Exception("El monto para DESEMBOLSOS de " . $total_saldo_desembolso . ", no es suficiente para el monto solicitado de " . $prestamo->monto);
+            }
+
             $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
             $prestamo->desembolso = 1;
             $prestamo->save();

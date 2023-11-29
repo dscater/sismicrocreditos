@@ -7,6 +7,7 @@ use App\Models\CajaMovimiento;
 use App\Models\Grupo;
 use App\Models\HistorialAccion;
 use App\Models\PlanPago;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,12 @@ class DesembolsoGrupalController extends Controller
     {
         DB::beginTransaction();
         try {
+            // validar saldo desembolso en caja
+            $total_saldo_desembolso = Caja::getSaldoDesembolsos();
+            if ((float)$grupo->monto > (float)$total_saldo_desembolso) {
+                throw new Exception("El monto para DESEMBOLSOS de " . $total_saldo_desembolso . ", no es suficiente para el monto solicitado de " . $grupo->monto);
+            }
+
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             $grupo->desembolso = 1;
             $grupo->save();

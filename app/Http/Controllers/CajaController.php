@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Caja;
 use App\Models\CajaMovimiento;
 use App\Models\HistorialAccion;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class CajaController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = 5;
+        $per_page = 10;
         $total_saldo_caja = Caja::getSaldoTotal();
         if (isset($request->fecha_ini) && isset($request->fecha_fin) && $request->fecha_ini && $request->fecha_fin && $request->fecha_ini != '' && $request->fecha_fin != '') {
             $fecha_ini = $request->fecha_ini;
@@ -46,6 +47,11 @@ class CajaController extends Controller
             $caja_id = 2;
             $tipo = "CRÉDITO";
             if ($glosa == 'GASTOS ADMINISTRATIVOS') {
+                // validar saldo en caja
+                $total_saldo_caja = Caja::getSaldoTotal();
+                if ((float)$request->monto > (float)$total_saldo_caja) {
+                    throw new Exception("El monto para GASTOS ADMINITRATIVOS no puede ser mayor al saldo actual en CAJA de " . $total_saldo_caja);
+                }
                 $caja_id = 2;
                 $tipo = "DEBITO";
             } else {

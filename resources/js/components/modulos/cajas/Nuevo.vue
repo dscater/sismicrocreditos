@@ -174,8 +174,14 @@ export default {
                     },
                 };
                 let formdata = new FormData();
-                formdata.append("glosa",this.caja_movimiento.glosa? this.caja_movimiento.glosa: "");
-                formdata.append("monto",this.caja_movimiento.monto? this.caja_movimiento.monto: "");
+                formdata.append(
+                    "glosa",
+                    this.caja_movimiento.glosa ? this.caja_movimiento.glosa : ""
+                );
+                formdata.append(
+                    "monto",
+                    this.caja_movimiento.monto ? this.caja_movimiento.monto : ""
+                );
 
                 if (this.accion == "edit") {
                     url = main_url + "/admin/cajas/" + this.caja_movimiento.id;
@@ -223,8 +229,9 @@ export default {
                                     icon: "error",
                                     title: "Error",
                                     html: error.response.data.message,
-                                    showConfirmButton: false,
-                                    timer: 2000,
+                                    showConfirmButton: true,
+                                    confirmButtonColor: "#1976d2",
+                                    confirmButtonText: "Aceptar",
                                 });
                             }
                         }
