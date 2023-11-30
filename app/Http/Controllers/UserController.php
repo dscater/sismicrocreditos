@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\ActividadContingencia;
 use App\Models\AmenazaSeguridad;
 use App\Models\Caja;
+use App\Models\CajaMovimiento;
+use App\Models\Desembolso;
 use App\Models\Grupo;
 use App\Models\HistorialAccion;
+use App\Models\Pago;
 use App\Models\PlanContingencia;
 use App\Models\Prestamo;
 use App\Models\RolFuncion;
@@ -64,24 +67,103 @@ class UserController extends Controller
             'cajas.destroy',
 
             'prestamos.individual',
+            'prestamos.individual_contrato',
             'prestamos.individual_nuevo',
+            'prestamos.individual_aprobar',
+            'prestamos.individual_rechazar',
             'prestamos.grupal',
+            'prestamos.grupal_contrato',
             'prestamos.grupal_nuevo',
+            'prestamos.grupal_aprobar',
+            'prestamos.grupal_rechazar',
 
             "desembolsos.individual",
             "desembolsos.grupal",
 
             "pagos.individual",
+            "pagos.individual_store",
             "pagos.grupal",
+            "pagos.grupal_store",
 
             'configuracion.index',
             'configuracion.edit',
 
             "reportes.usuarios",
+            "reportes.clientes",
+            "reportes.prestamos_individual",
+            "reportes.prestamos_grupal",
+            "reportes.proximos_desembolsos_individual",
+            "reportes.proximos_desembolsos_grupal",
+            "reportes.prestamos_individual_mora",
+            "reportes.prestamos_grupal_mora",
+            "reportes.extracto_pagos_individual",
+            "reportes.extracto_pagos_grupal",
         ],
-        "GERENTE" => [],
-        "OFICIAL DE CRÉDITO" => [],
-        "CAJERO" => [],
+        "GERENTE" => [
+            'cajas.index',
+
+            'clientes.index',
+
+            'prestamos.individual',
+            'prestamos.individual_contrato',
+            'prestamos.grupal',
+            'prestamos.grupal_contrato',
+
+            "reportes.clientes",
+            "reportes.prestamos_individual",
+            "reportes.prestamos_grupal",
+            "reportes.proximos_desembolsos_individual",
+            "reportes.proximos_desembolsos_grupal",
+            "reportes.prestamos_individual_mora",
+            "reportes.prestamos_grupal_mora",
+        ],
+        "OFICIAL DE CRÉDITO" => [
+            'clientes.index',
+            'clientes.create',
+            'clientes.edit',
+            'clientes.destroy',
+
+            'prestamos.individual',
+            'prestamos.individual_contrato',
+            'prestamos.individual_nuevo',
+            'prestamos.grupal',
+            'prestamos.grupal_contrato',
+            'prestamos.grupal_nuevo',
+
+            "desembolsos.individual",
+            "desembolsos.grupal",
+
+            "reportes.clientes",
+            "reportes.prestamos_individual",
+            "reportes.prestamos_grupal",
+            "reportes.proximos_desembolsos_individual",
+            "reportes.proximos_desembolsos_grupal",
+            "reportes.prestamos_individual_mora",
+            "reportes.prestamos_grupal_mora",
+            "reportes.extracto_pagos_individual",
+            "reportes.extracto_pagos_grupal",
+
+        ],
+        "CAJERO" => [
+            'cajas.index',
+            'cajas.create',
+            'cajas.edit',
+            'cajas.destroy',
+
+            'prestamos.individual',
+            'prestamos.grupal',
+
+            "pagos.individual",
+            "pagos.individual_store",
+            "pagos.grupal",
+            "pagos.grupal_store",
+
+            "reportes.prestamos_individual_mora",
+            "reportes.prestamos_grupal_mora",
+
+            "reportes.extracto_pagos_individual",
+            "reportes.extracto_pagos_grupal",
+        ],
     ];
 
 
@@ -270,6 +352,35 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
+            $existe_prestamos = Prestamo::where("user_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene préstamos registrados");
+            }
+            $existe_prestamos = Prestamo::where("user_desembolso_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene préstamos registrados");
+            }
+            $existe_prestamos = Prestamo::where("user_aprobado_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene préstamos registrados");
+            }
+            $existe_prestamos = CajaMovimiento::where("user_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene registros en caja");
+            }
+            $existe_prestamos = Desembolso::where("user_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene desembolsos realizados");
+            }
+            $existe_prestamos = Grupo::where("user_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene préstamos registrados");
+            }
+            $existe_prestamos = Pago::where("user_id", $usuario->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al empleado porque tiene pagos registrados");
+            }
+
             $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
             $usuario->delete();
             HistorialAccion::create([

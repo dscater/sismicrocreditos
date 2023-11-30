@@ -177,7 +177,8 @@ class PrestamoGrupalController extends Controller
                 "integrantes" => $datos["integrantes"],
                 "monto" => $datos["monto"],
                 "plazo" => $datos["plazo"],
-                "estado" => "PRE APROBADO"
+                "estado" => "PRE APROBADO",
+                "fecha_registro" => date("Y-m-d")
             ]);
 
             // REGISTRAR LOS PRESTAMOS CON SU PLAN DE PAGO
@@ -335,6 +336,10 @@ class PrestamoGrupalController extends Controller
         if (!$datos["nombre"]  || trim($datos["nombre"]) == '') {
             $errors["nombre"] = ["Debes ingresar un nombre de grupo"];
         }
+        if (!preg_match('/^[a-zA-Z\s]+$/', $datos["nombre"])) {
+            $errors["nombre"] = ["El nombre del grupo solo debe contener solo letras y espacios"];
+        }
+
         $existe_grupo = Grupo::where("nombre", trim($datos["nombre"]))->get()->first();
         if ($existe_grupo) {
             $errors["nombre"] = ["El nombre de grupo ingresado ya éxiste"];

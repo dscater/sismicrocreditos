@@ -20,6 +20,7 @@ class Grupo extends Model
         "desembolso",
         "fecha_desembolso",
         "estado",
+        "finalizado",
         "fecha_registro"
     ];
 

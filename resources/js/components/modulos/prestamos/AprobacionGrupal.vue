@@ -30,7 +30,8 @@
                             <p><strong>Integrantes: </strong></p>
                             <ul>
                                 <li v-for="item in grupo?.prestamos">
-                                    {{ item.cliente.full_name }} -  {{ item.cliente.full_ci }}
+                                    {{ item.cliente.full_name }} -
+                                    {{ item.cliente.full_ci }}
                                 </li>
                             </ul>
                             <p><strong>Monto: </strong>{{ grupo?.monto }}</p>
@@ -144,7 +145,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                    this.$emit("envioModal");
+                    this.$emit("envioModal", res.data.grupo);
                 })
                 .catch((error) => {
                     this.enviando = false;

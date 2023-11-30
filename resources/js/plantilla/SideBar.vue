@@ -246,7 +246,7 @@
                         :class="[
                             $route.name == 'prestamos.individual' ||
                             $route.name == 'prestamos.grupal' ||
-                            $route.name == 'prestamos.individual_nuevo'||
+                            $route.name == 'prestamos.individual_nuevo' ||
                             $route.name == 'prestamos.grupal_nuevo'
                                 ? 'menu-is-opening menu-open active'
                                 : '',
@@ -319,7 +319,10 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('cajas.index')"
+                    >
                         <router-link
                             :to="{ name: 'cajas.index' }"
                             class="nav-link"
@@ -358,10 +361,27 @@
                         class="nav-header font-weight-bold"
                         v-if="
                             permisos.includes('reportes.usuarios') ||
-                            permisos.includes('reportes.plan_contingencia') ||
+                            permisos.includes('reportes.clientes') ||
                             permisos.includes(
-                                'reportes.cantidad_plan_contingencia'
-                            )
+                                'reportes.prestamos_individual'
+                            ) ||
+                            permisos.includes('reportes.prestamos_grupal') ||
+                            permisos.includes(
+                                'reportes.proximos_desembolsos_individual'
+                            ) ||
+                            permisos.includes(
+                                'reportes.proximos_desembolsos_grupal'
+                            ) ||
+                            permisos.includes(
+                                'reportes.prestamos_individual_mora'
+                            ) ||
+                            permisos.includes(
+                                'reportes.prestamos_grupal_mora'
+                            ) ||
+                            permisos.includes(
+                                'reportes.extracto_pagos_individual'
+                            ) ||
+                            permisos.includes('reportes.extracto_pagos_grupal')
                         "
                     >
                         REPORTES:
@@ -376,6 +396,140 @@
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
                             <p>Lista de Usuarios</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('reportes.clientes')"
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.clientes' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Lista de Clientes</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes('reportes.prestamos_individual')
+                        "
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.prestamos_individual' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Préstamos Individual</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('reportes.prestamos_grupal')"
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.prestamos_grupal' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Préstamos Grupal</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes(
+                                'reportes.proximos_desembolsos_individual'
+                            )
+                        "
+                    >
+                        <router-link
+                            :to="{
+                                name: 'reportes.proximos_desembolsos_individual',
+                            }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Próximos Desembolsos Individual</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes(
+                                'reportes.proximos_desembolsos_grupal'
+                            )
+                        "
+                    >
+                        <router-link
+                            :to="{
+                                name: 'reportes.proximos_desembolsos_grupal',
+                            }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Próximos Desembolsos Grupal</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes(
+                                'reportes.prestamos_individual_mora'
+                            )
+                        "
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.prestamos_individual_mora' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Moras Préstamos Individual</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes('reportes.prestamos_grupal_mora')
+                        "
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.prestamos_grupal_mora' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Moras Préstamos Grupal</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes(
+                                'reportes.extracto_pagos_individual'
+                            )
+                        "
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.extracto_pagos_individual' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Extracto Pagos Individual</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="
+                            permisos.includes('reportes.extracto_pagos_grupal')
+                        "
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.extracto_pagos_grupal' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Extracto Pagos Grupal</p>
                         </router-link>
                     </li>
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>

@@ -116,7 +116,10 @@
                                                         <button
                                                             v-if="
                                                                 item.estado ==
-                                                                'APROBADO'
+                                                                    'APROBADO' &&
+                                                                permisos.includes(
+                                                                    'prestamos.individual_contrato'
+                                                                )
                                                             "
                                                             class="inline-block btn btn-xs btn-success"
                                                             @click="
@@ -151,7 +154,10 @@
                                                                 item.estado !=
                                                                     'APROBADO' &&
                                                                 item.estado !=
-                                                                    'FINALIZADO'
+                                                                    'FINALIZADO' &&
+                                                                permisos.includes(
+                                                                    'prestamos.individual_aprobar'
+                                                                )
                                                             "
                                                             @click="
                                                                 aprobarPrestamo(
@@ -168,7 +174,10 @@
                                                             class="inline-block btn btn-xs btn-danger"
                                                             v-if="
                                                                 item.desembolso ==
-                                                                0
+                                                                    0 &&
+                                                                permisos.includes(
+                                                                    'prestamos.individual_rechazar'
+                                                                )
                                                             "
                                                             @click="
                                                                 rechazarPrestamo(

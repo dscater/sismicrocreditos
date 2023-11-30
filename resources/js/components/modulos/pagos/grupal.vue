@@ -91,7 +91,10 @@
                                                             class="inline-block btn btn-xs btn-primary"
                                                             v-if="
                                                                 item.nro_pagos_realizados <
-                                                                item.plazo
+                                                                item.plazo &&
+                                                                permisos.includes(
+                                                                    'pagos.grupal_store'
+                                                                )
                                                             "
                                                             @click="
                                                                 nuevoPago(item)

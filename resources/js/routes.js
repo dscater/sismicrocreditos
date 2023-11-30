@@ -142,6 +142,77 @@ export default new Router({
                 .default,
             props: true,
         },
+        {
+            path: "/reportes/clientes",
+            name: "reportes.clientes",
+            component: require("./components/modulos/reportes/clientes.vue")
+                .default,
+            props: true,
+        },
+        {
+            path: "/reportes/prestamos_individual",
+            name: "reportes.prestamos_individual",
+            component:
+                require("./components/modulos/reportes/prestamos_individual.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/prestamos_grupal",
+            name: "reportes.prestamos_grupal",
+            component:
+                require("./components/modulos/reportes/prestamos_grupal.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/proximos_desembolsos_individual",
+            name: "reportes.proximos_desembolsos_individual",
+            component:
+                require("./components/modulos/reportes/proximos_desembolsos_individual.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/proximos_desembolsos_grupal",
+            name: "reportes.proximos_desembolsos_grupal",
+            component:
+                require("./components/modulos/reportes/proximos_desembolsos_grupal.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/prestamos_individual_mora",
+            name: "reportes.prestamos_individual_mora",
+            component:
+                require("./components/modulos/reportes/prestamos_individual_mora.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/prestamos_grupal_mora",
+            name: "reportes.prestamos_grupal_mora",
+            component:
+                require("./components/modulos/reportes/prestamos_grupal_mora.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/extracto_pagos_individual",
+            name: "reportes.extracto_pagos_individual",
+            component:
+                require("./components/modulos/reportes/extracto_pagos_individual.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/extracto_pagos_grupal",
+            name: "reportes.extracto_pagos_grupal",
+            component:
+                require("./components/modulos/reportes/extracto_pagos_grupal.vue")
+                    .default,
+            props: true,
+        },
 
         // PÁGINA NO ENCONTRADA
         {

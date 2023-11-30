@@ -82,7 +82,7 @@
                                     class="text-primary"
                                     v-text="oUsuario?.full_ci"
                                 ></p>
-                                <hr />
+                                <!-- <hr />
                                 <strong
                                     ><i class="fas fa-phone mr-1"></i
                                     >Teléfono/Celular:</strong
@@ -90,8 +90,8 @@
                                 <p
                                     class="text-primary"
                                     v-text="`${oUsuario ? oUsuario.fono : ''}`"
-                                ></p>
-                                <hr />
+                                ></p> -->
+                                <!-- <hr />
                                 <strong
                                     ><i class="fa fa-map-marker mr-1"></i>
                                     Dirección:</strong
@@ -99,7 +99,7 @@
                                 <p
                                     class="text-primary"
                                     v-text="oUsuario?.dir"
-                                ></p>
+                                ></p> -->
                             </div>
                         </div>
                     </div>

@@ -171,8 +171,12 @@
     <table border="1">
         <tbody>
             <tr>
-                <td class="bold gray" width="14%">Nombre Grupo: </td>
+                <td class="bold gray" width="16%">Nombre Grupo: </td>
                 <td colspan="3">{{ $datos['nombre'] }} </td>
+            </tr>
+            <tr>
+                <td class="bold gray" width="14%">Nro. de integrantes: </td>
+                <td colspan="3">{{ $datos['integrantes'] }} </td>
             </tr>
             <tr>
                 <td class="bold gray" width="8%">Monto: </td>

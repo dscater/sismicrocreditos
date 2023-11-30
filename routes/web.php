@@ -119,6 +119,15 @@ Route::middleware(['auth'])->group(function () {
 
         // REPORTES
         Route::post('reportes/usuarios', [ReporteController::class, 'usuarios']);
+        Route::post('reportes/clientes', [ReporteController::class, 'clientes']);
+        Route::post('reportes/prestamos_individual', [ReporteController::class, 'prestamos_individual']);
+        Route::post('reportes/prestamos_grupal', [ReporteController::class, 'prestamos_grupal']);
+        Route::post('reportes/proximos_desembolsos_individual', [ReporteController::class, 'proximos_desembolsos_individual']);
+        Route::post('reportes/proximos_desembolsos_grupal', [ReporteController::class, 'proximos_desembolsos_grupal']);
+        Route::post('reportes/prestamos_individual_mora', [ReporteController::class, 'prestamos_individual_mora']);
+        Route::post('reportes/prestamos_grupal_mora', [ReporteController::class, 'prestamos_grupal_mora']);
+        Route::post('reportes/extracto_pagos_individual', [ReporteController::class, 'extracto_pagos_individual']);
+        Route::post('reportes/extracto_pagos_grupal', [ReporteController::class, 'extracto_pagos_grupal']);
     });
 });
 

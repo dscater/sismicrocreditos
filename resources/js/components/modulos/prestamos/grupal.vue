@@ -113,7 +113,10 @@
                                                         <button
                                                             v-if="
                                                                 item.estado ==
-                                                                'APROBADO'
+                                                                    'APROBADO' &&
+                                                                permisos.includes(
+                                                                    'prestamos.grupal_contrato'
+                                                                )
                                                             "
                                                             class="inline-block btn btn-xs btn-success"
                                                             @click="
@@ -148,7 +151,10 @@
                                                                 item.estado !=
                                                                     'APROBADO' &&
                                                                 item.estado !=
-                                                                    'FINALIZADO'
+                                                                    'FINALIZADO' &&
+                                                                permisos.includes(
+                                                                    'prestamos.grupal_aprobar'
+                                                                )
                                                             "
                                                             @click="
                                                                 aprobarPrestamo(
@@ -165,7 +171,10 @@
                                                             class="inline-block btn btn-xs btn-danger"
                                                             v-if="
                                                                 item.desembolso ==
-                                                                0
+                                                                    0 &&
+                                                                permisos.includes(
+                                                                    'prestamos.grupal_rechazar'
+                                                                )
                                                             "
                                                             @click="
                                                                 rechazarPrestamo(
@@ -247,8 +256,8 @@ export default {
         this.loadingWindow.close();
     },
     methods: {
-        nuevoAprobado(prestamo) {
-            this.descargarContrato(prestamo);
+        nuevoAprobado(grupo) {
+            this.descargarContrato(grupo);
             this.empezarBusqueda();
         },
         descargarContrato(item) {

@@ -168,6 +168,7 @@
                 <th>PATERNO</th>
                 <th>MATERNO</th>
                 <th>NOMBRE(S)</th>
+                <th>C.I.</th>
                 <th>TIPO DE USUARIO</th>
                 <th>ACCESO</th>
                 <th width="9%">FECHA DE REGISTRO</th>
@@ -185,6 +186,7 @@
                     <td class="centreado">{{ $user->paterno }}</td>
                     <td class="centreado">{{ $user->materno }}</td>
                     <td class="centreado">{{ $user->nombre }}</td>
+                    <td class="centreado">{{ $user->full_ci }}</td>
                     <td class="centreado">{{ $user->tipo }}</td>
                     <td class="centreado">{{ $user->acceso == 1 ? 'HABILITADO' : 'INHABILITADO' }}</td>
                     <td class="centreado">{{ $user->fecha_registro }}</td>

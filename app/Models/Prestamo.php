@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -92,7 +93,7 @@ class Prestamo extends Model
     public function user_aprobado()
     {
         return $this->belongsTo(User::class, 'user_aprobado_id');
-    }    
+    }
 
     public function cliente()
     {
@@ -111,5 +112,19 @@ class Prestamo extends Model
     public function pagos()
     {
         return $this->hasMany(Pago::class, 'prestamo_id')->orderBy("id", "desc");
+    }
+
+    public static function obtenerDiferenciaDias($fecha1, $fecha2)
+    {
+        $date1 = new DateTime($fecha1);
+        $date2 = new DateTime($fecha2);
+
+        $diferencia = $date1->diff($date2);
+
+        if ($date1 >= $date2) {
+            return $diferencia->days;
+        } else {
+            return -$diferencia->days;
+        }
     }
 }

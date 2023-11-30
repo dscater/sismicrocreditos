@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\HistorialAccion;
+use App\Models\Prestamo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -141,6 +143,11 @@ class ClienteController extends Controller
     {
         DB::beginTransaction();
         try {
+            $existe_prestamos = Prestamo::where("cliente_id", $cliente->id)->get();
+            if (count($existe_prestamos) > 0) {
+                throw new Exception("No es posible eliminar al cliente porque tiene préstamos registrados");
+            }
+
             $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
             $cliente->delete();
             HistorialAccion::create([
