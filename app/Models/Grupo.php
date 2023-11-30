@@ -12,6 +12,7 @@ class Grupo extends Model
     protected $fillable = [
         "user_id",
         "user_desembolso_id",
+        "user_aprobado_id",
         "nombre",
         "integrantes",
         "monto",
@@ -22,7 +23,16 @@ class Grupo extends Model
         "fecha_registro"
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago"];
+
+    public function getUltimaFechaPagoAttribute()
+    {
+        $ultimo_plan = GrupoPlanPago::where("grupo_id", $this->id)->orderBy("nro_cuota", "desc")->get()->first();
+        if ($ultimo_plan->fecha_pago) {
+            return date("d/m/Y", strtotime($ultimo_plan->fecha_pago));
+        }
+        return "S/D";
+    }
 
     public function getNroPagosRealizadosAttribute()
     {
@@ -59,7 +69,7 @@ class Grupo extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function desembolso()
+    public function o_desembolso()
     {
         return $this->hasOne(Desembolso::class, 'grupo_id');
     }
@@ -67,6 +77,11 @@ class Grupo extends Model
     public function user_desembolso()
     {
         return $this->belongsTo(User::class, 'user_desembolso_id');
+    }
+
+    public function user_aprobado()
+    {
+        return $this->belongsTo(User::class, 'user_aprobado_id');
     }
 
     public function prestamos()

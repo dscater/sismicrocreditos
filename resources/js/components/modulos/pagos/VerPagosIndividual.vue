@@ -107,6 +107,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-footer">
+                                <button
+                                    class="btn btn-primary"
+                                    @click="descargarComprobante(item.id)"
+                                >
+                                    <i class="fa fa-file-pdf"></i> Comprobante
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -180,6 +188,71 @@ export default {
                 .get(main_url + "/admin/prestamos/" + this.id)
                 .then((response) => {
                     this.oPrestamo = response.data.prestamo;
+                });
+        },
+        descargarComprobante(id) {
+            let config = {
+                responseType: "blob",
+            };
+            axios
+                .post(main_url + "/admin/pagos/comprobante/" + id, null, config)
+                .then((res) => {
+                    this.errors = [];
+                    this.enviando = false;
+                    let pdfBlob = new Blob([res.data], {
+                        type: "application/pdf",
+                    });
+                    let urlReporte = URL.createObjectURL(pdfBlob);
+                    window.open(urlReporte);
+                })
+                .catch(async (error) => {
+                    let responseObj = await error.response.data.text();
+                    responseObj = JSON.parse(responseObj);
+                    console.log(error);
+                    this.enviando = false;
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            this.errors = responseObj.errors;
+                            let mensaje = `<ul class="text-left">`;
+                            for (let key in this.errors) {
+                                if (this.errors.hasOwnProperty(key)) {
+                                    const value = this.errors[key];
+                                    if (Array.isArray(value)) {
+                                        value.forEach((error) => {
+                                            mensaje += `<li><span>${error.trim()}</span></li>`;
+                                        });
+                                    }
+                                }
+                            }
+                            mensaje += `<ul/>`;
+                            Swal.fire({
+                                icon: "error",
+                                title: "Tienes los siguientes errores en el formulario",
+                                html: mensaje,
+                                showConfirmButton: true,
+                                confirmButtonColor: "#1976d2",
+                                confirmButtonText: "Aceptar",
+                            });
+                            1;
+                        }
+                        if (
+                            error.response.status === 420 ||
+                            error.response.status === 419 ||
+                            error.response.status === 401 ||
+                            error.response.status === 400
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: responseObj.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            if (error.response.status != 400) {
+                                window.location = "/";
+                            }
+                        }
+                    }
                 });
         },
     },

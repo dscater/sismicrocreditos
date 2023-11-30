@@ -10,9 +10,12 @@ use App\Models\GrupoPlanPago;
 use App\Models\HistorialAccion;
 use App\Models\Pago;
 use App\Models\PlanPago;
+use App\Models\Prestamo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PDF;
+use App\library\numero_a_letras\src\NumeroALetras;
 
 class PagoController extends Controller
 {
@@ -197,5 +200,29 @@ class PagoController extends Controller
                 "message" => $e->getMessage()
             ], 400);
         }
+    }
+
+    public function comprobante(Pago $pago)
+    {
+        $convertir = new NumeroALetras();
+        $array_monto = explode('.', $pago->monto_total);
+        $literal = $convertir->convertir($array_monto[0]);
+        $literal .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
+
+        $tamanio_reporte = array(0, 0, 612, 360);
+        $pdf = PDF::loadView('reportes.comprobante_pago', compact('pago', "literal"));
+        $pdf->setPaper($tamanio_reporte);
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->download('ComprobantePago.pdf');
+    }
+    public function comprobante_grupal(Grupo $grupo)
+    {
     }
 }

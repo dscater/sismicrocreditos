@@ -12,10 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PDF;
+use App\library\numero_a_letras\src\NumeroALetras;
 
 class DesembolsoGrupalController extends Controller
 {
-    public function store(Grupo $grupo)
+    public function store(Grupo $grupo, Request $request)
     {
         DB::beginTransaction();
         try {
@@ -41,6 +43,32 @@ class DesembolsoGrupalController extends Controller
                 "grupo_id" => $grupo->id,
                 "fecha_registro" => date("Y-m-d")
             ]);
+
+
+            // registrar DESEMBOLSO
+            $grupo->desembolso()->create([
+                "user_id" => Auth::user()->id,
+                "tipo_prestamo" => "GRUPAL",
+                "monto" => $request->monto,
+                "cancelado" => $request->cancelado,
+                "fecha_registro" => date("Y-m-d")
+            ]);
+
+            // REGISTRAR GASTOS ADMINISTRATIVOS
+            if ($request->cancelado == 'SI') {
+                // registrar movimiento de caja
+                CajaMovimiento::create([
+                    "caja_id" => 2,
+                    "user_id" => Auth::user()->id,
+                    "monto" => $request->monto,
+                    "tipo" => "CRÉDITO",
+                    "glosa" => "GASTOS ADMINISTRATIVOS",
+                    "tipo_prestamo" => "GRUPAL",
+                    "grupo_id" => $grupo->id,
+                    "fecha_registro" => date("Y-m-d")
+                ]);
+            }
+
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
 
@@ -67,5 +95,47 @@ class DesembolsoGrupalController extends Controller
                 "message" => $e->getMessage()
             ], 400);
         }
+    }
+
+    public function comprobante(Grupo $grupo)
+    {
+        if ($grupo->desembolso) {
+            $desembolso = $grupo->o_desembolso;
+            Log::debug($desembolso);
+            $monto_entregado = $grupo->monto;
+
+            if ($desembolso->cancelado == 'SI') {
+                $monto_entregado = (float)$grupo->monto - (float)$desembolso->monto;
+            }
+
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $monto_entregado);
+            $literal_entregado = $convertir->convertir($array_monto[0]);
+            $literal_entregado .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
+
+            $array_monto = explode('.', $grupo->monto);
+            $literal_prestamo = $convertir->convertir($array_monto[0]);
+            $literal_prestamo .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
+
+
+            $tamanio_reporte = array(0, 0, 612, 360);
+
+            $pdf = PDF::loadView('reportes.desembolso_grupal', compact('desembolso', "grupo", "monto_entregado", "literal_entregado", "literal_prestamo"));
+            $pdf->setPaper($tamanio_reporte);
+            // ENUMERAR LAS PÁGINAS USANDO CANVAS
+            $pdf->output();
+            $dom_pdf = $pdf->getDomPDF();
+            $canvas = $dom_pdf->get_canvas();
+            $alto = $canvas->get_height();
+            $ancho = $canvas->get_width();
+            $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+            return $pdf->download('ComprobanteDesembolso.pdf');
+        }
+
+        return response()->JSON([
+            "sw" => false,
+            "message" => "No se encontró el desembolso del préstamo",
+        ], 500);
     }
 }

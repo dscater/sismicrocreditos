@@ -17,6 +17,7 @@ class CreateGruposTable extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("user_desembolso_id")->nullable();
+            $table->unsignedBigInteger("user_aprobado_id")->nullable();
             $table->string("nombre", 255)->unique();
             $table->integer("integrantes");
             $table->decimal("monto", 24, 2);

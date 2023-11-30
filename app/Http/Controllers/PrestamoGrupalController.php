@@ -6,7 +6,7 @@ use App\Models\Cliente;
 use App\Models\Grupo;
 use App\Models\HistorialAccion;
 use App\Models\Interes;
-use App\Models\Prestamo;
+use App\Models\PlanPago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,12 +46,14 @@ class PrestamoGrupalController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             // actualizando el estado del grupo
             $grupo->estado = 'APROBADO';
+            $grupo->user_aprobado_id = Auth::user()->id;
             $grupo->fecha_desembolso = $request->fecha_desembolso;
             $grupo->save();
 
             // actualizando el estado de los integrantes por separado
             foreach ($grupo->prestamos  as $prestamo) {
                 $prestamo->estado = 'APROBADO';
+                $prestamo->user_aprobado_id = Auth::user()->id;
                 $prestamo->fecha_desembolso = $request->fecha_desembolso;
                 $prestamo->save();
             }
@@ -111,11 +113,13 @@ class PrestamoGrupalController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             // actualizando el estado del grupo
             $grupo->estado = 'RECHAZADO';
+            $grupo->user_aprobado_id = NULL;
             $grupo->fecha_desembolso = NULL;
             $grupo->save();
             // actualizando el estado de los integrantes por separado
             foreach ($grupo->prestamos  as $prestamo) {
                 $prestamo->estado = 'RECHAZADO';
+                $prestamo->user_aprobado_id = NULL;
                 $prestamo->fecha_desembolso = NULL;
                 $prestamo->save();
             }
@@ -263,7 +267,7 @@ class PrestamoGrupalController extends Controller
             DB::commit();
             return response()->JSON([
                 'sw' => true,
-                'prestamo' => $nuevo_prestamo,
+                'grupo' => $grupo,
                 'msj' => 'El registro se realizó de forma correcta',
             ], 200);
         } catch (\Exception $e) {

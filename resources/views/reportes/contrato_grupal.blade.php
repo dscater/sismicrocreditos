@@ -144,10 +144,14 @@
             line-height: 25px;
         }
 
+        .derecha {
+            text-align: right;
+        }
+
         .firmas {
-            margin-top: 70px;
+            margin-top: 10px;
             border-collapse: separate;
-            border-spacing: 40px 0px;
+            border-spacing: 30px 50px;
         }
 
         .firmas td {
@@ -155,13 +159,29 @@
             padding: 0px;
         }
 
-        .top_punteado {
-            border-top: dotted 1px black;
+        .bot_punteado {
+            border-bottom: dotted 1px black;
         }
     </style>
 </head>
 
 <body>
+    @php
+        $array_meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Novimebre',
+            '12' => 'Diciembre',
+        ];
+    @endphp
     @inject('configuracion', 'App\Models\Configuracion')
     <div class="encabezado">
         {{-- <div class="logo">
@@ -182,82 +202,83 @@
     <p class="parrafo">
         <span class="bold">PRIMERA.-</span> El contrato de préstamo de dinero que otorga la asociación de crédito
         “{{ $configuracion->first()->razon_social }}” representado por el/la asesor(a) de la ciudad de el alto
-        {{ $prestamo->user->full_name }} con
-        C.I. {{ $prestamo->user->full_ci }}. A favor de:
+        {{ $grupo->user_aprobado->full_name }} con
+        C.I. {{ $grupo->user_aprobado->full_ci }}.A favor de la Asociación Comunal “{{ $grupo->nombre }}” perteneciente
+        al
+        municipio del alto de la Provincia Murillo Departamento La Paz representada por las señoras(es):
     </p>
+    @foreach ($grupo->prestamos as $prestamo)
+        <p class="parrafo">
+            {{ $prestamo->cliente->full_name }} con C.I. {{ $prestamo->cliente->full_ci }} {{ $prestamo->monto }}.- Bs
+        </p>
+    @endforeach
     <p class="parrafo">
-        {{ $prestamo->cliente->full_name }} con C.I. {{ $prestamo->cliente->full_ci }} {{ $prestamo->monto }}.- Bs
-    </p>
-    <p class="parrafo">
-        Para efectos del presente contrato el Prestatario(a) en los términos y condiciones pactados a
+        Para efectos del presente contrato la Asociación Comunal “{{ $grupo->nombre }}” en los términos y condiciones
+        pactados a
         continuación que regirán la relación entre personas intervinientes con valor de ley entre ellas.
     </p>
     <p class="parrafo">
         <span class="bold">SEGUNDA.-</span> Por el presente contrato “{{ $configuracion->first()->razon_social }}”
-        OTORGA UN PRESTAMO DE
-        DINERO a favor del Prestatario(a) de {{ number_format($prestamo->monto, 2, '.', ',') }} ({{ $literal }})
-        suma que será
-        destinada a otorgar préstamos de dinero con intereses a las socias competentes de acuerdo a la
-        planilla de desembolso que forma parte inseparable e indivisible del presente documento.
+        OTORGA UN PRESTAMO DE DINERO a
+        favor de la Asociación Comunal “{{ $grupo->nombre }}” de {{ $grupo->monto }}.- bs ({{ $literal }})
+        suma que será destinada a
+        otorgar préstamos de dinero con intereses a las socias competentes de acuerdo a la planilla de desembolso que
+        forma parte inseparable e indivisible del presente documento.
     </p>
     <p class="parrafo">
-        <span class="bold">TERCERA.-</span> El Prestatario(a) se obliga a pagar intereses del 3% mensual sobre saldos
-        de
-        capital y
-        el 2% por gastos de administración según el monto establecido.
+        <span class="bold">TERCERA.-</span> La Asociación Comunal “{{ $grupo->nombre }}” se obliga a pagar intereses
+        del 3% mensual
+        sobre saldos de capital y el 2% por gastos de administración según el monto establecido
     </p>
     <p class="parrafo">
-        <span class="bold">CUARTA.-</span> El interés establecido regirá hasta {{ $prestamo->ultima_fecha_pago }}
+        <span class="bold">CUARTA.-</span> El interés establecido regirá hasta {{ $grupo->ultima_fecha_pago }}
         fecha de conclusión del
         ciclo de préstamo
         y se recargara con el interés penal en caso de mora.
     </p>
     <p class="parrafo">
-        <span class="bold">QUINTA.-</span> El Prestatario(a) declara recibir de
-        “{{ $configuracion->first()->razon_social }}” la suma indicada en
-        la
-        clausula segunda en el lugar y fecha que se establece en el documento “ENTREGA DE DINERO EN
-        EFECTIVO”, documento parte del presente contrato de la que todos los componentes del
-        Prestatario(a) se constituyen deudores incondicionales, obligándose a sus pagos semanales
-        establecidos en forma y condiciones estipuladas en el presente contrato.
-    </p>
-    <p class="parrafo">
-        <span class="bold">SEXTA.-</span> Autorizamos a {{ $configuracion->first()->razon_social }} a realizar la
+        <span class="bold">QUINTA.-</span> Autorizamos a {{ $configuracion->first()->razon_social }} a realizar la
         investigación de cualquier
-        antecedente
-        crediticio, judicial y/o la verificación de nuestros domicilios y trabajos así mismo sin el caso requiere
-        autorizamos a reportar nuestros datos personales a un Buro de Información Crediticia en caso de
-        que incurramos en algún tipo de incumplimiento financiero con {{ $configuracion->first()->razon_social }}.
+        antecedente crediticio, judicial y/o la verificación de nuestros domicilios y trabajos así mismo sin el caso
+        requiere autorizamos a reportar nuestros datos personales a un Buro de Información Crediticia en caso de que
+        incurramos en algún tipo de incumplimiento financiero con {{ $configuracion->first()->razon_social }}
     </p>
     <p class="parrafo">
-        <span class="bold">SEPTIMA.-</span> Todas las socias del Prestatario(a) que suscriben el presente contrato, se
-        convierten en
-        garantes solidarias, mancomunadas e indivisibles con la totalidad de sus bienes habidos y por
-        haber, del cumplimiento de la presente obligación. Así mismo asumen plena responsabilidad en
-        caso de incumplimiento de cualquiera de las socias por el monto total de la deuda.
+        <span class="bold">SEXTA.-</span> La Asociación Comunal “{{ $grupo->nombre }}” declara recibir de
+        “{{ $configuracion->first()->razon_social }}” la
+        suma indicada en la clausula segunda en el lugar y fecha que se establece en el documento “ENTREGA DE DINERO EN
+        EFECTIVO”, documento parte del presente contrato de la que todos los componentes de la Asociación Comunal
+        “{{ $grupo->nombre }}” se constituyen deudores incondicionales, obligándose a sus pagos semanales establecidos
+        en forma y
+        condiciones estipuladas en el presente contrato.
     </p>
     <p class="parrafo">
-        <span class="bold">OCTAVA.-</span> “{{ $configuracion->first()->razon_social }}” y el Prestatario(a)
-        declaramos en forma expresa nuestra
-        conformidad con todas y cada una de las clausulas señaladas en el presente contrato de préstamo
-        de dinero, obligándonos a su fiel y estricto cumplimiento. Y en señal de esta aceptación firmamos o
-        estampamos nuestra huella digital en el presente contrato.
+        <span class="bold">SEPTIMA.-</span> Todas las socias de la Asociación Comunal “{{ $grupo->nombre }}” que
+        suscriben el
+        presente contrato, se convierten en garantes solidarias, mancomunadas e indivisibles con la totalidad de sus
+        bienes habidos y por haber, del cumplimiento de la presente obligación. Así mismo asumen plena responsabilidad
+        en caso de incumplimiento de cualquiera de las socias por el monto total de la deuda.
+    </p>
+    <p class="parrafo">
+        <span class="bold">OCTAVA.-</span>“{{ $configuracion->first()->razon_social }}” y las socias de la Asociación
+        Comunal “{{ $grupo->nombre }}”
+        declaramos en forma expresa nuestra conformidad con todas y cada una de las clausulas señaladas en el presente
+        contrato de préstamo de dinero, obligándonos a su fiel y estricto cumplimiento. Y en señal de esta aceptación
+        firmamos o estampamos nuestra huella digital en el presente contrato.
+    </p>
+    <p class="parrafo derecha">El Alto, {{ date('d') }} de {{ $array_meses[date('m')] }} de {{ date('Y') }}
     </p>
 
+    <div class="parrafo">POR LA ASOCIACION COMUNAL “{{ $grupo->nombre }}”</div>
     <table class="firmas">
         <tbody>
-            <tr>
-                <td class="top_punteado">{{ $prestamo->cliente->full_name }}</td>
-                <td class="top_punteado">{{ $prestamo->user->full_name }}</td>
-            </tr>
-            <tr>
-                <td>{{ $prestamo->cliente->full_ci }}</td>
-                <td>{{ $configuracion->first()->razon_social }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>{{ $prestamo->user->full_ci }}</td>
-            </tr>
+            @foreach ($grupo->prestamos as $prestamo)
+                <tr>
+                    <td class="">{{ $prestamo->cliente->full_name }} con C.I. {{ $prestamo->cliente->full_ci }}
+                    </td>
+                    <td class="bot_punteado"></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </body>

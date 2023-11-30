@@ -31,14 +31,24 @@ class Pago extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo_id');
+    }
+
     public function prestamo()
     {
         return $this->belongsTo(Prestamo::class, 'prestamo_id');
     }
 
-    public function plan_pago_id()
+    public function plan_pago()
     {
-        return $this->belongsTo(PlanPago::class, 'plan_pago_id_id');
+        return $this->belongsTo(PlanPago::class, 'plan_pago_id');
+    }
+
+    public function grupo_plan_pago()
+    {
+        return $this->belongsTo(PlanPago::class, 'grupo_plan_pago_id');
     }
 
     public function cliente()

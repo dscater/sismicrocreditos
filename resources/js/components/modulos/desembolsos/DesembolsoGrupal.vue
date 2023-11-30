@@ -38,6 +38,51 @@
                             <p><strong>Plazo: </strong> {{ grupo?.plazo }}</p>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label
+                                        :class="{
+                                            'text-danger': errors.cancelado,
+                                        }"
+                                        >¿Registrar gastos
+                                        administrativos?</label
+                                    >
+                                    <el-switch
+                                        :class="{
+                                            'is-invalid': errors.cancelado,
+                                        }"
+                                        style="display: block"
+                                        v-model="oDesembolso.cancelado"
+                                        active-color="#13ce66"
+                                        inactive-color="#ff4949"
+                                        active-text="SI"
+                                        inactive-text="NO"
+                                        active-value="SI"
+                                        inactive-value="NO"
+                                    >
+                                    </el-switch>
+                                    <span
+                                        class="error invalid-feedback"
+                                        v-if="errors.cancelado"
+                                        v-text="errors.cancelado[0]"
+                                    ></span>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Gastos administrativos:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        v-model="oDesembolso.monto"
+                                        :disabled="
+                                            oDesembolso.cancelado == 'NO'
+                                        "
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button
@@ -88,6 +133,9 @@ export default {
                 this.bModal = false;
             }
         },
+        grupo() {
+            this.getGastosAdministrativos();
+        },
     },
     computed: {
         tituloModal() {
@@ -103,17 +151,33 @@ export default {
             bModal: this.muestra_modal,
             enviando: false,
             errors: [],
-            fecha_desembolso: "",
+            oDesembolso: {
+                user_id: "",
+                tipo_prestamo: "GRUPAL",
+                prestamo_id: "",
+                grupo_id: "",
+                monto: 0,
+                cancelado: "NO",
+            },
         };
     },
     mounted() {
         this.bModal = this.muestra_modal;
+        this.getGastosAdministrativos();
     },
     methods: {
+        getGastosAdministrativos() {
+            let monto = parseFloat(this.grupo.monto);
+            this.oDesembolso.grupo_id = this.grupo.id;
+            this.oDesembolso.monto = monto * 0.02;
+        },
         setRegistroModal() {
             this.enviando = true;
             axios
-                .post(main_url + "/admin/desembolsos/grupal/" + this.grupo.id)
+                .post(
+                    main_url + "/admin/desembolsos/grupal/" + this.grupo.id,
+                    this.oDesembolso
+                )
                 .then((res) => {
                     this.enviando = false;
                     Swal.fire({
@@ -122,7 +186,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                    this.$emit("envioModal");
+                    this.$emit("envioModal", res.data.grupo);
                 })
                 .catch((error) => {
                     this.enviando = false;

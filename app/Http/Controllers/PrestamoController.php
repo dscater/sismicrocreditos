@@ -226,6 +226,32 @@ class PrestamoController extends Controller
 
     public function contrato_grupal(Grupo $grupo)
     {
+        try {
+            $interes = Interes::get()->last();
+            $valor_interes = 4.9;
+            if ($interes) {
+                $valor_interes = (float)$interes->interes;
+            }
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $grupo->monto);
+            $literal = $convertir->convertir($array_monto[0]);
+            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+            $pdf = PDF::loadView('reportes.contrato_grupal', compact('grupo', "literal", "valor_interes"))->setPaper('legal', 'portrait');
+
+            // ENUMERAR LAS PÁGINAS USANDO CANVAS
+            $pdf->output();
+            $dom_pdf = $pdf->getDomPDF();
+            $canvas = $dom_pdf->get_canvas();
+            $alto = $canvas->get_height();
+            $ancho = $canvas->get_width();
+            $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+            return $pdf->download('PlanPagoSimulacion.pdf');
+        } catch (\Exception $e) {
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
     }
 
     public static function armarDatos($request)

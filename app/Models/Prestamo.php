@@ -12,6 +12,7 @@ class Prestamo extends Model
     protected $fillable = [
         "user_id",
         "user_desembolso_id",
+        "user_aprobado_id",
         "cliente_id",
         "tipo",
         "grupo_id",
@@ -87,6 +88,11 @@ class Prestamo extends Model
     {
         return $this->belongsTo(User::class, 'user_desembolso_id');
     }
+
+    public function user_aprobado()
+    {
+        return $this->belongsTo(User::class, 'user_aprobado_id');
+    }    
 
     public function cliente()
     {

@@ -106,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // pagos
+        Route::post("pagos/comprobante/{pago}", [PagoController::class, 'comprobante']);
         Route::post("pagos/store_grupal", [PagoController::class, 'store_grupal']);
         Route::resource('pagos', PagoController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'

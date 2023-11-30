@@ -144,6 +144,10 @@
             line-height: 25px;
         }
 
+        .derecha {
+            text-align: right;
+        }
+
         .firmas {
             margin-top: 70px;
             border-collapse: separate;
@@ -162,6 +166,22 @@
 </head>
 
 <body>
+    @php
+        $array_meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Novimebre',
+            '12' => 'Diciembre',
+        ];
+    @endphp
     @inject('configuracion', 'App\Models\Configuracion')
     <div class="encabezado">
         {{-- <div class="logo">
@@ -243,6 +263,7 @@
         de dinero, obligándonos a su fiel y estricto cumplimiento. Y en señal de esta aceptación firmamos o
         estampamos nuestra huella digital en el presente contrato.
     </p>
+    <p class="parrafo derecha">El Alto, {{ date('d') }} de {{ $array_meses[date('m')] }} de {{ date('Y') }}</p>
 
     <table class="firmas">
         <tbody>

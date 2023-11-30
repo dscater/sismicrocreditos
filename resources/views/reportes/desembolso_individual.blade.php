@@ -212,7 +212,7 @@
                     <td>{{ $desembolso->cancelado }}</td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-lg bold">TOTAL ENTREGADO:
+                    <td colspan="4" class="text-lg bold centreado">TOTAL ENTREGADO:
                         {{ number_format($monto_entregado, 2, '.', ',') }}
                         ({{ $literal_entregado }})
                     </td>

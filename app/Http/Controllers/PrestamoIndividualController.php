@@ -48,6 +48,7 @@ class PrestamoIndividualController extends Controller
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
             $prestamo->estado = 'APROBADO';
+            $prestamo->user_aprobado_id = Auth::user()->id;
             $prestamo->fecha_desembolso = $request->fecha_desembolso;
             $prestamo->save();
 
@@ -93,6 +94,7 @@ class PrestamoIndividualController extends Controller
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
             $prestamo->estado = 'RECHAZADO';
+            $prestamo->user_aprobado_id = NULL;
             $prestamo->fecha_desembolso = NULL;
             $prestamo->save();
 
