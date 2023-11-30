@@ -128,8 +128,9 @@ class PrestamoController extends Controller
 
             $convertir = new NumeroALetras();
             $array_monto = explode('.', $datos["monto"]);
+
             $literal = $convertir->convertir($array_monto[0]);
-            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+            $literal .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
             $pdf = PDF::loadView('reportes.plan_pago', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "valor_interes"))->setPaper('letter', 'portrait');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
@@ -166,7 +167,7 @@ class PrestamoController extends Controller
             $convertir = new NumeroALetras();
             $array_monto = explode('.', $datos["monto"]);
             $literal = $convertir->convertir($array_monto[0]);
-            $literal .= " " . $array_monto[1] . "/100." . " Bolivianos";
+            $literal .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
 
             $id = 0;
             $grupo = null;

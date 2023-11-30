@@ -157,7 +157,10 @@ export default {
                         ) {
                             window.location = "/";
                         }
-                        if (error.response.status === 500) {
+                        if (
+                            error.response.status === 500 ||
+                            error.response.status === 400
+                        ) {
                             Swal.fire({
                                 icon: "error",
                                 title: "Error",

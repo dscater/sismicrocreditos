@@ -167,7 +167,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                    this.$emit("envioModal");
+                    this.$emit("envioModal", res.data.prestamo);
                 })
                 .catch((error) => {
                     this.enviando = false;

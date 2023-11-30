@@ -100,6 +100,23 @@
                                                     </td>
                                                     <td>
                                                         <button
+                                                            class="inline-block btn btn-xs btn-primary"
+                                                            v-if="
+                                                                item.desembolso ==
+                                                                1
+                                                            "
+                                                            @click="
+                                                                descargarComprobante(
+                                                                    item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-file-pdf"
+                                                            ></i>
+                                                            Comprobante
+                                                        </button>
+                                                        <button
                                                             class="inline-block btn btn-xs btn-success"
                                                             v-if="
                                                                 item.sw_desembolso &&
@@ -146,7 +163,7 @@
             :muestra_modal="muestra_modal"
             :prestamo="oPrestamo"
             @close="muestra_modal = false"
-            @envioModal="empezarBusqueda"
+            @envioModal="nuevoDesembolso"
         ></DesembolsoIndividual>
     </div>
 </template>
@@ -217,6 +234,10 @@ export default {
         this.loadingWindow.close();
     },
     methods: {
+        nuevoDesembolso(prestamo) {
+            this.empezarBusqueda();
+            this.descargarComprobante(prestamo);
+        },
         realizarDesembolso(item) {
             this.oPrestamo = item;
             this.muestra_modal = true;
@@ -262,6 +283,77 @@ export default {
                                 showConfirmButton: false,
                                 timer: 2000,
                             });
+                        }
+                    }
+                });
+        },
+        descargarComprobante(item) {
+            let config = {
+                responseType: "blob",
+            };
+            axios
+                .post(
+                    main_url +
+                        "/admin/desembolsos/individual/comprobante/" +
+                        item.id,
+                    null,
+                    config
+                )
+                .then((res) => {
+                    this.errors = [];
+                    this.enviando = false;
+                    let pdfBlob = new Blob([res.data], {
+                        type: "application/pdf",
+                    });
+                    let urlReporte = URL.createObjectURL(pdfBlob);
+                    window.open(urlReporte);
+                })
+                .catch(async (error) => {
+                    let responseObj = await error.response.data.text();
+                    responseObj = JSON.parse(responseObj);
+                    console.log(error);
+                    this.enviando = false;
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            this.errors = responseObj.errors;
+                            let mensaje = `<ul class="text-left">`;
+                            for (let key in this.errors) {
+                                if (this.errors.hasOwnProperty(key)) {
+                                    const value = this.errors[key];
+                                    if (Array.isArray(value)) {
+                                        value.forEach((error) => {
+                                            mensaje += `<li><span>${error.trim()}</span></li>`;
+                                        });
+                                    }
+                                }
+                            }
+                            mensaje += `<ul/>`;
+                            Swal.fire({
+                                icon: "error",
+                                title: "Tienes los siguientes errores en el formulario",
+                                html: mensaje,
+                                showConfirmButton: true,
+                                confirmButtonColor: "#1976d2",
+                                confirmButtonText: "Aceptar",
+                            });
+                            1;
+                        }
+                        if (
+                            error.response.status === 420 ||
+                            error.response.status === 419 ||
+                            error.response.status === 401 ||
+                            error.response.status === 400
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: responseObj.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            if (error.response.status != 400) {
+                                window.location = "/";
+                            }
                         }
                     }
                 });

@@ -29,28 +29,6 @@ class DesembolsoGrupalController extends Controller
             $grupo->user_desembolso_id = Auth::user()->id;
             $grupo->desembolso = 1;
             $grupo->save();
-            // registrar las fechas de pagos
-            $plan_pagos = $grupo->grupo_plan_pagos;
-            $fecha_desembolso = $grupo->fecha_desembolso;
-            $fecha_proximo_pago = $fecha_desembolso;
-            foreach ($plan_pagos as $key => $pp) {
-                $fecha_proximo_pago = date("Y-m-d", strtotime($fecha_proximo_pago . "+7days"));
-                $pp->fecha_pago = $fecha_proximo_pago;
-                $pp->save();
-            }
-
-            // actualizar el plan por separado de los prestamos
-            $grupo_plan_pagos = $grupo->grupo_plan_pagos;
-            foreach ($grupo->prestamos as $prestamo) {
-                foreach ($grupo_plan_pagos as $gpp) {
-                    $pp = PlanPago::where("prestamo_id", $prestamo->id)->where("nro_cuota", $gpp->nro_cuota)->get()->first();
-                    $pp->fecha_pago = $gpp->fecha_pago;
-                    $pp->save();
-                }
-                $prestamo->user_desembolso_id = Auth::user()->id;
-                $prestamo->desembolso = 1;
-                $prestamo->save();
-            }
 
             // registrar movimiento de caja
             CajaMovimiento::create([

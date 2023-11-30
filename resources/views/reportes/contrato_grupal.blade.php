@@ -182,8 +182,8 @@
     <p class="parrafo">
         <span class="bold">PRIMERA.-</span> El contrato de préstamo de dinero que otorga la asociación de crédito
         “{{ $configuracion->first()->razon_social }}” representado por el/la asesor(a) de la ciudad de el alto
-        {{ $prestamo->user_desembolso->full_name }} con
-        C.I. {{ $prestamo->user_desembolso->full_ci }}. A favor de:
+        {{ $prestamo->user->full_name }} con
+        C.I. {{ $prestamo->user->full_ci }}. A favor de:
     </p>
     <p class="parrafo">
         {{ $prestamo->cliente->full_name }} con C.I. {{ $prestamo->cliente->full_ci }} {{ $prestamo->monto }}.- Bs
@@ -204,7 +204,7 @@
         <span class="bold">TERCERA.-</span> El Prestatario(a) se obliga a pagar intereses del 3% mensual sobre saldos
         de
         capital y
-        el 1.9% por gastos de administración según el monto establecido.
+        el 2% por gastos de administración según el monto establecido.
     </p>
     <p class="parrafo">
         <span class="bold">CUARTA.-</span> El interés establecido regirá hasta {{ $prestamo->ultima_fecha_pago }}
@@ -248,7 +248,7 @@
         <tbody>
             <tr>
                 <td class="top_punteado">{{ $prestamo->cliente->full_name }}</td>
-                <td class="top_punteado">{{ $prestamo->user_desembolso->full_name }}</td>
+                <td class="top_punteado">{{ $prestamo->user->full_name }}</td>
             </tr>
             <tr>
                 <td>{{ $prestamo->cliente->full_ci }}</td>
@@ -256,7 +256,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td>{{ $prestamo->user_desembolso->full_ci }}</td>
+                <td>{{ $prestamo->user->full_ci }}</td>
             </tr>
         </tbody>
     </table>

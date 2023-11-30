@@ -116,9 +116,7 @@
                                                         <button
                                                             v-if="
                                                                 item.estado ==
-                                                                    'APROBADO' &&
-                                                                item.desembolso ==
-                                                                    1
+                                                                'APROBADO'
                                                             "
                                                             class="inline-block btn btn-xs btn-success"
                                                             @click="
@@ -212,7 +210,7 @@
             :muestra_modal="muestra_modal"
             :prestamo="oPrestamo"
             @close="muestra_modal = false"
-            @envioModal="empezarBusqueda"
+            @envioModal="nuevoAprobado"
         ></AprobacionIndividual>
     </div>
 </template>
@@ -283,6 +281,10 @@ export default {
         this.loadingWindow.close();
     },
     methods: {
+        nuevoAprobado(prestamo) {
+            this.descargarContrato(prestamo);
+            this.empezarBusqueda();
+        },
         descargarContrato(item) {
             let config = {
                 responseType: "blob",

@@ -63,7 +63,7 @@ class Caja extends Model
 
         // Gastos Administrativos
         $caja = Caja::find(2);
-        $suma_saldo -= (float)$caja->saldo;
+        $suma_saldo += (float)$caja->saldo;
 
         // Cargos por Multa
         $caja = Caja::find(3);

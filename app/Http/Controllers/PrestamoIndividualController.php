@@ -36,7 +36,7 @@ class PrestamoIndividualController extends Controller
         ]);
 
         $fecha_actual = date("Y-m-d");
-        if ($request->fecha_desembolso <= $fecha_actual) {
+        if ($request->fecha_desembolso < $fecha_actual) {
             return response()->JSON([
                 "errors" => [
                     "fecha_desembolso" => ["La fecha ingresada no puede ser igual o menor a la fecha actual"]
@@ -50,6 +50,17 @@ class PrestamoIndividualController extends Controller
             $prestamo->estado = 'APROBADO';
             $prestamo->fecha_desembolso = $request->fecha_desembolso;
             $prestamo->save();
+
+            // registrar las fechas de pagos
+            $plan_pagos = $prestamo->plan_pagos;
+            $fecha_desembolso = $prestamo->fecha_desembolso;
+            $fecha_proximo_pago = $fecha_desembolso;
+            foreach ($plan_pagos as $key => $pp) {
+                $fecha_proximo_pago = date("Y-m-d", strtotime($fecha_proximo_pago . "+7days"));
+                $pp->fecha_pago = $fecha_proximo_pago;
+                $pp->save();
+            }
+
 
             $datos_nuevo = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
             HistorialAccion::create([
@@ -65,7 +76,7 @@ class PrestamoIndividualController extends Controller
             DB::commit();
             return response()->JSON([
                 'sw' => true,
-                'prestamo' => $prestamo,
+                'prestamo' => $prestamo->load(["cliente", "user"]),
                 'msj' => 'El préstamo se aprobo correctamente',
             ], 200);
         } catch (\Exception $e) {
@@ -84,6 +95,9 @@ class PrestamoIndividualController extends Controller
             $prestamo->estado = 'RECHAZADO';
             $prestamo->fecha_desembolso = NULL;
             $prestamo->save();
+
+            // poner el nulo las fechas
+            DB::update("UPDATE plan_pagos SET fecha_pago=NULL WHERE prestamo_id = $prestamo->id");
 
             $datos_nuevo = HistorialAccion::getDetalleRegistro($prestamo, "prestamos");
             HistorialAccion::create([

@@ -155,7 +155,7 @@ export default {
             user: JSON.parse(localStorage.getItem("user")),
             bModal: this.muestra_modal,
             enviando: false,
-            listGlosas: ["GASTOS ADMINISTRATIVOS", "ABONO CAPITAL"],
+            listGlosas: ["ABONO CAPITAL"],
             errors: [],
         };
     },

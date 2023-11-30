@@ -43,21 +43,8 @@ class CajaController extends Controller
         $request["fecha_registro"] = date("Y-m-d");
         DB::beginTransaction();
         try {
-            $glosa = $request->glosa;
-            $caja_id = 2;
+            $caja_id = 1;
             $tipo = "CRÉDITO";
-            if ($glosa == 'GASTOS ADMINISTRATIVOS') {
-                // validar saldo en caja
-                $total_saldo_caja = Caja::getSaldoTotal();
-                if ((float)$request->monto > (float)$total_saldo_caja) {
-                    throw new Exception("El monto para GASTOS ADMINITRATIVOS no puede ser mayor al saldo actual en CAJA de " . $total_saldo_caja);
-                }
-                $caja_id = 2;
-                $tipo = "DEBITO";
-            } else {
-                $caja_id = 1;
-                $tipo = "CRÉDITO";
-            }
 
             $caja_movimiento = CajaMovimiento::create([
                 "caja_id" => $caja_id,

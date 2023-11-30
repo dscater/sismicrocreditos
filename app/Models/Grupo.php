@@ -59,6 +59,11 @@ class Grupo extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function desembolso()
+    {
+        return $this->hasOne(Desembolso::class, 'grupo_id');
+    }
+
     public function user_desembolso()
     {
         return $this->belongsTo(User::class, 'user_desembolso_id');

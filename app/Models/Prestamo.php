@@ -78,6 +78,11 @@ class Prestamo extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function o_desembolso()
+    {
+        return $this->hasOne(Desembolso::class, 'prestamo_id');
+    }
+
     public function user_desembolso()
     {
         return $this->belongsTo(User::class, 'user_desembolso_id');

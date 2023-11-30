@@ -89,9 +89,11 @@ Route::middleware(['auth'])->group(function () {
 
         // desembolsos-individual
         Route::post("desembolsos/individual/{prestamo}", [DesembolsoIndividualController::class, 'store']);
+        Route::post("desembolsos/individual/comprobante/{prestamo}", [DesembolsoIndividualController::class, 'comprobante']);
 
         // desembolsos-grupal
         Route::post("desembolsos/grupal/{grupo}", [DesembolsoGrupalController::class, 'store']);
+        Route::post("desembolsos/grupal/comprobante/{grupo}", [DesembolsoGrupalController::class, 'comprobante']);
 
         // cajas
         Route::resource('cajas', CajaController::class)->only([
