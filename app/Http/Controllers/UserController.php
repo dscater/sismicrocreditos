@@ -126,9 +126,11 @@ class UserController extends Controller
             'prestamos.individual',
             'prestamos.individual_contrato',
             'prestamos.individual_nuevo',
+            'prestamos.individual_aprobar',
             'prestamos.grupal',
             'prestamos.grupal_contrato',
             'prestamos.grupal_nuevo',
+            'prestamos.grupal_aprobar',
 
             "desembolsos.individual",
             "desembolsos.grupal",

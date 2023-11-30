@@ -79,13 +79,22 @@
                                                 <tr
                                                     v-for="item in listPrestamos"
                                                 >
-                                                    <td>{{ item.nombre }}</td>
-                                                    <td>
+                                                    <td data-col="Nombre Grupo:">
+                                                        {{ item.nombre }}
+                                                    </td>
+                                                    <td
+                                                        data-col="Nro. Integrantes:"
+                                                    >
                                                         {{ item.integrantes }}
                                                     </td>
-                                                    <td>{{ item.monto }}</td>
-                                                    <td>{{ item.plazo }}</td>
+                                                    <td data-col="Monto:">
+                                                        {{ item.monto }}
+                                                    </td>
+                                                    <td data-col="Plazo:">
+                                                        {{ item.plazo }}
+                                                    </td>
                                                     <td
+                                                        data-col=""
                                                         class="text-center font-weight-bold"
                                                         :class="{
                                                             'bg-warning':
@@ -104,12 +113,14 @@
                                                     >
                                                         {{ item.estado }}
                                                     </td>
-                                                    <td>
+                                                    <td
+                                                        data-col="Fecha Registro:"
+                                                    >
                                                         {{
                                                             item.fecha_registro_t
                                                         }}
                                                     </td>
-                                                    <td>
+                                                    <td data-col="Acción:">
                                                         <button
                                                             v-if="
                                                                 item.estado ==

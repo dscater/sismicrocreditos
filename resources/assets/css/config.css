@@ -225,3 +225,23 @@ input.form-control {
 .small-box .informacion .inner {
     flex: 1;
 }
+
+/* TABLAS */
+@media (max-width: 800px) {
+    #modal-default {
+        padding: 0px;
+    }
+
+    .tabla_prestamos thead {
+        display: none;
+    }
+
+    .tabla_prestamos tbody tr td:before {
+        content: attr(data-col);
+        font-weight: bold;
+        width: 40%;
+    }
+    .tabla_prestamos tbody tr td {
+        display: block;
+    }
+}

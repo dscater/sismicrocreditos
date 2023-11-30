@@ -67,15 +67,25 @@
                                                 <tr
                                                     v-for="item in listPrestamos"
                                                 >
-                                                    <td>
+                                                    <td
+                                                        data-col="Nombre Grupo:"
+                                                    >
                                                         {{ item.nombre }}
                                                     </td>
-                                                    <td>
+                                                    <td
+                                                        data-col="Nro. Integrantes:"
+                                                    >
                                                         {{ item.integrantes }}
                                                     </td>
-                                                    <td>{{ item.monto }}</td>
-                                                    <td>{{ item.plazo }}</td>
-                                                    <td>
+                                                    <td data-col="Monto:">
+                                                        {{ item.monto }}
+                                                    </td>
+                                                    <td data-col="Plazo:">
+                                                        {{ item.plazo }}
+                                                    </td>
+                                                    <td
+                                                        data-col="Fecha de Desembolso:"
+                                                    >
                                                         {{
                                                             item.fecha_desembolso_t
                                                                 ? item.fecha_desembolso_t
@@ -83,6 +93,7 @@
                                                         }}
                                                     </td>
                                                     <td
+                                                        data-col="Estado Desembolso"
                                                         class="text-center font-weight-bold"
                                                         :class="{
                                                             'bg-warning':
@@ -99,7 +110,7 @@
                                                                 : "PENDIENTE"
                                                         }}
                                                     </td>
-                                                    <td>
+                                                    <td data-col="Acción">
                                                         <button
                                                             class="inline-block btn btn-xs btn-primary"
                                                             v-if="

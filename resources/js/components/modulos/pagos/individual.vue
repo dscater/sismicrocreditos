@@ -67,15 +67,23 @@
                                                 <tr
                                                     v-for="item in listPrestamos"
                                                 >
-                                                    <td>
+                                                    <td
+                                                        data-col="Nombre Cliente:"
+                                                    >
                                                         {{
                                                             item.cliente
                                                                 .full_name
                                                         }}
                                                     </td>
-                                                    <td>{{ item.monto }}</td>
-                                                    <td>{{ item.plazo }}</td>
-                                                    <td>
+                                                    <td data-col="Monto:">
+                                                        {{ item.monto }}
+                                                    </td>
+                                                    <td data-col="Plazo:">
+                                                        {{ item.plazo }}
+                                                    </td>
+                                                    <td
+                                                        data-col="Nro. Pagos Realizados:"
+                                                    >
                                                         <span
                                                             class="text-md badge badge-primary"
                                                             >{{
@@ -83,7 +91,7 @@
                                                             }}</span
                                                         >
                                                     </td>
-                                                    <td>
+                                                    <td data-col="Acción:">
                                                         <button
                                                             class="inline-block btn btn-xs btn-primary"
                                                             v-if="
