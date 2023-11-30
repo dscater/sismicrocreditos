@@ -81,9 +81,9 @@ class UserController extends Controller
             "desembolsos.grupal",
 
             "pagos.individual",
-            "pagos.individual_store",
+            // "pagos.individual_store",
             "pagos.grupal",
-            "pagos.grupal_store",
+            // "pagos.grupal_store",
 
             'configuracion.index',
             'configuracion.edit',
