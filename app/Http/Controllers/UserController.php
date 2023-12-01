@@ -56,6 +56,11 @@ class UserController extends Controller
             'usuarios.edit',
             'usuarios.destroy',
 
+            'salarios.index',
+            'salarios.create',
+            'salarios.edit',
+            'salarios.destroy',
+
             'clientes.index',
             'clientes.create',
             'clientes.edit',
@@ -76,6 +81,8 @@ class UserController extends Controller
             'prestamos.grupal_nuevo',
             'prestamos.grupal_aprobar',
             'prestamos.grupal_rechazar',
+            'prestamos.simulacion',
+
 
             "desembolsos.individual",
             "desembolsos.grupal",
@@ -131,6 +138,7 @@ class UserController extends Controller
             'prestamos.grupal_contrato',
             'prestamos.grupal_nuevo',
             'prestamos.grupal_aprobar',
+            'prestamos.simulacion',
 
             "desembolsos.individual",
             "desembolsos.grupal",

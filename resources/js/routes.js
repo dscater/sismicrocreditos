@@ -35,6 +35,14 @@ export default new Router({
                 .default,
         },
 
+        // Salarios
+        {
+            path: "/salarios",
+            name: "salarios.index",
+            component: require("./components/modulos/salarios/index.vue")
+                .default,
+        },
+
         // Clientes
         {
             path: "/clientes",
@@ -51,6 +59,13 @@ export default new Router({
         },
 
         // Prestamos
+        // simulacion
+        {
+            path: "/prestamos/simulacion",
+            name: "prestamos.simulacion",
+            component: require("./components/modulos/prestamos/simulacion.vue")
+                .default,
+        },
         // individual
         {
             path: "/prestamos/individual",

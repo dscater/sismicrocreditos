@@ -161,6 +161,9 @@
             {{ $configuracion->first()->razon_social }}
         </h2>
         <h4 class="texto">PLAN DE PAGOS</h4>
+        @if (isset($simulacion))
+            <h4 class="texto">SIMULACIÓN</h4>
+        @endif
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">

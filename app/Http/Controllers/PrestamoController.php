@@ -104,6 +104,82 @@ class PrestamoController extends Controller
         }
     }
 
+    public function plan_pago_simulacion(Request $request)
+    {
+
+        $errors = [];
+        $datos = [
+            "monto" => $request["monto"],
+            "plazo" => $request["plazo"],
+            "cliente" => [
+                "nombre" => mb_strtoupper($request["cliente"]["nombre"]),
+                "segundo_nombre" => mb_strtoupper($request["cliente"]["segundo_nombre"]),
+                "paterno" => mb_strtoupper($request["cliente"]["paterno"]),
+                "materno" => mb_strtoupper($request["cliente"]["materno"]),
+                "ci" => "S/N",
+                "ci_exp" => "",
+            ]
+        ];
+
+        if (trim($datos["monto"]) == '' || (float)$datos["monto"] <= 0) {
+            $errors["monto"] = ["Debes ingresar un monto valido"];
+        }
+        if (trim($datos["plazo"]) == '' || (float)$datos["plazo"] <= 0) {
+            $errors["plazo"] = ["Debes ingresar un plazo valido"];
+        } else {
+            if ((float)$datos["plazo"] > 12) {
+                $errors["plazo"] = ["El plazo no puede ser mayor a 12 semanas"];
+            }
+        }
+        $cliente = $datos["cliente"];
+        if (!$cliente["nombre"] || trim($cliente["nombre"]) == '') {
+            $errors["nombre"] = ["Debes ingresar ingresar el nombre del cliente"];
+        }
+        if (!$cliente["paterno"] || trim($cliente["paterno"]) == '') {
+            $errors["paterno"] = ["Debes ingresar el apellido paterno del cliente"];
+        }
+
+        if (count($errors) > 0) {
+            return response()->JSON([
+                "errors" => $errors
+            ], 422);
+        }
+        try {
+            $interes = Interes::get()->last();
+            $valor_interes = 4.9;
+            if ($interes) {
+                $valor_interes = (float)$interes->interes;
+            }
+            $interes_semanal = ($valor_interes / 4) / 100;
+            $interes_semanal = round($interes_semanal, 5);
+            $interes_semanal = (float)$interes_semanal;
+            $cuota_fija = self::getCuotaFija($datos["monto"], $datos["plazo"], $interes_semanal);
+            $plan_pago = self::getPlanPago($datos["monto"], $datos["plazo"], $cuota_fija, $interes_semanal);
+
+            $convertir = new NumeroALetras();
+            $array_monto = explode('.', $datos["monto"]);
+
+            $literal = $convertir->convertir($array_monto[0]);
+            $literal .= " " . (isset($array_monto[1]) ? $array_monto[1] : '00') . "/100." . " Bolivianos";
+            $simulacion = true;
+            $pdf = PDF::loadView('reportes.plan_pago', compact('datos', "interes_semanal", "cuota_fija", "plan_pago", "literal", "valor_interes", "simulacion"))->setPaper('letter', 'portrait');
+
+            // ENUMERAR LAS PÁGINAS USANDO CANVAS
+            $pdf->output();
+            $dom_pdf = $pdf->getDomPDF();
+            $canvas = $dom_pdf->get_canvas();
+            $alto = $canvas->get_height();
+            $ancho = $canvas->get_width();
+            $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+            return $pdf->download('PlanPagoSimulacion.pdf');
+        } catch (\Exception $e) {
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+    }
+
     public function plan_pago_individual(Request $request)
     {
         $datos = self::armarDatos($request);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-11-2023 a las 22:06:02
+-- Tiempo de generación: 01-12-2023 a las 03:44:04
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -40,10 +40,10 @@ CREATE TABLE `cajas` (
 --
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
-(1, 'Pago por Cuotas', 0.00, NULL, '2023-11-30 21:40:12'),
-(2, 'Gastos Administrativos', 0.00, NULL, '2023-11-30 21:40:12'),
-(3, 'Cargos por Multa', 0.00, NULL, '2023-11-30 21:40:12'),
-(4, 'Intereses', 0.00, NULL, '2023-11-30 21:40:12');
+(1, 'Pago por Cuotas', 0.00, NULL, '2023-12-01 02:59:43'),
+(2, 'Gastos Administrativos', 0.00, NULL, '2023-12-01 02:59:43'),
+(3, 'Cargos por Multa', 0.00, NULL, '2023-12-01 02:59:43'),
+(4, 'Intereses', 0.00, NULL, '2023-12-01 02:59:43');
 
 -- --------------------------------------------------------
 
@@ -248,7 +248,10 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (1, 3, 'CREACIÓN', 'EL USUARIO NBURGOS REGISTRO UN PRESTAMO', 'cliente_id: 1<br/>created_at: 2023-11-30 17:49:40<br/>croquis: 1<br/>desembolso: <br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-30<br/>finalizado: <br/>grupo_id: <br/>id: 1<br/>monto: 4000<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-30 17:49:40<br/>user_aprobado_id: <br/>user_desembolso_id: <br/>user_id: 3<br/>', NULL, 'PRESTAMOS', '2023-11-30', '17:49:40', '2023-11-30 21:49:40', '2023-11-30 21:49:40'),
 (2, 3, 'CREACIÓN', 'EL USUARIO NBURGOS REGISTRO UN PRESTAMO', 'cliente_id: 3<br/>created_at: 2023-11-30 17:59:55<br/>croquis: 1<br/>desembolso: <br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-30<br/>finalizado: <br/>grupo_id: 1<br/>id: 2<br/>monto: 6000<br/>plazo: 12<br/>tipo: GRUPAL<br/>updated_at: 2023-11-30 17:59:55<br/>user_aprobado_id: <br/>user_desembolso_id: <br/>user_id: 3<br/>', NULL, 'PRESTAMOS', '2023-11-30', '17:59:55', '2023-11-30 21:59:55', '2023-11-30 21:59:55'),
 (3, 3, 'CREACIÓN', 'EL USUARIO NBURGOS REGISTRO UN PRESTAMO', 'cliente_id: 7<br/>created_at: 2023-11-30 17:59:55<br/>croquis: 1<br/>desembolso: <br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-30<br/>finalizado: <br/>grupo_id: 1<br/>id: 3<br/>monto: 4000<br/>plazo: 12<br/>tipo: GRUPAL<br/>updated_at: 2023-11-30 17:59:55<br/>user_aprobado_id: <br/>user_desembolso_id: <br/>user_id: 3<br/>', NULL, 'PRESTAMOS', '2023-11-30', '17:59:55', '2023-11-30 21:59:55', '2023-11-30 21:59:55'),
-(4, 3, 'MODIFICACIÓN', 'EL USUARIO NBURGOS APROBO UN PRÉSTAMO', 'cliente_id: 1<br/>created_at: 2023-11-30 17:49:40<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-30<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-30 17:49:40<br/>user_aprobado_id: <br/>user_desembolso_id: <br/>user_id: 3<br/>', 'cliente_id: 1<br/>created_at: 2023-11-30 17:49:40<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-30<br/>fecha_registro: 2023-11-30<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-30 18:04:22<br/>user_aprobado_id: 3<br/>user_desembolso_id: <br/>user_id: 3<br/>', 'PRESTAMOS', '2023-11-30', '18:04:22', '2023-11-30 22:04:22', '2023-11-30 22:04:22');
+(4, 3, 'MODIFICACIÓN', 'EL USUARIO NBURGOS APROBO UN PRÉSTAMO', 'cliente_id: 1<br/>created_at: 2023-11-30 17:49:40<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: PRE APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: <br/>fecha_registro: 2023-11-30<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-30 17:49:40<br/>user_aprobado_id: <br/>user_desembolso_id: <br/>user_id: 3<br/>', 'cliente_id: 1<br/>created_at: 2023-11-30 17:49:40<br/>croquis: 1<br/>desembolso: 0<br/>documento_1: <br/>documento_2: <br/>documento_3: <br/>documento_4: <br/>estado: APROBADO<br/>f_agua: 1<br/>f_ci: 1<br/>f_luz: 1<br/>fecha_desembolso: 2023-11-30<br/>fecha_registro: 2023-11-30<br/>finalizado: 0<br/>grupo_id: <br/>id: 1<br/>monto: 4000.00<br/>plazo: 12<br/>tipo: INDIVIDUAL<br/>updated_at: 2023-11-30 18:04:22<br/>user_aprobado_id: 3<br/>user_desembolso_id: <br/>user_id: 3<br/>', 'PRESTAMOS', '2023-11-30', '18:04:22', '2023-11-30 22:04:22', '2023-11-30 22:04:22'),
+(5, 1, 'CREACIÓN', 'EL USUARIO  REGISTRO EL SALARIO DE UN EMPLEADO', 'created_at: 2023-11-30 23:25:16<br/>id: 1<br/>salario: 3000<br/>updated_at: 2023-11-30 23:25:16<br/>user_id: 2<br/>', NULL, 'SALARIOS', '2023-11-30', '23:25:16', '2023-12-01 03:25:16', '2023-12-01 03:25:16'),
+(6, 1, 'MODIFICACIÓN', 'EL USUARIO  MODIFICÓ EL SALARIO DE UN EMPLEADO', 'created_at: 2023-11-30 23:25:16<br/>id: 1<br/>salario: 3000.00<br/>updated_at: 2023-11-30 23:25:16<br/>user_id: 2<br/>', 'created_at: 2023-11-30 23:25:16<br/>id: 1<br/>salario: 3000.00<br/>updated_at: 2023-11-30 23:25:16<br/>user_id: 2<br/>', 'SALARIOS', '2023-11-30', '23:26:04', '2023-12-01 03:26:04', '2023-12-01 03:26:04'),
+(7, 1, 'CREACIÓN', 'EL USUARIO  REGISTRO EL SALARIO DE UN EMPLEADO', 'created_at: 2023-11-30 23:26:21<br/>id: 2<br/>salario: 5000<br/>updated_at: 2023-11-30 23:26:21<br/>user_id: 3<br/>', NULL, 'SALARIOS', '2023-11-30', '23:26:21', '2023-12-01 03:26:21', '2023-12-01 03:26:21');
 
 -- --------------------------------------------------------
 
@@ -300,7 +303,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2023_11_21_143314_create_caja_movimientos_table', 2),
 (12, '2023_11_22_233737_create_interes_table', 3),
 (15, '2023_11_27_175039_create_grupo_plan_pagos_table', 4),
-(17, '2023_11_30_115539_create_desembolsos_table', 5);
+(17, '2023_11_30_115539_create_desembolsos_table', 5),
+(18, '2023_11_30_225153_create_salarios_table', 6);
 
 -- --------------------------------------------------------
 
@@ -454,6 +458,28 @@ INSERT INTO `prestamos` (`id`, `user_id`, `user_desembolso_id`, `user_aprobado_i
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `salarios`
+--
+
+CREATE TABLE `salarios` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `salario` decimal(24,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `salarios`
+--
+
+INSERT INTO `salarios` (`id`, `user_id`, `salario`, `created_at`, `updated_at`) VALUES
+(1, 2, 3000.00, '2023-12-01 03:25:16', '2023-12-01 03:25:16'),
+(2, 3, 5000.00, '2023-12-01 03:26:21', '2023-12-01 03:26:21');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -578,6 +604,12 @@ ALTER TABLE `prestamos`
   ADD KEY `prestamos_cliente_id_foreign` (`cliente_id`);
 
 --
+-- Indices de la tabla `salarios`
+--
+ALTER TABLE `salarios`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
@@ -634,7 +666,7 @@ ALTER TABLE `grupo_plan_pagos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `interes`
@@ -646,7 +678,7 @@ ALTER TABLE `interes`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
@@ -671,6 +703,12 @@ ALTER TABLE `plan_pagos`
 --
 ALTER TABLE `prestamos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `salarios`
+--
+ALTER TABLE `salarios`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

@@ -77,7 +77,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <table class="table table-bordered">
+                                        <table
+                                            class="table table-bordered tabla_prestamos"
+                                        >
                                             <thead class="bg-primary">
                                                 <tr>
                                                     <th width="15%">
@@ -99,21 +101,25 @@
                                                     <tr
                                                         v-for="item in listRegistros"
                                                     >
-                                                        <td>
+                                                        <td
+                                                            data-col="Fecha de Registro:"
+                                                        >
                                                             {{
                                                                 item.fecha_registro_t
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td data-col="Usuario:">
                                                             {{
                                                                 item.user
                                                                     .usuario
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td data-col="Monto:">
                                                             {{ item.monto }}
                                                         </td>
-                                                        <td>
+                                                        <td
+                                                            data-col="Tipo Movimiento:"
+                                                        >
                                                             <span
                                                                 class="badge"
                                                                 :class="[
@@ -126,7 +132,7 @@
                                                                 {{ item.tipo }}
                                                             </span>
                                                         </td>
-                                                        <td>
+                                                        <td data-col="Glosa:">
                                                             {{ item.glosa }}
                                                         </td>
                                                     </tr>

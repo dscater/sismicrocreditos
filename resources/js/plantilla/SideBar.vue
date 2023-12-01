@@ -79,7 +79,17 @@
                         class="nav-header font-weight-bold"
                         v-if="
                             permisos.includes('usuarios.index') ||
-                            permisos.includes('clientes.index')
+                            permisos.includes('clientes.index') ||
+                            permisos.includes('salarios.index') ||
+                            permisos.includes('pagos.individual') ||
+                            permisos.includes('pagos.grupal') ||
+                            permisos.includes('desembolsos.individual') ||
+                            permisos.includes('desembolsos.grupal') ||
+                            permisos.includes('prestamos.individual') ||
+                            permisos.includes('prestamos.grupal') ||
+                            permisos.includes('cajas.index') ||
+                            permisos.includes('clientes.index') ||
+                            permisos.includes('salarios.index')
                         "
                     >
                         ADMINISTRACIÓN:
@@ -241,11 +251,13 @@
                         class="nav-item"
                         v-if="
                             permisos.includes('prestamos.individual') ||
+                            permisos.includes('prestamos.simulacion') ||
                             permisos.includes('prestamos.grupal')
                         "
                         :class="[
                             $route.name == 'prestamos.individual' ||
                             $route.name == 'prestamos.grupal' ||
+                            $route.name == 'prestamos.simulacion' ||
                             $route.name == 'prestamos.individual_nuevo' ||
                             $route.name == 'prestamos.grupal_nuevo'
                                 ? 'menu-is-opening menu-open active'
@@ -264,6 +276,7 @@
                             :style="{
                                 display:
                                     $route.name == 'prestamos.individual' ||
+                                    $route.name == 'prestamos.simulacion' ||
                                     $route.name == 'prestamos.grupal' ||
                                     $route.name ==
                                         'prestamos.individual_nuevo' ||
@@ -317,6 +330,27 @@
                                     <p>Grupal</p>
                                 </router-link>
                             </li>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('prestamos.simulacion')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'prestamos.simulacion' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name == 'prestamos.simulacion'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Simulación</p>
+                                </router-link>
+                            </li>
                         </ul>
                     </li>
                     <li
@@ -355,6 +389,20 @@
                         >
                             <i class="nav-icon fas fa-users"></i>
                             <p>Empleados</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('salarios.index')"
+                    >
+                        <router-link
+                            exact
+                            :to="{ name: 'salarios.index' }"
+                            class="nav-link"
+                            v-loading.fullscreen.lock="fullscreenLoading"
+                        >
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>Salarios</p>
                         </router-link>
                     </li>
                     <li

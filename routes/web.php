@@ -14,6 +14,7 @@ use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\PrestamoGrupalController;
 use App\Http\Controllers\PrestamoIndividualController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\SalarioController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
         Route::post("prestamos/simulacion/plan_pago_grupal", [PrestamoController::class, 'plan_pago_grupal']);
         Route::post("prestamos/simulacion/plan_pago_individual", [PrestamoController::class, 'plan_pago_individual']);
+        Route::post("prestamos/simulacion/plan_pago_simulacion", [PrestamoController::class, 'plan_pago_simulacion']);
         Route::post("prestamos/contrato_grupal/{grupo}", [PrestamoController::class, 'contrato_grupal']);
         Route::post("prestamos/contrato_individual/{prestamo}", [PrestamoController::class, 'contrato_individual']);
         Route::resource('prestamos', PrestamoController::class)->only([
@@ -114,6 +116,11 @@ Route::middleware(['auth'])->group(function () {
 
         // grupos
         Route::resource('grupos', GrupoController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // salarios
+        Route::resource('salarios', SalarioController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
 
