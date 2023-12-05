@@ -84,6 +84,8 @@ class PagoController extends Controller
             $plan_pago->cancelado = "SI";
             $plan_pago->save();
 
+            Pago::verifica_individual($pago->prestamo);
+
             $datos_original = HistorialAccion::getDetalleRegistro($pago, "pagos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
@@ -172,6 +174,7 @@ class PagoController extends Controller
             $plan_pago->save();
 
             $grupo = Grupo::find($request->grupo_id);
+            Pago::verifica_grupal($grupo);
             foreach ($grupo->prestamos as $prestamo) {
                 $pp = PlanPago::where("prestamo_id", $prestamo->id)->where("nro_cuota", $plan_pago->nro_cuota)->get()->first();
                 $pp->cancelado = "SI";

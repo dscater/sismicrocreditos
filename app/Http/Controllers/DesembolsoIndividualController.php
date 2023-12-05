@@ -44,7 +44,7 @@ class DesembolsoIndividualController extends Controller
             ]);
 
             // registrar DESEMBOLSO
-            $prestamo->desembolso()->create([
+            $prestamo->o_desembolso()->create([
                 "user_id" => Auth::user()->id,
                 "tipo_prestamo" => "INDIVIDUAL",
                 "monto" => $request->monto,

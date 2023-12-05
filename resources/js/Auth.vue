@@ -6,10 +6,10 @@
                 <div class="card-header text-center">
                     <img :src="logo" alt="Logo" />
                 </div>
-                <div class="card-body pt-1">
+                <div class="card-body pt-1 text-center">
                     <router-link
                         :to="{ name: 'login' }"
-                        class="h1 text-primary text-xl"
+                        class="h1 text-primary text-xl w-100"
                         ><b v-text="empresa"></b
                     ></router-link>
                     <p class="login-box-msg text-primary font-weight-bold mt-3">

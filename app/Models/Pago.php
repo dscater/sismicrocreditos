@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Pago extends Model
 {
@@ -54,5 +55,29 @@ class Pago extends Model
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    // verifica finalizados
+    public static function verifica_individual(Prestamo $prestamo)
+    {
+        $nro_pagos_realizados = $prestamo->nro_pagos_realizados;
+
+        if ($nro_pagos_realizados == $prestamo->plazo) {
+            $prestamo->finalizado = 1;
+            $prestamo->save();
+        }
+        return $prestamo;
+    }
+    public static function verifica_grupal(Grupo $grupo)
+    {
+        $nro_pagos_realizados = $grupo->nro_pagos_realizados;
+
+        if ($nro_pagos_realizados == $grupo->plazo) {
+            $grupo->finalizado = 1;
+            $grupo->save();
+
+            DB::update("UPDATE prestamos SET finalizado = 1 WHERE grupo_id = $grupo->id");
+        }
+        return $grupo;
     }
 }

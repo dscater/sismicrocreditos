@@ -46,7 +46,7 @@ class DesembolsoGrupalController extends Controller
 
 
             // registrar DESEMBOLSO
-            $grupo->desembolso()->create([
+            $grupo->o_desembolso()->create([
                 "user_id" => Auth::user()->id,
                 "tipo_prestamo" => "GRUPAL",
                 "monto" => $request->monto,
