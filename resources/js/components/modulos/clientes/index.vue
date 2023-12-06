@@ -15,7 +15,7 @@
                     <div class="col-md-3">
                         <button
                             v-if="permisos.includes('clientes.create')"
-                            class="btn btn-primary btn-flat btn-block"
+                            class="btn btn-success btn-flat btn-block"
                             @click="
                                 abreModal('nuevo');
                                 limpiaCliente();
@@ -50,7 +50,7 @@
 
                                                 <b-input-group-append>
                                                     <b-button
-                                                        variant="primary"
+                                                        variant="success"
                                                         :disabled="!filter"
                                                         @click="filter = ''"
                                                         >Borrar</b-button
@@ -83,7 +83,7 @@
                                             >
                                                 <template #cell(mas)="row">
                                                     <b-button
-                                                        variant="primary"
+                                                        variant="success"
                                                         size="sm"
                                                         @click="
                                                             row.toggleDetails
@@ -154,7 +154,7 @@
                                                         </b-row>
                                                         <b-button
                                                             size="sm"
-                                                            variant="primary"
+                                                            variant="success"
                                                             @click="
                                                                 row.toggleDetails
                                                             "

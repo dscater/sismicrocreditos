@@ -1,6 +1,6 @@
 <template>
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary">
+    <aside class="main-sidebar sidebar-dark-warning">
         <!-- Brand Logo -->
         <router-link exact :to="{ name: 'inicio' }" class="brand-link bg-dark">
             <img

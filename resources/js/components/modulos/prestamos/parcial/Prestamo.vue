@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-md-12 mt-3">
                         <div class="card">
-                            <div class="card-header bg-primary">
+                            <div class="card-header bg-success">
                                 <h4
                                     class="text-lg mb-0"
                                     v-html="tituloPaso"
@@ -69,7 +69,7 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div
-                                                    class="icheck-primary d-inline"
+                                                    class="icheck-warning d-inline"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div
-                                                    class="icheck-primary d-inline"
+                                                    class="icheck-warning d-inline"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div
-                                                    class="icheck-primary d-inline"
+                                                    class="icheck-warning d-inline"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -161,7 +161,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div
-                                                    class="icheck-primary d-inline"
+                                                    class="icheck-warning d-inline"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -370,7 +370,7 @@
                                                         class="input-group-append"
                                                     >
                                                         <button
-                                                            class="btn btn-primary"
+                                                            class="btn btn-success"
                                                             type="button"
                                                             @click="
                                                                 buscarCliente
@@ -1101,7 +1101,7 @@
                                         </button>
                                         <button
                                             v-if="paso_actual < total_pasos"
-                                            class="btn btn-primary ml-1"
+                                            class="btn btn-success ml-1"
                                             @click="cambiaPaso(1)"
                                         >
                                             Siguiente
@@ -1256,7 +1256,7 @@ export default {
                                     title: "Error",
                                     html: error.response.data.message,
                                     showConfirmButton: true,
-                                    confirmButtonColor: "#1976d2",
+                                    confirmButtonColor: "#339431",
                                     confirmButtonText: "Aceptar",
                                 });
                             }
@@ -1268,7 +1268,7 @@ export default {
                     title: "Error",
                     html: "Debes ingresar un número de C.I.",
                     showConfirmButton: true,
-                    confirmButtonColor: "#1976d2",
+                    confirmButtonColor: "#339431",
                     confirmButtonText: "Aceptar",
                 });
             }
@@ -1318,7 +1318,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;

@@ -8,7 +8,7 @@
     >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-success">
                     <h4 class="modal-title" v-html="tituloModal"></h4>
                     <button
                         type="button"
@@ -114,8 +114,8 @@
                         Cerrar
                     </button>
                     <el-button
-                        type="primary"
-                        class="bg-primary"
+                        type="success"
+                        class="bg-success"
                         :disabled="!oPlanPago"
                         :loading="enviando"
                         @click="setRegistroModal()"
@@ -270,7 +270,7 @@ export default {
                                     title: "Tienes los siguientes errores en el formulario",
                                     html: mensaje,
                                     showConfirmButton: true,
-                                    confirmButtonColor: "#1976d2",
+                                    confirmButtonColor: "#339431",
                                     confirmButtonText: "Aceptar",
                                 });
                             }
@@ -337,7 +337,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;
@@ -399,7 +399,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                         }

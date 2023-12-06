@@ -32,7 +32,7 @@
                                             />
                                             <div class="input-group-append">
                                                 <button
-                                                    class="btn btn-primary"
+                                                    class="btn btn-success"
                                                     type="button"
                                                     @click="empezarBusqueda"
                                                 >
@@ -52,7 +52,7 @@
                                         <table
                                             class="table table-bordered tabla_prestamos"
                                         >
-                                            <thead class="bg-primary">
+                                            <thead class="bg-success">
                                                 <tr>
                                                     <th>Nombre Grupo</th>
                                                     <th>Nro. Integrantes</th>
@@ -313,7 +313,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;

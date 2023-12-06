@@ -18,7 +18,7 @@
                                 permisos.includes('prestamos.individual_nuevo')
                             "
                             :to="{ name: 'prestamos.individual_nuevo' }"
-                            class="btn btn-primary btn-flat btn-block"
+                            class="btn btn-success btn-flat btn-block"
                         >
                             <i class="fa fa-plus"></i>
                             Nuevo
@@ -46,7 +46,7 @@
                                             />
                                             <div class="input-group-append">
                                                 <button
-                                                    class="btn btn-primary"
+                                                    class="btn btn-success"
                                                     type="button"
                                                     @click="empezarBusqueda"
                                                 >
@@ -66,7 +66,7 @@
                                         <table
                                             class="table table-bordered tabla_prestamos"
                                         >
-                                            <thead class="bg-primary">
+                                            <thead class="bg-success">
                                                 <tr>
                                                     <th>Nombre Cliente</th>
                                                     <th>Monto</th>
@@ -349,7 +349,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;
@@ -419,7 +419,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;

@@ -9,10 +9,10 @@
                 <div class="card-body pt-1 text-center">
                     <router-link
                         :to="{ name: 'login' }"
-                        class="h1 text-primary text-xl w-100"
+                        class="h1 text-success text-xl w-100"
                         ><b v-text="empresa"></b
                     ></router-link>
-                    <p class="login-box-msg text-primary font-weight-bold mt-3">
+                    <p class="login-box-msg text-success font-weight-bold mt-3">
                         Ingresa tu usuario y contraseña para inicar sesión
                     </p>
 
@@ -27,7 +27,7 @@
                                 autofocus
                             />
                             <div class="input-group-append">
-                                <div class="input-group-text bg-primary">
+                                <div class="input-group-text bg-success">
                                     <span class="fas fa-user"></span>
                                 </div>
                             </div>
@@ -41,14 +41,14 @@
                                 @keypress.enter="login()"
                             />
                             <div class="input-group-append">
-                                <div class="input-group-text bg-primary">
+                                <div class="input-group-text bg-success">
                                     <span class="fas fa-lock"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row" v-if="error">
                             <div class="col-12">
-                                <div class="callout callout-primary">
+                                <div class="callout callout-success">
                                     <h5>¡Error!</h5>
                                     <p>
                                         El usuario o contraseña son incorrectos
@@ -61,7 +61,7 @@
                             <div class="col-12">
                                 <button
                                     type="button"
-                                    class="btn btn-primary btn-block btn-flat font-weight-bold"
+                                    class="btn btn-success btn-block btn-flat font-weight-bold"
                                     @click.prevent="login()"
                                     v-loading.fullscreen.lock="
                                         fullscreenLoading

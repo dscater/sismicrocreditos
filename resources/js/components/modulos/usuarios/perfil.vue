@@ -14,7 +14,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card card-primary card-outline">
+                        <div class="card card-success card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <b-skeleton-wrapper :loading="loading_foto">
@@ -36,12 +36,12 @@
                                 <h3 class="profile-username text-center">
                                     {{ oUsuario.full_name }}
                                 </h3>
-                                <p class="text-primary text-center">
+                                <p class="text-success text-center">
                                     {{ oUsuario.tipo }}
                                 </p>
                                 <label
                                     v-if="!imagen_cargada"
-                                    class="btn btn-primary bg-primary btn-block"
+                                    class="btn btn-success bg-success btn-block"
                                     for="file_foto"
                                     ><b>Cambiar foto</b
                                     ><input
@@ -53,8 +53,8 @@
                                 /></label>
                                 <template v-else>
                                     <el-button
-                                        type="primary"
-                                        class="bg-primary w-full btn-flat mb-1"
+                                        type="success"
+                                        class="bg-success w-full btn-flat mb-1"
                                         :loading="enviandoFoto"
                                         @click="setFoto"
                                         >Enviar cambios</el-button
@@ -68,8 +68,8 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="card card-primary" v-if="oUsuario.id != 1">
-                            <div class="card-header bg-primary">
+                        <div class="card card-success" v-if="oUsuario.id != 1">
+                            <div class="card-header bg-success">
                                 <h3 class="card-title">Información</h3>
                             </div>
 
@@ -79,7 +79,7 @@
                                     C.I:</strong
                                 >
                                 <p
-                                    class="text-primary"
+                                    class="text-success"
                                     v-text="oUsuario?.full_ci"
                                 ></p>
                                 <!-- <hr />
@@ -88,7 +88,7 @@
                                     >Teléfono/Celular:</strong
                                 >
                                 <p
-                                    class="text-primary"
+                                    class="text-success"
                                     v-text="`${oUsuario ? oUsuario.fono : ''}`"
                                 ></p> -->
                                 <!-- <hr />
@@ -97,7 +97,7 @@
                                     Dirección:</strong
                                 >
                                 <p
-                                    class="text-primary"
+                                    class="text-success"
                                     v-text="oUsuario?.dir"
                                 ></p> -->
                             </div>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="card">
-                            <div class="card-header p-2 bg-primary">
+                            <div class="card-header p-2 bg-success">
                                 <div class="col-md-12">
                                     <h4>Actualizar contreña</h4>
                                 </div>
@@ -129,7 +129,7 @@
                                                     for="inputName"
                                                     class="col-sm-2 col-form-label"
                                                     :class="{
-                                                        'text-primary':
+                                                        'text-success':
                                                             errors.password,
                                                     }"
                                                     >Contraseña actual</label
@@ -167,7 +167,7 @@
                                                     for="inputName"
                                                     class="col-sm-2 col-form-label"
                                                     :class="{
-                                                        'text-primary':
+                                                        'text-success':
                                                             errors.password,
                                                     }"
                                                     >Nueva Contraseña</label
@@ -201,7 +201,7 @@
                                                     for="inputName"
                                                     class="col-sm-2 col-form-label"
                                                     :class="{
-                                                        'text-primary':
+                                                        'text-success':
                                                             errors.password_confirmation,
                                                     }"
                                                     >Confirmar Contraseña</label
@@ -237,7 +237,7 @@
                                                 <div class="col-sm-12">
                                                     <el-button
                                                         type="success"
-                                                        class="bg-primary w-full"
+                                                        class="bg-success w-full"
                                                         :loading="enviando"
                                                         @click="setPassword"
                                                         >Enviar

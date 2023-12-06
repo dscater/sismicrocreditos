@@ -1,11 +1,11 @@
 :root {
-    --principal: #1976d2;
-    --principal_hover: #297fd4;
-    --principal_transparent: #1976d2b9;
-    --secundario: #222222;
-    --secundario_transparent: #222222b9;
+    --principal: #339431;
+    --principal_hover: #21aa1e;
+    --principal_transparent: #339431b9;
+    --secundario: #dcc60c;
+    --secundario_transparent: #25252196;
     --correcto: #d2e7c9;
-    --secondary: #222222;
+    --secondary: #dcc60c;
     --transparente: #000000bd;
 }
 
@@ -36,18 +36,23 @@
 .el-button--warning:focus,
 .el-button--warning:hover {
     color: #1f2d3d !important;
-    background-color: var(--principal) !important;
-    border-color: var(--principal) !important;
+    background-color: var(--secundario) !important;
+    border-color: var(--secundario) !important;
 }
 
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item.active.menu-open > .nav-link,
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item.active:hover > .nav-link,
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item.active > .nav-link:focus {
-    background-color: var(--principal);
+    background-color: var(--secundario);
+    color: black;
 }
 
 a.nav-link {
     width: 100% !important;
+}
+
+.sidebar-collapse .brand-image{
+    width: 40px;
 }
 
 /* .el-button--warning.is-disabled,
@@ -60,7 +65,7 @@ a.nav-link {
 } */
 
 .el-input.bg-warning input {
-    background-color: var(--principal);
+    background-color: var(--secundario);
     font-weight: bold;
     color: black;
 }

@@ -20,7 +20,7 @@
                             </div>
                             <router-link
                                 :to="{ name: item.url }"
-                                class="small-box-footer bg-primary text-white"
+                                class="small-box-footer bg-success text-white"
                                 >Ver más
                                 <i class="fas fa-arrow-circle-right"></i
                             ></router-link>

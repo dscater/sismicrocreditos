@@ -251,7 +251,7 @@
                                                         class="col-md-12 d-flex justify-content-center"
                                                     >
                                                         <button
-                                                            class="btn btn-primary ml-1"
+                                                            class="btn btn-success ml-1"
                                                             v-html="
                                                                 txtBtnFinalizar
                                                             "
@@ -398,7 +398,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;

@@ -15,7 +15,7 @@
                     <div class="col-md-3">
                         <button
                             v-if="permisos.includes('salarios.create')"
-                            class="btn btn-primary btn-flat btn-block"
+                            class="btn btn-success btn-flat btn-block"
                             @click="
                                 abreModal('nuevo');
                                 limpiaSalario();
@@ -50,7 +50,7 @@
 
                                                 <b-input-group-append>
                                                     <b-button
-                                                        variant="primary"
+                                                        variant="success"
                                                         :disabled="!filter"
                                                         @click="filter = ''"
                                                         >Borrar</b-button

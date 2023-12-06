@@ -23,7 +23,7 @@
                                                     'configuracion.edit'
                                                 )
                                             "
-                                            class="btn btn-primary btn-flat btn-block"
+                                            class="btn btn-success btn-flat btn-block"
                                             @click="muestra_modal = true"
                                         >
                                             <i class="el-icon-edit-outline"></i>
@@ -40,7 +40,7 @@
                                         :column="1"
                                         border
                                         :labelStyle="{
-                                            background: '#1976d2',
+                                            background: '#339431',
                                             width: '180px',
                                             color: 'white',
                                         }"
@@ -129,7 +129,7 @@
         >
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-success">
                         <h4 class="modal-title" v-text="tituloModal"></h4>
                         <button
                             type="button"
@@ -350,8 +350,8 @@
                             Cerrar
                         </button>
                         <el-button
-                            type="primary"
-                            class="bg-primary"
+                            type="success"
+                            class="bg-success"
                             :loading="enviando"
                             @click="setRegistroModal()"
                             >{{ textoBtn }}</el-button

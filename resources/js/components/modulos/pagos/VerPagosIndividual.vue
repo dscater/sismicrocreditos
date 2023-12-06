@@ -109,7 +109,7 @@
                             </div>
                             <div class="card-footer">
                                 <button
-                                    class="btn btn-primary"
+                                    class="btn btn-success"
                                     @click="descargarComprobante(item.id)"
                                 >
                                     <i class="fa fa-file-pdf"></i> Comprobante
@@ -230,7 +230,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;

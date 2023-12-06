@@ -32,7 +32,7 @@
                                             />
                                             <div class="input-group-append">
                                                 <button
-                                                    class="btn btn-primary"
+                                                    class="btn btn-success"
                                                     type="button"
                                                     @click="empezarBusqueda"
                                                 >
@@ -52,7 +52,7 @@
                                         <table
                                             class="table table-bordered tabla_prestamos"
                                         >
-                                            <thead class="bg-primary">
+                                            <thead class="bg-success">
                                                 <tr>
                                                     <th>Nombre Cliente</th>
                                                     <th>Monto</th>
@@ -85,7 +85,7 @@
                                                         data-col="Nro. Pagos Realizados:"
                                                     >
                                                         <span
-                                                            class="text-md badge badge-primary"
+                                                            class="text-md badge badge-warning"
                                                             >{{
                                                                 item.nro_pagos_realizados
                                                             }}</span

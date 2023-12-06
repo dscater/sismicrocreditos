@@ -26,7 +26,7 @@
                                 <p
                                     class="text-lg font-weight-bold mb-0 w-100 text-center"
                                 >
-                                    SALDO: {{ total_saldo_caja }}
+                                    SALDO: {{ parseFloat(total_saldo_caja).toFixed(2) }}
                                 </p>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                     <div class="col-md-3">
                         <button
                             v-if="permisos.includes('cajas.create')"
-                            class="btn btn-primary btn-flat btn-block"
+                            class="btn btn-success btn-flat btn-block"
                             @click="
                                 abreModal('nuevo');
                                 limpiaCaja();
@@ -80,7 +80,7 @@
                                         <table
                                             class="table table-bordered tabla_prestamos"
                                         >
-                                            <thead class="bg-primary">
+                                            <thead class="bg-success">
                                                 <tr>
                                                     <th width="15%">
                                                         Fecha de Registro

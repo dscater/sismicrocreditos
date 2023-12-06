@@ -149,7 +149,7 @@
                 <div class="row pb-4">
                     <div class="col-md-3">
                         <button
-                            class="btn btn-primary btn-block btn-flat"
+                            class="btn btn-success btn-block btn-flat"
                             v-html="txtBtnFinalizar"
                             :disabled="
                                 enviando ||
@@ -353,7 +353,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                             1;
@@ -418,7 +418,7 @@ export default {
                                 title: "Tienes los siguientes errores en el formulario",
                                 html: mensaje,
                                 showConfirmButton: true,
-                                confirmButtonColor: "#1976d2",
+                                confirmButtonColor: "#339431",
                                 confirmButtonText: "Aceptar",
                             });
                         }
@@ -468,7 +468,7 @@ export default {
                     title: "Error",
                     html: "",
                     showConfirmButton: true,
-                    confirmButtonColor: "#1976d2",
+                    confirmButtonColor: "#339431",
                     confirmButtonText: "Aceptar",
                 });
             }
@@ -534,7 +534,7 @@ export default {
                     title: "Error",
                     html: "La cantidad de integrantes deben ser 2 ó 3",
                     showConfirmButton: true,
-                    confirmButtonColor: "#1976d2",
+                    confirmButtonColor: "#339431",
                     confirmButtonText: "Aceptar",
                 });
             }
