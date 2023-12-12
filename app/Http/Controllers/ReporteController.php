@@ -150,12 +150,26 @@ class ReporteController extends Controller
     public function prestamos_individual_mora(Request $request)
     {
         $filtro =  $request->filtro;
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
         $prestamos = Prestamo::select("prestamos.*")
             ->join("plan_pagos", "plan_pagos.prestamo_id", "=", "prestamos.id")
             ->where("prestamos.desembolso", 1)
-            ->where("fecha_pago", "<", date("Y-m-d"))
+            ->where("plan_pagos.cancelado", "NO")
+            ->where("plan_pagos.fecha_pago", "<", date("Y-m-d"))
             ->distinct()
             ->get();
+
+        if ($filtro != 'Todos') {
+            $prestamos = Prestamo::select("prestamos.*")
+                ->join("plan_pagos", "plan_pagos.prestamo_id", "=", "prestamos.id")
+                ->where("prestamos.desembolso", 1)
+                ->where("plan_pagos.cancelado", "NO")
+                ->whereBetween("plan_pagos.fecha_pago", [$fecha_ini, $fecha_fin])
+                ->where("plan_pagos.fecha_pago", "<", date("Y-m-d"))
+                ->distinct()
+                ->get();
+        }
         $pdf = PDF::loadView('reportes.prestamos_individual_mora', compact('prestamos'))->setPaper('letter', 'portrait');
 
         // ENUMERAR LAS PÁGINAS USANDO CANVAS
@@ -174,7 +188,8 @@ class ReporteController extends Controller
         $grupos = Grupo::select("grupos.*")
             ->join("grupo_plan_pagos", "grupo_plan_pagos.grupo_id", "=", "grupos.id")
             ->where("grupos.desembolso", 1)
-            ->where("fecha_pago", "<", date("Y-m-d"))
+            ->where("grupo_plan_pagos.cancelado", "NO")
+            ->where("grupo_plan_pagos.fecha_pago", "<", date("Y-m-d"))
             ->distinct()
             ->get();
         $pdf = PDF::loadView('reportes.prestamos_grupal_mora', compact('grupos'))->setPaper('letter', 'landscape');
