@@ -185,6 +185,9 @@ class ReporteController extends Controller
     public function prestamos_grupal_mora(Request $request)
     {
         $filtro =  $request->filtro;
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
+
         $grupos = Grupo::select("grupos.*")
             ->join("grupo_plan_pagos", "grupo_plan_pagos.grupo_id", "=", "grupos.id")
             ->where("grupos.desembolso", 1)
@@ -192,6 +195,16 @@ class ReporteController extends Controller
             ->where("grupo_plan_pagos.fecha_pago", "<", date("Y-m-d"))
             ->distinct()
             ->get();
+        if ($filtro != 'Todos') {
+            $grupos = Grupo::select("grupos.*")
+                ->join("grupo_plan_pagos", "grupo_plan_pagos.grupo_id", "=", "grupos.id")
+                ->where("grupos.desembolso", 1)
+                ->where("grupo_plan_pagos.cancelado", "NO")
+                ->whereBetween("grupo_plan_pagos.fecha_pago", [$fecha_ini, $fecha_fin])
+                ->where("grupo_plan_pagos.fecha_pago", "<", date("Y-m-d"))
+                ->distinct()
+                ->get();
+        }
         $pdf = PDF::loadView('reportes.prestamos_grupal_mora', compact('grupos'))->setPaper('letter', 'landscape');
 
         // ENUMERAR LAS PÁGINAS USANDO CANVAS
