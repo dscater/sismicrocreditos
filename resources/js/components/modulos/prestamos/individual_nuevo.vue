@@ -603,8 +603,10 @@
                                                                     }"
                                                                     >C.I.*</label
                                                                 >
-                                                                <el-input
+                                                                <input
+                                                                    type="number"
                                                                     placeholder="Número de C.I."
+                                                                    class="form-control"
                                                                     :class="{
                                                                         'is-invalid':
                                                                             errors.ci,
@@ -619,8 +621,7 @@
                                                                         oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
-                                                                >
-                                                                </el-input>
+                                                                />
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -697,8 +698,10 @@
                                                                     }"
                                                                     >Celular*</label
                                                                 >
-                                                                <el-input
+                                                                <input
+                                                                    type="number"
                                                                     placeholder="Celular"
+                                                                    class="form-control"
                                                                     :class="{
                                                                         'is-invalid':
                                                                             errors.cel,
@@ -713,8 +716,7 @@
                                                                         oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
-                                                                >
-                                                                </el-input>
+                                                                />
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -736,8 +738,10 @@
                                                                     }"
                                                                     >Teléfono</label
                                                                 >
-                                                                <el-input
+                                                                <input
+                                                                    type="number"
                                                                     placeholder="Teléfono"
+                                                                    class="form-control"
                                                                     :class="{
                                                                         'is-invalid':
                                                                             errors.fono,
@@ -752,8 +756,7 @@
                                                                         oPrestamo.registrar_como ==
                                                                         'ANTIGUO'
                                                                     "
-                                                                >
-                                                                </el-input>
+                                                                />
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -980,6 +983,10 @@
                                                                 <input
                                                                     type="number"
                                                                     class="form-control"
+                                                                    :class="{
+                                                                        'is-invalid':
+                                                                            errors.monto,
+                                                                    }"
                                                                     v-model="
                                                                         oPrestamo.monto
                                                                     "
@@ -1005,6 +1012,10 @@
                                                                 <input
                                                                     type="number"
                                                                     class="form-control"
+                                                                    :class="{
+                                                                        'is-invalid':
+                                                                            errors.plazo,
+                                                                    }"
                                                                     v-model="
                                                                         oPrestamo.plazo
                                                                     "

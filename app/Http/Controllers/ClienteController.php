@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\DB;
 class ClienteController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:4',
-        'paterno' => 'required|min:4',
+        'nombre' => 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
+        'paterno' => 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
         'ci_exp' => 'required',
         'dir' => 'required',
-        'cel' => 'required',
+        'cel' => 'required|regex:/^[0-9]{8}$/',
         'edad' => 'required',
         'dir' => 'required',
-        'referencia' => 'required',
-        'cel_ref' => 'required',
-        'parentesco' => 'required',
+        'referencia' => 'required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
+        'cel_ref' => 'required|regex:/^[0-9]{8}$/',
+        'parentesco' => 'required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
     ];
 
     public $mensajes = [
@@ -38,10 +38,14 @@ class ClienteController extends Controller
         'dir.min' => 'Debes ingresar al menos 4 carácteres',
         'cel.required' => 'Este campo es obligatorio',
         'cel.min' => 'Debes ingresar al menos 4 carácteres',
+        'cel.regex' => 'Este formato no esta permitido',
         'edad.required' => 'Este campo es obligatorio',
         'dir.required' => 'Este campo es obligatorio',
         'cel_ref.required' => 'Este campo es obligatorio',
+        'cel_ref.regex' => 'Este formato no esta permitido',
         'parentesco.required' => 'Este campo es obligatorio',
+        'segundo_nombre.regex' => 'Este formato no esta permitido',
+        'materno.regex' => 'Este formato no esta permitido',
     ];
 
     public function index(Request $request)
@@ -62,6 +66,12 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci';
+        if (trim($request->segundo_nombre) != "") {
+            $this->validacion['segundo_nombre'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+        }
+        if (trim($request->materno) != "") {
+            $this->validacion['materno'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+        }
         $request->validate($this->validacion, $this->mensajes);
         $request["fecha_registro"] = date("Y-m-d");
         DB::beginTransaction();
@@ -98,7 +108,12 @@ class ClienteController extends Controller
     public function update(Request $request, Cliente $cliente)
     {
         $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci,' . $cliente->id;
-
+        if (trim($request->segundo_nombre) != "") {
+            $this->validacion['segundo_nombre'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+        }
+        if (trim($request->materno) != "") {
+            $this->validacion['materno'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+        }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {

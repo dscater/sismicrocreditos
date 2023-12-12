@@ -174,6 +174,18 @@
                 <td class="bold gray" width="16%">Nombre Grupo: </td>
                 <td colspan="3">{{ $datos['nombre'] }} </td>
             </tr>
+            @if (isset($datos['prestamos']))
+                <tr>
+                    <td class="bold gray" width="16%">Integrantes: </td>
+                    <td colspan="3">
+                        <ul style="padding-left:10px;">
+                            @foreach ($datos['prestamos'] as $inte)
+                                <li>{{ $inte->cliente->full_name }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td class="bold gray" width="14%">Nro. de integrantes: </td>
                 <td colspan="3">{{ $datos['integrantes'] }} </td>
@@ -200,6 +212,7 @@
                 <th>Interes</th>
                 <th>Saldo</th>
                 <th>Cuota Semanal</th>
+                <th>Fecha</th>
             </tr>
         </thead>
         <tbody>
@@ -211,6 +224,9 @@
                     <td class="centreado">{{ $pp['interes'] }}</td>
                     <td class="centreado">{{ $pp['saldo'] }}</td>
                     <td class="centreado">{{ $cuota_fija }}</td>
+                    <td class="centreado">
+                        {{ isset($pp['fecha_pago']) && $pp['fecha_pago'] ? date('d/m/Y', strtotime($pp['fecha_pago'])) : 'Sin definir' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -266,6 +282,7 @@
                         <th>Interes</th>
                         <th>Saldo</th>
                         <th>Cuota Semanal</th>
+                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -277,6 +294,9 @@
                             <td class="centreado">{{ $ppc->interes }}</td>
                             <td class="centreado">{{ $ppc->saldo }}</td>
                             <td class="centreado">{{ $ppc->cuota }}</td>
+                            <td class="centreado">
+                                {{ isset($ppc['fecha_pago']) && $ppc['fecha_pago'] ? date('d/m/Y', strtotime($ppc['fecha_pago'])) : 'Sin definir' }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

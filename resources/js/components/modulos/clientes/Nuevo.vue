@@ -113,13 +113,14 @@
                                     }"
                                     >C.I.*</label
                                 >
-                                <el-input
+                                <input
+                                    type="number"
                                     placeholder="Número de C.I."
+                                    class="form-control"
                                     :class="{ 'is-invalid': errors.ci }"
                                     v-model="cliente.ci"
                                     clearable
-                                >
-                                </el-input>
+                                />
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.ci"
@@ -162,13 +163,14 @@
                                     }"
                                     >Celular*</label
                                 >
-                                <el-input
+                                <input
+                                    type="number"
                                     placeholder="Celular"
+                                    class="form-control"
                                     :class="{ 'is-invalid': errors.cel }"
                                     v-model="cliente.cel"
                                     clearable
-                                >
-                                </el-input>
+                                />
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.cel"
@@ -182,13 +184,14 @@
                                     }"
                                     >Teléfono</label
                                 >
-                                <el-input
+                                <input
+                                    type="number"
                                     placeholder="Teléfono"
+                                    class="form-control"
                                     :class="{ 'is-invalid': errors.fono }"
                                     v-model="cliente.fono"
                                     clearable
-                                >
-                                </el-input>
+                                />
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.fono"
@@ -262,13 +265,14 @@
                                     }"
                                     >Teléfono Referencia*</label
                                 >
-                                <el-input
+                                <input
+                                    type="number"
                                     placeholder="Teléfono Referencia"
+                                    class="form-control"
                                     :class="{ 'is-invalid': errors.cel_ref }"
                                     v-model="cliente.cel_ref"
                                     clearable
-                                >
-                                </el-input>
+                                />
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.cel_ref"

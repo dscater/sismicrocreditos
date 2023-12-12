@@ -254,6 +254,17 @@
                         <td colspan="3">{{ $pago->grupo->nombre }}</td>
                     </tr>
                     <tr>
+                        <td class="bold derecha">Integrantes: </td>
+                        <td colspan="3">
+                            @foreach ($pago->grupo->prestamos as $key_inte=>$inte)
+                                {{ $inte->cliente->full_name }}
+                                @if($key_inte < count($pago->grupo->prestamos) - 1)
+                                <span>, </span>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="bold derecha">Monto Pagado: </td>
                         <td colspan="3">{{ number_format($pago->monto, 2, '.', ',') }}
                         </td>

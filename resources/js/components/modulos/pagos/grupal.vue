@@ -54,7 +54,6 @@
                                         >
                                             <thead class="bg-sucess">
                                                 <tr>
-                                                    <tr>
                                                     <th>Nombre Grupo</th>
                                                     <th>Nro. Integrantes</th>
                                                     <th>Monto</th>
@@ -64,21 +63,30 @@
                                                     </th>
                                                     <th width="20%">Acción</th>
                                                 </tr>
-                                                </tr>
                                             </thead>
                                             <tbody>
                                                 <tr
                                                     v-for="item in listPrestamos"
                                                 >
-                                                    <td data-col="Nombre Grupo:">
-                                                        {{
-                                                            item.nombre
-                                                        }}
+                                                    <td
+                                                        data-col="Nombre Grupo:"
+                                                    >
+                                                        {{ item.nombre }}
                                                     </td>
-                                                    <td data-col="Nro. Integrantes:">{{ item.integrantes }}</td>
-                                                    <td data-col="Monto:">{{ item.monto }}</td>
-                                                    <td data-col="Plazo:">{{ item.plazo }}</td>
-                                                    <td data-col="Nro. Pagos Realizados:">
+                                                    <td
+                                                        data-col="Nro. Integrantes:"
+                                                    >
+                                                        {{ item.integrantes }}
+                                                    </td>
+                                                    <td data-col="Monto:">
+                                                        {{ item.monto }}
+                                                    </td>
+                                                    <td data-col="Plazo:">
+                                                        {{ item.plazo }}
+                                                    </td>
+                                                    <td
+                                                        data-col="Nro. Pagos Realizados:"
+                                                    >
                                                         <span
                                                             class="text-md badge badge-warning"
                                                             >{{
@@ -91,10 +99,12 @@
                                                             class="inline-block btn btn-xs btn-primary"
                                                             v-if="
                                                                 item.nro_pagos_realizados <
-                                                                item.plazo &&
+                                                                    item.plazo &&
                                                                 permisos.includes(
                                                                     'pagos.grupal_store'
-                                                                )
+                                                                ) &&
+                                                                item.desembolso ==
+                                                                    1
                                                             "
                                                             @click="
                                                                 nuevoPago(item)

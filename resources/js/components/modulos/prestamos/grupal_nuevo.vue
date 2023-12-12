@@ -46,7 +46,13 @@
                                         ></span>
                                     </div>
                                     <div class="col-md-4 form-group">
-                                        <label>Integrantes*</label>
+                                        <label
+                                            >Integrantes*
+                                            <i
+                                                class="fa fa-sync"
+                                                @click="actualizarIntegrantes"
+                                            ></i
+                                        ></label>
                                         <input
                                             type="number"
                                             placeholder="Integrantes"
@@ -524,7 +530,7 @@ export default {
                             parentesco: "",
                         },
                     });
-                } else {
+                } else if (cantidad_actual != integrantes_actual) {
                     this.oGrupo.prestamos.splice(2, 1);
                 }
                 this.divideMonto();

@@ -354,6 +354,8 @@ class PrestamoGrupalController extends Controller
         }
         if (trim($datos["monto"]) == '' || (float)$datos["monto"] <= 0) {
             $errors["monto"] = ["Debes ingresar un monto valido"];
+        } elseif (!filter_var((float)$datos["monto"], FILTER_VALIDATE_INT)) {
+            $errors["monto"] = ["El monto debe ser un número entero"];
         }
 
         $prestamos = count($datos["prestamos"]);
@@ -361,8 +363,12 @@ class PrestamoGrupalController extends Controller
             $errors["prestamos"] = ["Debes agregar por lo menos dos préstamos"];
         }
 
-        if (self::getSumaPrestamos($datos["prestamos"]) != (float)$datos["monto"]) {
-            $errors["monto_grupal"] = ["La suma de montos de cada integrantes es de <strong>" . self::getSumaPrestamos($datos["prestamos"]) . "</strong> debe ser igual al monto grupal <strong>" . $datos["monto"] . "</strong>"];
+        // VALIDAR SUMATORIA
+        $suma_total = self::getSumaPrestamos($datos["prestamos"]);
+        if (abs((float)$datos["monto"] - (float)$suma_total) > 0.1) {
+            if (self::getSumaPrestamos($datos["prestamos"]) != (float)$datos["monto"]) {
+                $errors["monto_grupal"] = ["La suma de montos de cada integrantes es de <strong>" . self::getSumaPrestamos($datos["prestamos"]) . "</strong> debe ser igual al monto grupal <strong>" . $datos["monto"] . "</strong>"];
+            }
         }
 
         foreach ($datos["prestamos"] as $key => $prestamo) {
@@ -393,9 +399,23 @@ class PrestamoGrupalController extends Controller
             $cliente = $prestamo["cliente"];
             if (!$cliente["nombre"] || trim($cliente["nombre"]) == '') {
                 $errors["nombre_" . $key] = ["Debes ingresar ingresar el nombre del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            } elseif (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/', $cliente["nombre"])) {
+                $errors["nombre_" . $key] = ["El nombre solo debe contener letras - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["paterno"] || trim($cliente["paterno"]) == '') {
                 $errors["paterno_" . $key] = ["Debes ingresar el apellido paterno del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            } elseif (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/', $cliente["paterno"])) {
+                $errors["paterno_" . $key] = ["El apellido paterno solo debe contener letras - <strong>Integrante " . ($key + 1) . "</strong>"];
+            }
+            if ($cliente["segundo_nombre"] || trim($cliente["segundo_nombre"]) != '') {
+                if (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/', $cliente["segundo_nombre"])) {
+                    $errors["segundo_nombre_" . $key] = ["El segundo nombre solo debe contener letras - <strong>Integrante " . ($key + 1) . "</strong>"];
+                }
+            }
+            if ($cliente["materno"] || trim($cliente["materno"]) != '') {
+                if (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/', $cliente["materno"])) {
+                    $errors["materno_" . $key] = ["El apellido materno solo debe contener letras - <strong>Integrante " . ($key + 1) . "</strong>"];
+                }
             }
 
             if ($registrar_como == 'NUEVO') {
@@ -412,21 +432,30 @@ class PrestamoGrupalController extends Controller
 
             if (!$cliente["ci"] || trim($cliente["ci"]) == '') {
                 $errors["ci_" . $key] = ["Debes ingresar el C.I. del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            } elseif (!ctype_digit($cliente["ci"])) {
+                $errors["ci_" . $key] = ["El nro. de C.I. solo debe contener números - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["ci_exp"] || trim($cliente["ci_exp"]) == '') {
                 $errors["ci_exp_" . $key] = ["Debes seleccionar el campo Expedido - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["cel"] || trim($cliente["cel"]) == '') {
                 $errors["cel_" . $key] = ["Debes ingresar el celular del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            } elseif (!preg_match('/^[0-9]{8}$/', $cliente["cel"])) {
+                $errors["cel_" . $key] = ["El número de celular debe tener 8 dígitos y ser numérico - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["edad"] || trim($cliente["edad"]) == '') {
                 $errors["edad_" . $key] = ["Debes ingresar la edad del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            }
+            if (!$cliente["dir"] || trim($cliente["dir"]) == '') {
+                $errors["dir_" . $key] = ["Debes ingresar la dirección del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["referencia"] || trim($cliente["referencia"]) == '') {
                 $errors["referencia_" . $key] = ["Debes ingresar la referencia del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["cel_ref"] || trim($cliente["cel_ref"]) == '') {
                 $errors["cel_ref_" . $key] = ["Debes ingresar el celular de referencia del cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
+            } elseif (!preg_match('/^[0-9]{8}$/', $cliente["cel_ref"])) {
+                $errors["cel_ref_" . $key] = ["El número de celular de referencia debe tener 8 dígitos y ser numérico - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
             if (!$cliente["parentesco"] || trim($cliente["parentesco"]) == '') {
                 $errors["parentesco_" . $key] = ["Debes ingresar el parentesco - <strong>Integrante " . ($key + 1) . "</strong>"];

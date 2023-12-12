@@ -586,8 +586,10 @@
                                                     }"
                                                     >C.I.*</label
                                                 >
-                                                <el-input
+                                                <input
+                                                    type="number"
                                                     placeholder="Número de C.I."
+                                                    class="form-control"
                                                     :class="{
                                                         'is-invalid':
                                                             errors?.[
@@ -603,8 +605,7 @@
                                                         prestamo.registrar_como ==
                                                         'ANTIGUO'
                                                     "
-                                                >
-                                                </el-input>
+                                                />
                                                 <span
                                                     class="error invalid-feedback d-block"
                                                     v-if="
@@ -687,7 +688,9 @@
                                                     }"
                                                     >Celular*</label
                                                 >
-                                                <el-input
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
                                                     placeholder="Celular"
                                                     :class="{
                                                         'is-invalid':
@@ -704,8 +707,7 @@
                                                         prestamo.registrar_como ==
                                                         'ANTIGUO'
                                                     "
-                                                >
-                                                </el-input>
+                                                />
                                                 <span
                                                     class="error invalid-feedback d-block"
                                                     v-if="
@@ -733,8 +735,10 @@
                                                     }"
                                                     >Teléfono</label
                                                 >
-                                                <el-input
+                                                <input
+                                                    type="number"
                                                     placeholder="Teléfono"
+                                                    class="form-control"
                                                     :class="{
                                                         'is-invalid':
                                                             errors?.[
@@ -750,8 +754,7 @@
                                                         prestamo.registrar_como ==
                                                         'ANTIGUO'
                                                     "
-                                                >
-                                                </el-input>
+                                                />
                                                 <span
                                                     class="error invalid-feedback d-block"
                                                     v-if="
@@ -900,7 +903,10 @@
                                                         ]
                                                     "
                                                     v-html="
-                                                        errors?.['referencia_'+index_prestamo][0]
+                                                        errors?.[
+                                                            'referencia_' +
+                                                                index_prestamo
+                                                        ][0]
                                                     "
                                                 ></span>
                                             </div>
@@ -1277,6 +1283,7 @@ export default {
             let config = {
                 responseType: "blob",
             };
+            this.prestamo["valida_monto"] = false;
             axios
                 .post(
                     main_url +

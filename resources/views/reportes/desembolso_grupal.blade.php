@@ -202,13 +202,14 @@
                     <td colspan="3">{{ $grupo->nombre }}</td>
                 </tr>
                 <tr>
-                    <td class="bold derecha" width="25%">Integrantes: </td>
+                    <td class="bold derecha">Integrantes: </td>
                     <td colspan="3">
-                        <ul>
-                            @foreach ($grupo->prestamos as $p)
-                                <li>{{ $p->cliente->full_name }} - {{ $p->cliente->full_ci }}</li>
-                            @endforeach
-                        </ul>
+                        @foreach ($grupo->prestamos as $key_inte => $inte)
+                            {{ $inte->cliente->full_name }}
+                            @if ($key_inte < count($grupo->prestamos) - 1)
+                                <span>, </span>
+                            @endif
+                        @endforeach
                     </td>
                 </tr>
                 <tr>

@@ -99,7 +99,9 @@
                                                                     item.plazo &&
                                                                 permisos.includes(
                                                                     'pagos.individual_store'
-                                                                )
+                                                                ) &&
+                                                                item.desembolso ==
+                                                                    1
                                                             "
                                                             @click="
                                                                 nuevoPago(item)

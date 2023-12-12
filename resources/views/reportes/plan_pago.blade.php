@@ -197,17 +197,21 @@
                 <th>Interes</th>
                 <th>Saldo</th>
                 <th>Cuota Semanal</th>
+                <th>Fecha</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($plan_pago as $pp)
+            @foreach ($plan_pago as $index => $pp)
                 <tr>
-                    <td class="centreado">{{ $pp['nro'] }}</td>
+                    <td class="centreado">{{ $index + 1 }}</td>
                     <td class="centreado">{{ $pp['saldo_inicial'] }}</td>
                     <td class="centreado">{{ $pp['capital'] }}</td>
                     <td class="centreado">{{ $pp['interes'] }}</td>
                     <td class="centreado">{{ $pp['saldo'] }}</td>
                     <td class="centreado">{{ $cuota_fija }}</td>
+                    <td class="centreado">
+                        {{ isset($pp['fecha_pago']) && $pp['fecha_pago'] ? date('d/m/Y', strtotime($pp['fecha_pago'])) : 'Sin definir' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

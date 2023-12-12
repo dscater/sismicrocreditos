@@ -91,13 +91,14 @@
                                     }"
                                     >C.I.*</label
                                 >
-                                <el-input
+                                <input
+                                    type="number"
                                     placeholder="Número de C.I."
+                                    class="form-control"
                                     :class="{ 'is-invalid': errors.ci }"
                                     v-model="usuario.ci"
                                     clearable
-                                >
-                                </el-input>
+                                />
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.ci"
