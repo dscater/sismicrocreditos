@@ -92,6 +92,8 @@ class UserController extends Controller
             "pagos.grupal",
             // "pagos.grupal_store",
 
+            'control_prestamos.index',
+
             'configuracion.index',
             'configuracion.edit',
 
@@ -431,37 +433,39 @@ class UserController extends Controller
         $tipo = Auth::user()->tipo;
         $array_infos = [];
 
-        $saldo = Caja::find(1)->saldo;
+        $total_saldo_caja = Caja::getSaldoTotal();
+
+        // $saldo = Caja::find(1)->saldo;
         $array_infos[] = [
-            'label' => 'Pago por Cuotas',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            'label' => 'Saldo en Caja',
+            'cantidad' => $total_saldo_caja,
+            'icon' => asset("imgs/" . ((float)$total_saldo_caja > 0 ? "circle_full_green.png" : "circle_empty.png")),
             "url" => "cajas.index"
         ];
 
-        $saldo = Caja::find(2)->saldo;
-        $array_infos[] = [
-            'label' => 'Gastos Administrativos',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
+        // $saldo = Caja::find(2)->saldo;
+        // $array_infos[] = [
+        //     'label' => 'Gastos Administrativos',
+        //     'cantidad' => $saldo,
+        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+        //     "url" => "cajas.index"
+        // ];
 
-        $saldo = Caja::find(3)->saldo;
-        $array_infos[] = [
-            'label' => 'Cargos por Multa',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
+        // $saldo = Caja::find(3)->saldo;
+        // $array_infos[] = [
+        //     'label' => 'Cargos por Multa',
+        //     'cantidad' => $saldo,
+        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+        //     "url" => "cajas.index"
+        // ];
 
-        $saldo = Caja::find(4)->saldo;
-        $array_infos[] = [
-            'label' => 'Intereses',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
+        // $saldo = Caja::find(4)->saldo;
+        // $array_infos[] = [
+        //     'label' => 'Intereses',
+        //     'cantidad' => $saldo,
+        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+        //     "url" => "cajas.index"
+        // ];
 
         if (in_array('usuarios.index', $this->permisos[$tipo])) {
             $array_infos[] = [

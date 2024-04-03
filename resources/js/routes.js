@@ -149,6 +149,16 @@ export default new Router({
             props: true,
         },
 
+        // control prestamos
+        {
+            path: "/control_prestamos",
+            name: "control_prestamos.index",
+            component:
+                require("./components/modulos/control_prestamos/index.vue")
+                    .default,
+            props: true,
+        },
+
         // Reportes
         {
             path: "/reportes/usuarios",

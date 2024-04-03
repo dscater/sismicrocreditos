@@ -16,7 +16,7 @@ class PrestamoGrupalController extends Controller
 {
     public function grupo_nombre(Request $request)
     {
-        $grupos = Grupo::with(["prestamos.cliente", "grupo_pagos"])->where("nombre", "LIKE", "%$request->nombre%")->orderBy("id", "desc")->get();
+        $grupos = Grupo::with(["prestamos.cliente", "grupo_pagos", "o_desembolso"])->where("nombre", "LIKE", "%$request->nombre%")->orderBy("id", "desc")->get();
         return response()->JSON([
             "sw" => true,
             "grupos" => $grupos

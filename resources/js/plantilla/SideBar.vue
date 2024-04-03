@@ -96,6 +96,20 @@
                     </li>
                     <li
                         class="nav-item"
+                        v-if="permisos.includes('control_prestamos.index')"
+                    >
+                        <router-link
+                            exact
+                            :to="{ name: 'control_prestamos.index' }"
+                            class="nav-link"
+                            v-loading.fullscreen.lock="fullscreenLoading"
+                        >
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>Control Préstamos</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
                         v-if="
                             permisos.includes('pagos.individual') ||
                             permisos.includes('pagos.grupal')
@@ -434,151 +448,350 @@
                     >
                         REPORTES:
                     </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('reportes.usuarios')"
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.usuarios' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Lista de Usuarios</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('reportes.clientes')"
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.clientes' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Lista de Clientes</p>
-                        </router-link>
-                    </li>
+
                     <li
                         class="nav-item"
                         v-if="
-                            permisos.includes('reportes.prestamos_individual')
-                        "
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.prestamos_individual' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Préstamos Individual</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="permisos.includes('reportes.prestamos_grupal')"
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.prestamos_grupal' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Préstamos Grupal</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
+                            permisos.includes('reportes.usuarios') ||
+                            permisos.includes('reportes.clientes') ||
+                            permisos.includes(
+                                'reportes.prestamos_individual'
+                            ) ||
+                            permisos.includes('reportes.prestamos_grupal') ||
                             permisos.includes(
                                 'reportes.proximos_desembolsos_individual'
-                            )
-                        "
-                    >
-                        <router-link
-                            :to="{
-                                name: 'reportes.proximos_desembolsos_individual',
-                            }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Próximos Desembolsos Individual</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
+                            ) ||
                             permisos.includes(
                                 'reportes.proximos_desembolsos_grupal'
-                            )
-                        "
-                    >
-                        <router-link
-                            :to="{
-                                name: 'reportes.proximos_desembolsos_grupal',
-                            }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Próximos Desembolsos Grupal</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
+                            ) ||
                             permisos.includes(
                                 'reportes.prestamos_individual_mora'
-                            )
-                        "
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.prestamos_individual_mora' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Moras Préstamos Individual</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
-                            permisos.includes('reportes.prestamos_grupal_mora')
-                        "
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.prestamos_grupal_mora' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Moras Préstamos Grupal</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
+                            ) ||
+                            permisos.includes(
+                                'reportes.prestamos_grupal_mora'
+                            ) ||
                             permisos.includes(
                                 'reportes.extracto_pagos_individual'
-                            )
-                        "
-                    >
-                        <router-link
-                            :to="{ name: 'reportes.extracto_pagos_individual' }"
-                            class="nav-link"
-                        >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Extracto Pagos Individual</p>
-                        </router-link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        v-if="
+                            ) ||
                             permisos.includes('reportes.extracto_pagos_grupal')
                         "
+                        :class="[
+                            $route.name == 'desembolsos.usuarios' ||
+                            $route.name == 'reportes.clientes' ||
+                            $route.name == 'reportes.prestamos_individual' ||
+                            $route.name == 'reportes.prestamos_grupal' ||
+                            $route.name ==
+                                'reportes.proximos_desembolsos_individual' ||
+                            $route.name ==
+                                'reportes.proximos_desembolsos_grupal' ||
+                            $route.name ==
+                                'reportes.prestamos_individual_mora' ||
+                            $route.name == 'reportes.prestamos_grupal_mora' ||
+                            $route.name ==
+                                'reportes.extracto_pagos_individual' ||
+                            $route.name == 'reportes.extracto_pagos_grupal'
+                                ? 'menu-is-opening menu-open active'
+                                : '',
+                        ]"
                     >
-                        <router-link
-                            :to="{ name: 'reportes.extracto_pagos_grupal' }"
-                            class="nav-link"
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file-pdf"></i>
+                            <p>
+                                Reportes
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul
+                            class="nav nav-treeview"
+                            :style="{
+                                display:
+                                    $route.name == 'desembolsos.usuarios' ||
+                                    $route.name == 'reportes.clientes' ||
+                                    $route.name ==
+                                        'reportes.prestamos_individual' ||
+                                    $route.name ==
+                                        'reportes.prestamos_grupal' ||
+                                    $route.name ==
+                                        'reportes.proximos_desembolsos_individual' ||
+                                    $route.name ==
+                                        'reportes.proximos_desembolsos_grupal' ||
+                                    $route.name ==
+                                        'reportes.prestamos_individual_mora' ||
+                                    $route.name ==
+                                        'reportes.prestamos_grupal_mora' ||
+                                    $route.name ==
+                                        'reportes.extracto_pagos_individual' ||
+                                    $route.name ==
+                                        'reportes.extracto_pagos_grupal'
+                                        ? 'block'
+                                        : 'none',
+                            }"
                         >
-                            <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Extracto Pagos Grupal</p>
-                        </router-link>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('reportes.usuarios')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'reportes.usuarios' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name == 'reportes.usuarios'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Lista de Usuarios</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="permisos.includes('reportes.clientes')"
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'reportes.clientes' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name == 'reportes.clientes'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Lista de Clientes</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_individual'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.prestamos_individual',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_individual'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Préstamos Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_grupal'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{ name: 'reportes.prestamos_grupal' }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_grupal'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Préstamos Grupal</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.proximos_desembolsos_individual'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.proximos_desembolsos_individual',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.proximos_desembolsos_individual'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Próximos Desembolsos Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.proximos_desembolsos_grupal'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.proximos_desembolsos_grupal',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.proximos_desembolsos_grupal'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Próximos Desembolsos Grupal</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_individual_mora'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.prestamos_individual_mora',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_individual_mora'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Moras Préstamos Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_grupal_mora'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.prestamos_grupal_mora',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_grupal_mora'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Moras Préstamos Grupal</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.extracto_pagos_individual'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.extracto_pagos_individual',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.extracto_pagos_individual'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Extracto Pagos Individual</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.extracto_pagos_grupal'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.extracto_pagos_grupal',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.extracto_pagos_grupal'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Extracto Pagos Grupal</p>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>
                     <li

@@ -71,7 +71,10 @@
                                                     <th>Monto</th>
                                                     <th>Plazo</th>
                                                     <th>Estado</th>
-                                                    <th>Fecha Registro</th>
+                                                    <th>Fecha Desembolso</th>
+                                                    <th>
+                                                        Fecha Registro Préstamo
+                                                    </th>
                                                     <th width="20%">Acción</th>
                                                 </tr>
                                             </thead>
@@ -79,7 +82,9 @@
                                                 <tr
                                                     v-for="item in listPrestamos"
                                                 >
-                                                    <td data-col="Nombre Grupo:">
+                                                    <td
+                                                        data-col="Nombre Grupo:"
+                                                    >
                                                         {{ item.nombre }}
                                                     </td>
                                                     <td
@@ -114,7 +119,55 @@
                                                         {{ item.estado }}
                                                     </td>
                                                     <td
-                                                        data-col="Fecha Registro:"
+                                                        data-col="Fecha Desembolso:"
+                                                        class=""
+                                                    >
+                                                        <template
+                                                            v-if="
+                                                                item.estado ==
+                                                                'APROBADO'
+                                                            "
+                                                        >
+                                                            {{
+                                                                item.fecha_desembolso_t
+                                                                    ? item.fecha_desembolso_t
+                                                                    : "-"
+                                                            }}
+
+                                                            <button
+                                                                v-if="
+                                                                    item.fecha_desembolso_t &&
+                                                                    permisos.includes(
+                                                                        'prestamos.individual_contrato'
+                                                                    ) &&
+                                                                    !item.o_desembolso
+                                                                "
+                                                                class="inline-block btn btn-xs btn-success"
+                                                                @click="
+                                                                    modificarFecha(
+                                                                        item
+                                                                    )
+                                                                "
+                                                            >
+                                                                <i
+                                                                    class="fa fa-edit"
+                                                                ></i>
+                                                            </button>
+                                                            <span
+                                                                v-if="
+                                                                    item.o_desembolso
+                                                                "
+                                                                ><i
+                                                                    class="fa fa-check text-success font-weight-bold"
+                                                                ></i
+                                                            ></span>
+                                                        </template>
+                                                        <template v-else
+                                                            >-</template
+                                                        >
+                                                    </td>
+                                                    <td
+                                                        data-col="Fecha Registro Préstamo:"
                                                     >
                                                         {{
                                                             item.fecha_registro_t
@@ -223,6 +276,17 @@
                 </div>
             </div>
         </section>
+
+        <ModificarFechaDesembolsoGrupal
+            :muestra_modal_fecha="muestra_modal_fecha"
+            :grupo="oGrupo"
+            @close="muestra_modal_fecha = false"
+            @envioModal="
+                empezarBusqueda();
+                muestra_modal_fecha = false;
+            "
+        >
+        </ModificarFechaDesembolsoGrupal>
         <AprobacionGrupal
             :muestra_modal="muestra_modal"
             :grupo="oGrupo"
@@ -234,9 +298,11 @@
 
 <script>
 import AprobacionGrupal from "./AprobacionGrupal.vue";
+import ModificarFechaDesembolsoGrupal from "./ModificarFechaDesembolsoGrupal.vue";
 export default {
     components: {
         AprobacionGrupal,
+        ModificarFechaDesembolsoGrupal,
     },
     data() {
         return {
@@ -253,6 +319,7 @@ export default {
             loading: false,
             setTimeOutBusqueda: null,
             muestra_modal: false,
+            muestra_modal_fecha: false,
             oGrupo: {
                 nombre: "",
                 integrantes: 3,
@@ -408,6 +475,10 @@ export default {
                         }
                     }
                 });
+        },
+        modificarFecha(item) {
+            this.oGrupo = item;
+            this.muestra_modal_fecha = true;
         },
         aprobarPrestamo(item) {
             this.oGrupo = item;

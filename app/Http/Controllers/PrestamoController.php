@@ -24,6 +24,68 @@ class PrestamoController extends Controller
         ]);
     }
 
+    public function actualizar_fecha_desembolso(Prestamo $prestamo, Request $request)
+    {
+        $request->validate([
+            "fecha_desembolso" => "required|date"
+        ], [
+            "fecha_desembolso.required" => "Debes seleccionar una fecha",
+            "fecha_desembolso.date" => "Debes ingresar una fecha valida",
+        ]);
+
+        $fecha_actual = date("Y-m-d");
+        if ($request->fecha_desembolso < $fecha_actual) {
+            return response()->JSON([
+                "errors" => [
+                    "fecha_desembolso" => ["La fecha ingresada no puede ser igual o menor a la fecha actual"]
+                ]
+            ], 422);
+        }
+
+        if ($request->fecha_desembolso) {
+            $prestamo->fecha_desembolso = $request->fecha_desembolso;
+        }
+        $prestamo->save();
+
+        return response()->JSON([
+            "msj" => "Fecha de desembolso actualizado",
+        ], 200);
+    }
+
+
+    public function actualizar_fecha_desembolso_grupal(Grupo $grupo, Request $request)
+    {
+        $request->validate([
+            "fecha_desembolso" => "required|date"
+        ], [
+            "fecha_desembolso.required" => "Debes seleccionar una fecha",
+            "fecha_desembolso.date" => "Debes ingresar una fecha valida",
+        ]);
+
+        $fecha_actual = date("Y-m-d");
+        if ($request->fecha_desembolso < $fecha_actual) {
+            return response()->JSON([
+                "errors" => [
+                    "fecha_desembolso" => ["La fecha ingresada no puede ser igual o menor a la fecha actual"]
+                ]
+            ], 422);
+        }
+
+        if ($request->fecha_desembolso) {
+            $grupo->fecha_desembolso = $request->fecha_desembolso;
+            foreach ($grupo->prestamos as $prestamo) {
+                $prestamo->fecha_desembolso = $request->fecha_desembolso;
+                $prestamo->save();
+            }
+            $grupo->save();
+        }
+
+        return response()->JSON([
+            "msj" => "Fecha de desembolso actualizado",
+        ], 200);
+    }
+
+
     public function get_pago(Prestamo $prestamo)
     {
         // obtener el primer pago

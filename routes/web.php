@@ -4,6 +4,7 @@ use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CajaMovimientoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\ControlPrestamoController;
 use App\Http\Controllers\DesembolsoController;
 use App\Http\Controllers\DesembolsoGrupalController;
 use App\Http\Controllers\DesembolsoIndividualController;
@@ -62,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // prestamos
+        Route::patch("prestamos/actualizar_fecha_desembolso/{prestamo}", [PrestamoController::class, 'actualizar_fecha_desembolso']);
+        Route::patch("prestamos/actualizar_fecha_desembolso_grupal/{grupo}", [PrestamoController::class, 'actualizar_fecha_desembolso_grupal']);
         Route::get("prestamos/get_pago_grupal/{grupo}", [PrestamoController::class, 'get_pago_grupal']);
         Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
         Route::post("prestamos/simulacion/plan_pago_grupal", [PrestamoController::class, 'plan_pago_grupal']);
@@ -124,6 +127,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('salarios', SalarioController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
+
+        // Control Prestamos
+        Route::get("control_prestamos/getInfo", [ControlPrestamoController::class, 'getInfo']);
 
         // REPORTES
         Route::post('reportes/usuarios', [ReporteController::class, 'usuarios']);

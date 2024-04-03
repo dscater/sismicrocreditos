@@ -148,7 +148,7 @@
                         :index_prestamo="index"
                         :errores="errors"
                         :prestamo="item"
-                        v-show="i_integrante == index"
+                        v-if="i_integrante == index"
                         :plazo_prestamos="oGrupo.plazo"
                     ></Prestamo>
                 </div>
