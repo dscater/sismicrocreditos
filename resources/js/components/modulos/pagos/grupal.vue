@@ -52,7 +52,7 @@
                                         <table
                                             class="table table-bordered tabla_prestamos"
                                         >
-                                            <thead class="bg-sucess">
+                                            <thead class="bg-success">
                                                 <tr>
                                                     <th>Nombre Grupo</th>
                                                     <th>Nro. Integrantes</th>
@@ -61,6 +61,7 @@
                                                     <th>
                                                         Nro. Pagos Realizados
                                                     </th>
+                                                    <th>Estado Préstamo</th>
                                                     <th width="20%">Acción</th>
                                                 </tr>
                                             </thead>
@@ -88,9 +89,28 @@
                                                         data-col="Nro. Pagos Realizados:"
                                                     >
                                                         <span
-                                                            class="text-md badge badge-warning"
+                                                            class="text-md badge badge-info"
                                                             >{{
                                                                 item.nro_pagos_realizados
+                                                            }}</span
+                                                        >
+                                                    </td>
+                                                    <td
+                                                        data-col="Estado Préstamo:"
+                                                    >
+                                                        <span
+                                                            class="text-md badge"
+                                                            :class="[
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? 'badge-warning'
+                                                                    : 'badge-success',
+                                                            ]"
+                                                            >{{
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? "PENDIENTE"
+                                                                    : "CANCELADO"
                                                             }}</span
                                                         >
                                                     </td>

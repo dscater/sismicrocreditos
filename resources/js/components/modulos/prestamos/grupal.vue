@@ -72,6 +72,7 @@
                                                     <th>Plazo</th>
                                                     <th>Estado</th>
                                                     <th>Fecha Desembolso</th>
+                                                    <th>Estado Préstamo</th>
                                                     <th>
                                                         Fecha Registro Préstamo
                                                     </th>
@@ -164,6 +165,26 @@
                                                         </template>
                                                         <template v-else
                                                             >-</template
+                                                        >
+                                                    </td>
+
+                                                    <td
+                                                        data-col="Estado Préstamo:"
+                                                    >
+                                                        <span
+                                                            class="text-md badge"
+                                                            :class="[
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? 'badge-warning'
+                                                                    : 'badge-success',
+                                                            ]"
+                                                            >{{
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? "PENDIENTE"
+                                                                    : "CANCELADO"
+                                                            }}</span
                                                         >
                                                     </td>
                                                     <td

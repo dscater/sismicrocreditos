@@ -24,6 +24,7 @@ class Pago extends Model
         "dias_mora",
         "monto_mora",
         "monto_total",
+        "tipo_pago",
         "fecha_pago",
     ];
 

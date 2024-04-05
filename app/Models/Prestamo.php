@@ -30,11 +30,19 @@ class Prestamo extends Model
         "estado",
         "desembolso",
         "fecha_desembolso",
+        "finalizado",
+        "fecha_aprobado",
+        "fecha_rechazado",
         "fecha_registro",
-        "finalizado"
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago"];
+
+    public function getUltimoPagoAttribute()
+    {
+        $pago = Pago::where("prestamo_id", $this->id)->orderBy("id", "desc")->get()->first();
+        return $pago;
+    }
 
     public function getUltimaFechaPagoAttribute()
     {

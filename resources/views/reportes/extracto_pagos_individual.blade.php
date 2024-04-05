@@ -212,24 +212,36 @@
                             $pago = App\Models\Pago::where('plan_pago_id', $ppm->id)
                                 ->get()
                                 ->first();
-                            $dias_mora = $pago->dias_mora;
-                            $monto_mora = $pago->monto_mora;
+                            $dias_mora = 0;
+                            $monto_mora = 0;
+                            if (!$pago) {
+                                $ultimo_pago = $value->ultimo_pago;
+                                $dias_mora = App\Models\Prestamo::obtenerDiferenciaDias(
+                                    $ultimo_pago->fecha_pago,
+                                    $ppm->fecha_pago,
+                                );
+                                $monto_mora = 0;
+                                if ($dias_mora > 0) {
+                                    $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;
+                                }
+                            } else {
+                                $dias_mora = $pago->dias_mora;
+                                $monto_mora = $pago->monto_mora;
+                            }
                         } else {
                             $dias_mora = App\Models\Prestamo::obtenerDiferenciaDias($fecha_actual, $ppm->fecha_pago);
                             $monto_mora = 0;
                             if ($dias_mora > 0) {
                                 $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;
-                                $monto_mora = number_format($monto_mora, 2, ',', '.');
                             }
                             $total += (float) $monto_mora;
                         }
-
                     @endphp
                     <tr>
                         <td class="centreado">{{ $ppm->nro_cuota }}</td>
                         <td class="centreado">{{ $ppm->cuota }}</td>
-                        <td class="centreado">{{ $dias_mora > 0 ? $dias_mora : '' }}</td>
-                        <td class="centreado">{{ number_format((float) $monto_mora, 2, '.', ',') }}</td>
+                        <td class="centreado">{{ $dias_mora > 0 ? $dias_mora : '-' }}</td>
+                        <td class="centreado">{{ number_format($monto_mora, 2, ',', '.') }}</td>
                         <td class="centreado">{{ date('d/m/Y', strtotime($ppm->fecha_pago)) }}</td>
                         <td class="centreado">{{ $ppm->cancelado == 'SI' ? 'PAGADO' : 'SIN PAGAR' }}</td>
                     </tr>

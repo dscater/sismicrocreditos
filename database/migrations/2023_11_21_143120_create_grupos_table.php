@@ -26,6 +26,8 @@ class CreateGruposTable extends Migration
             $table->date("fecha_desembolso")->nullable();
             $table->string("estado", 155);
             $table->integer("finalizado")->default(0);
+            $table->date("fecha_aprobado")->nullable();
+            $table->date("fecha_rechazado")->nullable();
             $table->date("fecha_registro");
             $table->timestamps();
         });

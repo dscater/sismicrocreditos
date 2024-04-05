@@ -66,7 +66,9 @@ Route::middleware(['auth'])->group(function () {
         Route::patch("prestamos/actualizar_fecha_desembolso/{prestamo}", [PrestamoController::class, 'actualizar_fecha_desembolso']);
         Route::patch("prestamos/actualizar_fecha_desembolso_grupal/{grupo}", [PrestamoController::class, 'actualizar_fecha_desembolso_grupal']);
         Route::get("prestamos/get_pago_grupal/{grupo}", [PrestamoController::class, 'get_pago_grupal']);
+        Route::get("prestamos/get_pago_grupal_total/{grupo}", [PrestamoController::class, 'get_pago_grupal_total']);
         Route::get("prestamos/get_pago/{prestamo}", [PrestamoController::class, 'get_pago']);
+        Route::get("prestamos/get_pago_total/{prestamo}", [PrestamoController::class, 'get_pago_total']);
         Route::post("prestamos/simulacion/plan_pago_grupal", [PrestamoController::class, 'plan_pago_grupal']);
         Route::post("prestamos/simulacion/plan_pago_individual", [PrestamoController::class, 'plan_pago_individual']);
         Route::post("prestamos/plan_pago_individual/plan_reimpresion", [PrestamoController::class, 'plan_reimpresion']);

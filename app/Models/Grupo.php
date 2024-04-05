@@ -21,7 +21,9 @@ class Grupo extends Model
         "fecha_desembolso",
         "estado",
         "finalizado",
-        "fecha_registro"
+        "fecha_aprobado",
+        "fecha_rechazado",
+        "fecha_registro",
     ];
 
     protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago"];

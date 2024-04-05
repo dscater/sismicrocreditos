@@ -217,11 +217,26 @@
                         <td colspan="3">{{ number_format($pago->monto_mora, 2, '.', ',') }}
                         </td>
                     </tr>
-                    <tr>
-                        <td class="bold derecha">Saldo: </td>
-                        <td colspan="3">{{ number_format($pago->plan_pago->saldo, 2, '.', ',') }}
-                        </td>
-                    </tr>
+                    @if ($pago->tipo_pago == 'CUOTA')
+                        <tr>
+                            <td class="bold derecha">Saldo: </td>
+                            <td colspan="3">{{ number_format($pago->plan_pago->saldo, 2, '.', ',') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bold derecha">Descripción: </td>
+                            <td colspan="3">PAGO DE CUOTA</td>
+                        </tr>
+                    @elseif($pago->tipo_pago == 'TOTAL')
+                        <tr>
+                            <td class="bold derecha">Saldo: </td>
+                            <td colspan="3">0.00</td>
+                        </tr>
+                        <tr>
+                            <td class="bold derecha">Descripción: </td>
+                            <td colspan="3">LIQUIDACIÓN TOTAL DEL PRÉSTAMO</td>
+                        </tr>
+                    @endif
                     <tr>
                         <td colspan="4" class="text-lg bold centreado">TOTAL PAGADO:
                             {{ number_format($pago->monto_total, 2, '.', ',') }}
@@ -256,10 +271,10 @@
                     <tr>
                         <td class="bold derecha">Integrantes: </td>
                         <td colspan="3">
-                            @foreach ($pago->grupo->prestamos as $key_inte=>$inte)
+                            @foreach ($pago->grupo->prestamos as $key_inte => $inte)
                                 {{ $inte->cliente->full_name }}
-                                @if($key_inte < count($pago->grupo->prestamos) - 1)
-                                <span>, </span>
+                                @if ($key_inte < count($pago->grupo->prestamos) - 1)
+                                    <span>, </span>
                                 @endif
                             @endforeach
                         </td>

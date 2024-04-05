@@ -60,6 +60,7 @@
                                                     <th>
                                                         Nro. Pagos Realizados
                                                     </th>
+                                                    <th>Estado Préstamo</th>
                                                     <th width="20%">Acción</th>
                                                 </tr>
                                             </thead>
@@ -85,9 +86,28 @@
                                                         data-col="Nro. Pagos Realizados:"
                                                     >
                                                         <span
-                                                            class="text-md badge badge-warning"
+                                                            class="text-md badge badge-info"
                                                             >{{
                                                                 item.nro_pagos_realizados
+                                                            }}</span
+                                                        >
+                                                    </td>
+                                                    <td
+                                                        data-col="Estado Préstamo:"
+                                                    >
+                                                        <span
+                                                            class="text-md badge"
+                                                            :class="[
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? 'badge-warning'
+                                                                    : 'badge-success',
+                                                            ]"
+                                                            >{{
+                                                                item.finalizado ==
+                                                                0
+                                                                    ? "PENDIENTE"
+                                                                    : "CANCELADO"
                                                             }}</span
                                                         >
                                                     </td>
@@ -110,7 +130,29 @@
                                                             <i
                                                                 class="fa fa-plus"
                                                             ></i>
-                                                            Registrar Pago
+                                                            Registrar Cuota
+                                                        </button>
+                                                        <button
+                                                            class="inline-block btn btn-xs bg-orange text-white"
+                                                            v-if="
+                                                                item.nro_pagos_realizados <
+                                                                    item.plazo &&
+                                                                permisos.includes(
+                                                                    'pagos.individual_store'
+                                                                ) &&
+                                                                item.desembolso ==
+                                                                    1
+                                                            "
+                                                            @click="
+                                                                nuevoPagoTotal(
+                                                                    item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-money-check-alt"
+                                                            ></i>
+                                                            Liquidar deuda
                                                         </button>
                                                         <router-link
                                                             class="inline-block btn btn-xs btn-success"
@@ -161,14 +203,22 @@
             @close="muestra_modal = false"
             @envioModal="empezarBusqueda"
         ></PagoIndividual>
+        <PagoIndividualTotal
+            :muestra_modal="muestra_modal_total"
+            :prestamo="oPrestamo"
+            @close="muestra_modal_total = false"
+            @envioModal="empezarBusqueda"
+        ></PagoIndividualTotal>
     </div>
 </template>
 
 <script>
 import PagoIndividual from "./PagoIndividual.vue";
+import PagoIndividualTotal from "./PagoIndividualTotal.vue";
 export default {
     components: {
         PagoIndividual,
+        PagoIndividualTotal,
     },
     data() {
         return {
@@ -186,6 +236,7 @@ export default {
             loading: false,
             setTimeOutBusqueda: null,
             muestra_modal: false,
+            muestra_modal_total: false,
             oPrestamo: {
                 user_id: "",
                 cliente_id: "",
@@ -235,8 +286,13 @@ export default {
             this.oPrestamo = item;
             this.muestra_modal = true;
         },
+        nuevoPagoTotal(item) {
+            this.oPrestamo = item;
+            this.muestra_modal_total = true;
+        },
         empezarBusqueda() {
             this.muestra_modal = false;
+            this.muestra_modal_total = false;
             this.loading = true;
             clearInterval(this.setTimeOutBusqueda);
             this.setTimeOutBusqueda = setTimeout(() => {

@@ -29,12 +29,13 @@ class PagoController extends Controller
                 "prestamo_id" => $request->prestamo_id,
                 "plan_pago_id" => $request->plan_pago_id,
                 "cliente_id" => $request->cliente_id,
-                "nro_cuota" => $request->nro_cuota,
+                "nro_cuota" => $request->nro_cuota ? $request->nro_cuota : 0,
                 "monto" => $request->monto,
                 "interes" => $request->interes,
                 "dias_mora" => $request->dias_mora,
                 "monto_mora" => $request->monto_mora,
                 "monto_total" => $request->monto_total,
+                "tipo_pago" => $request->tipo_pago,
                 "fecha_pago" => date("Y-m-d"),
             ]);
 
@@ -45,7 +46,7 @@ class PagoController extends Controller
                 "monto" => $pago->monto,
                 "tipo" => "CRÉDITO",
                 "glosa" => "PAGO CUOTA PRESTAMO",
-                "tipo_prestamo" => "GRUPAL",
+                "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $pago->prestamo_id,
                 "fecha_registro" => date("Y-m-d")
             ]);
@@ -57,7 +58,7 @@ class PagoController extends Controller
                 "monto" => $pago->interes,
                 "tipo" => "CRÉDITO",
                 "glosa" => "INTERES",
-                "tipo_prestamo" => "GRUPAL",
+                "tipo_prestamo" => "INDIVIDUAL",
                 "prestamo_id" => $pago->prestamo_id,
                 "fecha_registro" => date("Y-m-d")
             ]);
@@ -70,7 +71,7 @@ class PagoController extends Controller
                     "monto" => $pago->interes,
                     "tipo" => "CRÉDITO",
                     "glosa" => "PAGO MORA",
-                    "tipo_prestamo" => "GRUPAL",
+                    "tipo_prestamo" => "INDIVIDUAL",
                     "prestamo_id" => $pago->prestamo_id,
                     "fecha_registro" => date("Y-m-d")
                 ]);
@@ -79,12 +80,28 @@ class PagoController extends Controller
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
 
-            // Actualizar PLAN DE PAGO a CANCELADO(SI)
-            $plan_pago = PlanPago::find($pago->plan_pago_id);
-            $plan_pago->cancelado = "SI";
-            $plan_pago->save();
 
-            Pago::verifica_individual($pago->prestamo);
+            if ($pago->tipo_pago == 'TOTAL') {
+                // SE PAGO LA DEUDA TOTAL
+                $prestamo = Prestamo::find($pago->prestamo_id);
+
+                $plan_pagos = PlanPago::where("prestamo_id", $prestamo->id)
+                    ->where("cancelado", "NO")
+                    ->get();
+                foreach ($plan_pagos as $plan_pago) {
+                    $plan_pago->cancelado = "SI";
+                    $plan_pago->save();
+                }
+                $prestamo->finalizado = 1;
+                $prestamo->save();
+            } else {
+                // SE PAGO UNA CUOTA
+                // Actualizar PLAN DE PAGO a CANCELADO(SI)
+                $plan_pago = PlanPago::find($pago->plan_pago_id);
+                $plan_pago->cancelado = "SI";
+                $plan_pago->save();
+                Pago::verifica_individual($pago->prestamo);
+            }
 
             $datos_original = HistorialAccion::getDetalleRegistro($pago, "pagos");
             HistorialAccion::create([

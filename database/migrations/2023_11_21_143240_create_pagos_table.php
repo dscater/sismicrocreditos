@@ -28,6 +28,7 @@ class CreatePagosTable extends Migration
             $table->integer("dias_mora");
             $table->decimal("monto_mora", 24, 2)->nullable();
             $table->decimal("monto_total", 24, 2);
+            $table->string("tipo_pago", 155)->nullable();
             $table->date("fecha_pago");
             $table->timestamps();
         });

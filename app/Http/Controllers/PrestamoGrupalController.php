@@ -46,6 +46,7 @@ class PrestamoGrupalController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             // actualizando el estado del grupo
             $grupo->estado = 'APROBADO';
+            $grupo->fecha_aprobado = date("Y-m-d");
             $grupo->user_aprobado_id = Auth::user()->id;
             $grupo->fecha_desembolso = $request->fecha_desembolso;
             $grupo->save();
@@ -113,6 +114,7 @@ class PrestamoGrupalController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($grupo, "grupos");
             // actualizando el estado del grupo
             $grupo->estado = 'RECHAZADO';
+            $grupo->fecha_rechazado = date("Y-m-d");
             $grupo->user_aprobado_id = NULL;
             $grupo->fecha_desembolso = NULL;
             $grupo->save();

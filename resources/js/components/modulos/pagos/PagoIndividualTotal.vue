@@ -37,18 +37,9 @@
                             </p>
                         </div>
                     </div>
-                    <div class="row" v-if="oPlanPago">
+                    <div class="row" v-if="oPlanPagos.length > 0">
                         <div class="col-md-12">
                             <hr />
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Nro. de cuota*</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="oPago.nro_cuota"
-                                readonly
-                            />
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Capital*</label>
@@ -116,7 +107,7 @@
                     <el-button
                         type="success"
                         class="bg-success"
-                        :disabled="!oPlanPago"
+                        :disabled="oPlanPagos.length < 1"
                         :loading="enviando"
                         @click="setRegistroModal()"
                         v-html="textoBoton"
@@ -181,21 +172,21 @@ export default {
             this.errors = [];
             if (newVal) {
                 this.bModal = true;
-                this.getNuevoPago();
+                this.getPagoTotal();
             } else {
                 this.bModal = false;
             }
         },
         prestamo: function (newVal) {
-            this.getNuevoPago();
+            this.getPagoTotal();
         },
     },
     computed: {
         tituloModal() {
-            return '<i class="fa fa-plus"></i> REALIZAR PAGO';
+            return '<i class="fa fa-money-check-alt"></i> LIQUIDAR DEUDA';
         },
         textoBoton() {
-            return '<i class="fa fa-check"></i> Registrar pago';
+            return '<i class="fa fa-check"></i> LIQUIDAR DEUDA';
         },
     },
     data() {
@@ -204,7 +195,7 @@ export default {
             bModal: this.muestra_modal,
             enviando: false,
             errors: [],
-            oPlanPago: null,
+            oPlanPagos: [],
             oPago: {
                 prestamo_id: "",
                 plan_pago_id: "",
@@ -215,7 +206,7 @@ export default {
                 dias_mora: "",
                 monto_mora: "",
                 monto_total: "",
-                tipo_pago: "CUOTA",
+                tipo_pago: "TOTAL",
             },
         };
     },
@@ -223,28 +214,26 @@ export default {
         this.bModal = this.muestra_modal;
     },
     methods: {
-        getNuevoPago() {
+        getPagoTotal() {
             if (this.prestamo.id != "") {
                 axios
                     .get(
                         main_url +
-                            "/admin/prestamos/get_pago/" +
+                            "/admin/prestamos/get_pago_total/" +
                             this.prestamo.id
                     )
                     .then((response) => {
-                        this.oPlanPago = response.data.plan_pago;
+                        this.oPlanPagos = response.data.plan_pagos;
                         this.oPago.prestamo_id = this.prestamo.id;
-                        this.oPago.plan_pago_id = this.oPlanPago.id;
                         this.oPago.cliente_id = this.prestamo.cliente_id;
-                        this.oPago.nro_cuota = this.oPlanPago.nro_cuota;
-                        this.oPago.interes = this.oPlanPago.interes;
-                        this.oPago.monto = this.oPlanPago.capital;
-                        this.oPago.dias_mora = response.data.dias_mora;
-                        this.oPago.monto_mora = response.data.monto_mora;
+                        this.oPago.interes = response.data.total_interes;
+                        this.oPago.monto = response.data.total_capital;
+                        this.oPago.dias_mora = response.data.total_dias_mora;
+                        this.oPago.monto_mora = response.data.total_moras;
                         this.oPago.monto_total =
-                            parseFloat(this.oPago.monto) +
-                            parseFloat(this.oPago.interes) +
-                            parseFloat(this.oPago.monto_mora);
+                            parseFloat(response.data.total_capital) +
+                            parseFloat(response.data.total_interes) +
+                            parseFloat(response.data.total_moras);
                         this.oPago.monto_total = parseFloat(
                             this.oPago.monto_total
                         ).toFixed(2);
