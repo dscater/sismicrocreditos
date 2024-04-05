@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 05-04-2024 a las 22:05:31
+-- Tiempo de generación: 05-04-2024 a las 22:23:05
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -40,10 +40,10 @@ CREATE TABLE `cajas` (
 --
 
 INSERT INTO `cajas` (`id`, `caja`, `saldo`, `created_at`, `updated_at`) VALUES
-(1, 'Pago por Cuotas', 30000.00, NULL, '2024-04-05 21:47:09'),
-(2, 'Gastos Administrativos', 100.00, NULL, '2024-04-05 21:47:09'),
-(3, 'Cargos por Multa', 0.00, NULL, '2024-04-05 21:47:09'),
-(4, 'Intereses', 814.00, NULL, '2024-04-05 21:47:09');
+(1, 'Pago por Cuotas', 30000.00, NULL, '2024-04-05 22:21:15'),
+(2, 'Gastos Administrativos', 100.00, NULL, '2024-04-05 22:21:15'),
+(3, 'Cargos por Multa', 0.00, NULL, '2024-04-05 22:21:15'),
+(4, 'Intereses', 814.00, NULL, '2024-04-05 22:21:15');
 
 -- --------------------------------------------------------
 
@@ -200,8 +200,8 @@ CREATE TABLE `grupos` (
 --
 
 INSERT INTO `grupos` (`id`, `user_id`, `user_desembolso_id`, `user_aprobado_id`, `nombre`, `integrantes`, `monto`, `plazo`, `desembolso`, `fecha_desembolso`, `estado`, `finalizado`, `fecha_aprobado`, `fecha_rechazado`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 1, 'GRUPO UNO', 2, 6000.00, 12, 0, '2024-04-05', 'APROBADO', 0, '2024-04-03', NULL, '2024-04-03', '2024-04-03 19:19:23', '2024-04-05 19:14:37'),
-(2, 1, NULL, NULL, 'GRUPOS', 3, 5000.00, 12, 0, NULL, 'PRE APROBADO', 0, '2024-04-03', NULL, '2024-04-03', '2024-04-03 19:48:37', '2024-04-03 19:48:37');
+(1, 1, NULL, 1, 'GRUPO UNO', 2, 6000.00, 12, 0, '2024-04-06', 'APROBADO', 0, '2024-04-03', NULL, '2024-04-03', '2024-04-03 19:19:23', '2024-04-05 22:21:31'),
+(2, 1, NULL, NULL, 'GRUPOS', 3, 5000.00, 12, 0, NULL, 'PRE APROBADO', 0, NULL, NULL, '2024-04-03', '2024-04-03 19:48:37', '2024-04-03 19:48:37');
 
 -- --------------------------------------------------------
 
@@ -556,8 +556,8 @@ CREATE TABLE `prestamos` (
 INSERT INTO `prestamos` (`id`, `user_id`, `user_desembolso_id`, `user_aprobado_id`, `cliente_id`, `tipo`, `grupo_id`, `monto`, `plazo`, `f_ci`, `f_luz`, `f_agua`, `croquis`, `documento_1`, `documento_2`, `documento_3`, `documento_4`, `estado`, `desembolso`, `finalizado`, `fecha_aprobado`, `fecha_rechazado`, `fecha_desembolso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 1, 1, 'INDIVIDUAL', NULL, 5000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 1, '2023-12-05', NULL, '2023-12-05', '2023-12-05', '2023-12-05 20:32:13', '2024-04-05 21:29:34'),
 (2, 1, NULL, 1, 2, 'INDIVIDUAL', NULL, 6000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 0, 0, '2024-04-03', NULL, '2024-04-05', '2024-04-03', '2024-04-03 18:53:13', '2024-04-05 19:14:28'),
-(3, 1, 1, 1, 2, 'GRUPAL', 1, 3000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2024-04-03', NULL, '2024-04-05', '2024-04-03', '2024-04-03 19:19:23', '2024-04-05 19:14:37'),
-(4, 1, 1, 1, 3, 'GRUPAL', 1, 3000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2024-04-03', NULL, '2024-04-05', '2024-04-03', '2024-04-03 19:19:24', '2024-04-05 19:14:37'),
+(3, 1, 1, 1, 2, 'GRUPAL', 1, 3000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2024-04-03', NULL, '2024-04-06', '2024-04-03', '2024-04-03 19:19:23', '2024-04-05 22:21:31'),
+(4, 1, 1, 1, 3, 'GRUPAL', 1, 3000.00, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'APROBADO', 1, 0, '2024-04-03', NULL, '2024-04-06', '2024-04-03', '2024-04-03 19:19:24', '2024-04-05 22:21:31'),
 (5, 1, NULL, NULL, 4, 'GRUPAL', 2, 1666.67, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, NULL, NULL, '2024-04-03', '2024-04-03 19:48:37', '2024-04-03 19:48:37'),
 (6, 1, NULL, NULL, 5, 'GRUPAL', 2, 1666.67, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, NULL, NULL, '2024-04-03', '2024-04-03 19:48:37', '2024-04-03 19:48:37'),
 (7, 1, NULL, NULL, 3, 'GRUPAL', 2, 1666.67, 12, 1, 1, 1, 1, NULL, NULL, NULL, NULL, 'PRE APROBADO', 0, 0, NULL, NULL, NULL, '2024-04-03', '2024-04-03 19:48:37', '2024-04-03 19:48:37');
