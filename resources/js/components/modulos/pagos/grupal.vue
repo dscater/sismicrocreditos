@@ -135,6 +135,28 @@
                                                             ></i>
                                                             Registrar Pago
                                                         </button>
+                                                        <button
+                                                            class="inline-block btn btn-xs bg-orange text-white"
+                                                            v-if="
+                                                                item.nro_pagos_realizados <
+                                                                    item.plazo &&
+                                                                permisos.includes(
+                                                                    'pagos.grupal_store'
+                                                                ) &&
+                                                                item.desembolso ==
+                                                                    1
+                                                            "
+                                                            @click="
+                                                                nuevoPagoTotal(
+                                                                    item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-money-check-alt"
+                                                            ></i>
+                                                            Liquidar deuda
+                                                        </button>
                                                         <router-link
                                                             class="inline-block btn btn-xs btn-success"
                                                             v-if="
@@ -184,14 +206,22 @@
             @close="muestra_modal = false"
             @envioModal="empezarBusqueda"
         ></PagoGrupal>
+        <PagoGrupalTotal
+            :muestra_modal="muestra_modal_total"
+            :grupo="oGrupo"
+            @close="muestra_modal_total = false"
+            @envioModal="empezarBusqueda"
+        ></PagoGrupalTotal>
     </div>
 </template>
 
 <script>
 import PagoGrupal from "./PagoGrupal.vue";
+import PagoGrupalTotal from "./PagoGrupalTotal.vue";
 export default {
     components: {
         PagoGrupal,
+        PagoGrupalTotal,
     },
     data() {
         return {
@@ -209,6 +239,7 @@ export default {
             loading: false,
             setTimeOutBusqueda: null,
             muestra_modal: false,
+            muestra_modal_total: false,
             oGrupo: {
                 nombre: "",
                 integrantes: 3,
@@ -226,8 +257,13 @@ export default {
             this.oGrupo = item;
             this.muestra_modal = true;
         },
+        nuevoPagoTotal(item) {
+            this.oGrupo = item;
+            this.muestra_modal_total = true;
+        },
         empezarBusqueda() {
             this.muestra_modal = false;
+            this.muestra_modal_total = false;
             this.loading = true;
             clearInterval(this.setTimeOutBusqueda);
             this.setTimeOutBusqueda = setTimeout(() => {

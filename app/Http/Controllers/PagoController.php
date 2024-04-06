@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use App\library\numero_a_letras\src\NumeroALetras;
+use Illuminate\Support\Facades\Log;
 
 class PagoController extends Controller
 {
@@ -80,7 +81,6 @@ class PagoController extends Controller
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
 
-
             if ($pago->tipo_pago == 'TOTAL') {
                 // SE PAGO LA DEUDA TOTAL
                 $prestamo = Prestamo::find($pago->prestamo_id);
@@ -135,12 +135,13 @@ class PagoController extends Controller
                 "tipo_prestamo" => "GRUPAL",
                 "grupo_id" => $request->grupo_id,
                 "grupo_plan_pago_id" => $request->plan_pago_id,
-                "nro_cuota" => $request->nro_cuota,
+                "nro_cuota" => $request->nro_cuota ? $request->nro_cuota : 0,
                 "monto" => $request->monto,
                 "interes" => $request->interes,
                 "dias_mora" => $request->dias_mora,
                 "monto_mora" => $request->monto_mora,
                 "monto_total" => $request->monto_total,
+                "tipo_pago" => $request->tipo_pago,
                 "fecha_pago" => date("Y-m-d"),
             ]);
 
@@ -185,17 +186,39 @@ class PagoController extends Controller
             // actualizar saldos en cajas
             Caja::actualizaSaldos();
 
-            // Actualizar PLAN DE PAGO a CANCELADO(SI)
-            $plan_pago = GrupoPlanPago::find($pago->grupo_plan_pago_id);
-            $plan_pago->cancelado = "SI";
-            $plan_pago->save();
+            if ($pago->tipo_pago == 'TOTAL') {
+                // se pago el total del prestamo
+                $grupo = Grupo::find($request->grupo_id);
+                $grupo_plan_pagos = GrupoPlanPago::where("grupo_id", $grupo->id)
+                    ->where("cancelado", "NO")
+                    ->get();
+                foreach ($grupo_plan_pagos as $grupo_plan_pago) {
+                    $grupo_plan_pago->cancelado = "SI";
+                    $grupo_plan_pago->save();
+                }
 
-            $grupo = Grupo::find($request->grupo_id);
-            Pago::verifica_grupal($grupo);
-            foreach ($grupo->prestamos as $prestamo) {
-                $pp = PlanPago::where("prestamo_id", $prestamo->id)->where("nro_cuota", $plan_pago->nro_cuota)->get()->first();
-                $pp->cancelado = "SI";
-                $pp->save();
+                foreach ($grupo->prestamos as $prestamo) {
+                    $pps = PlanPago::where("prestamo_id", $prestamo->id)->where("cancelado", "NO")->get();
+                    foreach ($pps as $pp) {
+                        $pp->cancelado = "SI";
+                        $pp->save();
+                    }
+                }
+                $grupo->finalizado = 1;
+                $grupo->save();
+            } else {
+                // SE PAGO UNA CUOTA
+                // Actualizar PLAN DE PAGO a CANCELADO(SI)
+                $plan_pago = GrupoPlanPago::find($pago->grupo_plan_pago_id);
+                $plan_pago->cancelado = "SI";
+                $plan_pago->save();
+                $grupo = Grupo::find($request->grupo_id);
+                foreach ($grupo->prestamos as $prestamo) {
+                    $pp = PlanPago::where("prestamo_id", $prestamo->id)->where("nro_cuota", $plan_pago->nro_cuota)->get()->first();
+                    $pp->cancelado = "SI";
+                    $pp->save();
+                }
+                Pago::verifica_grupal($grupo);
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($pago, "pagos");

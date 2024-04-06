@@ -71,7 +71,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div
+                                        class="col-md-4"
+                                        v-if="item.tipo_pago == 'CUOTA'"
+                                    >
                                         <p>
                                             <strong>Nro. Cuota: </strong>
                                             {{ item.nro_cuota }}
@@ -105,6 +108,22 @@
                                         <p>
                                             <strong>Monto mora: </strong>
                                             {{ item.monto_mora }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <strong>Total Cancelado: </strong>
+                                            {{ item.monto_total }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4" v-if="item.tipo_pago">
+                                        <p>
+                                            <strong>Descripción: </strong>
+                                            {{
+                                                item.tipo_pago == "CUOTA"
+                                                    ? "PAGO DE CUOTA"
+                                                    : "LIQUIDACIÓN TOTAL DEL PRÉSTAMO"
+                                            }}
                                         </p>
                                     </div>
                                     <div class="col-md-4">

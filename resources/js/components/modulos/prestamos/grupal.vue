@@ -139,7 +139,7 @@
                                                                 v-if="
                                                                     item.fecha_desembolso_t &&
                                                                     permisos.includes(
-                                                                        'prestamos.individual_contrato'
+                                                                        'prestamos.grupal_contrato'
                                                                     ) &&
                                                                     !item.o_desembolso
                                                                 "

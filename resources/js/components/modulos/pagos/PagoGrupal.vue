@@ -185,6 +185,7 @@ export default {
                 dias_mora: "",
                 monto_mora: "",
                 monto_total: "",
+                tipo_pago: "CUOTA",
             },
         };
     },

@@ -8,7 +8,7 @@
     >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success">
+                <div class="modal-header bg-orange">
                     <h4 class="modal-title" v-html="tituloModal"></h4>
                     <button
                         type="button"

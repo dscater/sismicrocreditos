@@ -26,7 +26,13 @@ class Grupo extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago"];
+
+    public function getUltimoPagoAttribute()
+    {
+        $pago = Pago::where("grupo_id", $this->id)->orderBy("id", "desc")->get()->first();
+        return $pago;
+    }
 
     public function getUltimaFechaPagoAttribute()
     {

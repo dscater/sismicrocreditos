@@ -46,6 +46,14 @@ class PrestamoController extends Controller
             $prestamo->fecha_desembolso = $request->fecha_desembolso;
         }
         $prestamo->save();
+        // actualizar las fechas de pagos
+        $plan_pagos = PlanPago::where("prestamo_id", $prestamo->id)->orderBy("nro_cuota", "asc")->get();
+        $fecha_proximo_pago = $request->fecha_desembolso;
+        foreach ($plan_pagos as $key => $pp) {
+            $fecha_proximo_pago = date("Y-m-d", strtotime($fecha_proximo_pago . "+7days"));
+            $pp->fecha_pago = $fecha_proximo_pago;
+            $pp->save();
+        }
 
         return response()->JSON([
             "msj" => "Fecha de desembolso actualizado",
@@ -78,6 +86,26 @@ class PrestamoController extends Controller
                 $prestamo->save();
             }
             $grupo->save();
+        }
+
+        // registrar las fechas de pagos
+        $plan_pagos = GrupoPlanPago::where("grupo_id", $grupo->id)->orderBy("nro_cuota", "asc")->get();
+        $fecha_desembolso = $request->fecha_desembolso;
+        $fecha_proximo_pago = $fecha_desembolso;
+        foreach ($plan_pagos as $key => $pp) {
+            $fecha_proximo_pago = date("Y-m-d", strtotime($fecha_proximo_pago . "+7days"));
+            $pp->fecha_pago = $fecha_proximo_pago;
+            $pp->save();
+        }
+
+        // actualizar el plan por separado de los prestamos
+        foreach ($grupo->prestamos as $prestamo) {
+            foreach ($plan_pagos as $gpp) {
+                $pp = PlanPago::where("prestamo_id", $prestamo->id)->where("nro_cuota", $gpp->nro_cuota)->get()->first();
+                $pp->fecha_pago = $gpp->fecha_pago;
+                $pp->save();
+            }
+            $prestamo->save();
         }
 
         return response()->JSON([
@@ -193,6 +221,57 @@ class PrestamoController extends Controller
                 "plan_pago" => $plan_pago,
                 "dias_mora" => $dias_mora,
                 "monto_mora" => $monto_mora,
+            ]);
+        } else {
+            return response()->JSON([
+                "sw" => false,
+                "message" => "No se encontró ningun pago para realizar"
+            ], 400);
+        }
+    }
+
+    public function get_pago_grupal_total(Grupo $grupo)
+    {
+        $total_capital = 0;
+        $total_interes = 0;
+        $total_moras = 0;
+        $total_dias_mora = 0;
+
+        // obtener pland de pagos grupal
+        $grupo_plan_pagos = GrupoPlanPago::where("grupo_id", $grupo->id)->where("cancelado", "NO")->orderBy("nro_cuota", "asc")->get();
+
+        if (count($grupo_plan_pagos) > 0) {
+
+            foreach ($grupo_plan_pagos as $plan_pago) {
+                // obtener moras
+                $dias_mora = 0;
+                $monto_mora = 0;
+                // VERIFICAR LOS DÍAS DE MORA
+                $fecha_actual = date("Y-m-d");
+                $fecha_pago = $plan_pago->fecha_pago;
+                // Obtener los días transcurridos
+                $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
+                if ($dias_mora > 0) {
+                    $total_dias_mora = (int)$total_dias_mora + $dias_mora;
+                    $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;
+                }
+                $total_capital = (float)$total_capital + (float)$plan_pago->capital;
+                $total_interes = (float)$total_interes + (float)$plan_pago->interes;
+                $total_moras = (float)$total_moras + (float)$monto_mora;
+            }
+
+            $total_capital = number_format($total_capital, 2, ".", "");
+            $total_interes = number_format($total_interes, 2, ".", "");
+            $total_moras = number_format($total_moras, 2, ".", "");
+
+            // fin calcular monto mora
+            return response()->JSON([
+                "sw" => true,
+                "total_capital" => $total_capital,
+                "total_interes" => $total_interes,
+                "total_moras" => $total_moras,
+                "total_dias_mora" => $total_dias_mora,
+                "plan_pagos" => $grupo_plan_pagos,
             ]);
         } else {
             return response()->JSON([

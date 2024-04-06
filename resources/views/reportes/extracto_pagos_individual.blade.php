@@ -209,6 +209,7 @@
                 @foreach ($plan_pagos as $ppm)
                     @php
                         if ($ppm->cancelado == 'SI') {
+                            $fecha_pago = $ppm->fecha_pago;
                             $pago = App\Models\Pago::where('plan_pago_id', $ppm->id)
                                 ->get()
                                 ->first();
@@ -216,6 +217,7 @@
                             $monto_mora = 0;
                             if (!$pago) {
                                 $ultimo_pago = $value->ultimo_pago;
+                                // $fecha_pago = $ultimo_pago->fecha_pago;
                                 $dias_mora = App\Models\Prestamo::obtenerDiferenciaDias(
                                     $ultimo_pago->fecha_pago,
                                     $ppm->fecha_pago,
@@ -240,9 +242,9 @@
                     <tr>
                         <td class="centreado">{{ $ppm->nro_cuota }}</td>
                         <td class="centreado">{{ $ppm->cuota }}</td>
-                        <td class="centreado">{{ $dias_mora > 0 ? $dias_mora : '-' }}</td>
+                        <td class="centreado">{{ $dias_mora > 0 || $ppm->cancelado == 'SI' ? $dias_mora : '-' }}</td>
                         <td class="centreado">{{ number_format($monto_mora, 2, ',', '.') }}</td>
-                        <td class="centreado">{{ date('d/m/Y', strtotime($ppm->fecha_pago)) }}</td>
+                        <td class="centreado">{{ date('d/m/Y', strtotime($fecha_pago)) }}</td>
                         <td class="centreado">{{ $ppm->cancelado == 'SI' ? 'PAGADO' : 'SIN PAGAR' }}</td>
                     </tr>
                 @endforeach
