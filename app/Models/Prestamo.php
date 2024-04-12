@@ -36,7 +36,57 @@ class Prestamo extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago"];
+    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago", "pagos_tiempo", "pagos_mora", "pagos_pendiente"];
+
+    public function getPagosTiempoAttribute()
+    {
+        $pagos = Pago::where("cliente_id", $this->id)->get();
+
+        $contador = 0;
+        $ultimo_pago = null;
+        foreach ($pagos as $pago) {
+            $ultimo_pago = $pago;
+            if ($pago->nro_cuota != 0 && (float)$pago->monto_mora == 0) {
+                $contador++;
+            } else {
+                if ($ultimo_pago->nro_cuota == 0 && (float)$pago->monto_mora == 0) {
+                    $plazo = $pago->prestamo->plazo;
+                    $contador += (int)$plazo - (int)$ultimo_pago->nro_cuota;
+                }
+            }
+        }
+        return $contador;
+    }
+    public function getPagosMoraAttribute()
+    {
+        $pagos = Pago::where("cliente_id", $this->id)->get();
+
+        $contador = 0;
+        $ultimo_pago = null;
+        foreach ($pagos as $pago) {
+            $ultimo_pago = $pago;
+            if ($pago->nro_cuota != 0 && (float)$pago->monto_mora > 0) {
+                $contador++;
+            } else {
+                if ($ultimo_pago->nro_cuota == 0 && (float)$pago->monto_mora > 0) {
+                    $plazo = $pago->prestamo->plazo;
+                    $contador += (int)$plazo - (int)$ultimo_pago->nro_cuota;
+                }
+            }
+        }
+        return $contador;
+    }
+
+    public function getPagosPendienteAttribute()
+    {
+        $plan_pagos = PlanPago::where("prestamo_id", $this->id)->where("cancelado", "NO")->get();
+        if (count($plan_pagos) == 0) {
+            $prestamo = Prestamo::find($this->id);
+            $prestamo->finalizado = 1;
+            $prestamo->save();
+        }
+        return count($plan_pagos);
+    }
 
     public function getUltimoPagoAttribute()
     {

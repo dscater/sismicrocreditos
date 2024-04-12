@@ -216,8 +216,8 @@
                 @endphp
                 @foreach ($plan_pagos as $ppm)
                     @php
+                        $fecha_pago = $ppm->fecha_pago;
                         if ($ppm->cancelado == 'SI') {
-                            $fecha_pago = $ppm->fecha_pago;
                             $pago = App\Models\Pago::where('grupo_plan_pago_id', $ppm->id)
                                 ->get()
                                 ->first();
@@ -250,7 +250,7 @@
                     <tr>
                         <td class="centreado">{{ $ppm->nro_cuota }}</td>
                         <td class="centreado">{{ $ppm->cuota }}</td>
-                        <td class="centreado">{{ $dias_mora > 0 || $ppm->cancelado == 'SI' ? $dias_mora : '' }}</td>
+                        <td class="centreado">{{ $dias_mora > 0 || $ppm->cancelado == 'SI' ? $dias_mora : '-' }}</td>
                         <td class="centreado">{{ number_format($monto_mora, 2, ',', '.') }}</td>
 
                         <td class="centreado">{{ date('d/m/Y', strtotime($fecha_pago)) }}</td>

@@ -6,6 +6,7 @@ use App\Models\ActividadContingencia;
 use App\Models\AmenazaSeguridad;
 use App\Models\Cliente;
 use App\Models\Grupo;
+use App\Models\Pago;
 use App\Models\PlanContingencia;
 use App\Models\Prestamo;
 use App\Models\RolFuncion;
@@ -262,5 +263,141 @@ class ReporteController extends Controller
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
         return $pdf->download('extracto_pagos_grupal.pdf');
+    }
+
+    public function prestamos_estado(Request $request)
+    {
+        $gestion = $request->gestion;
+
+        $categories = []; // meses
+
+        // $series1 = [
+        //     ["name" => "PRE APROBADOS", "data" => []],
+        //     ["name" => "APROBADOS", "data" => []],
+        //     ["name" => "RECHAZADOS", "data" => []]
+        // ];
+
+        $series1 = [
+            [
+                "name" => "PRE APROBADOS", "data" => [],
+                "color" => "#156082"
+            ],
+            [
+                "name" => "APROBADOS", "data" => [],
+                "color" => "#E97132"
+            ],
+            [
+                "name" => "RECHAZADOS", "data" => [],
+                "color" => "#196B24"
+            ]
+        ];
+
+        // $series2 = [
+        //     ["name" => "CLIENTES CON MORA", "data" => []],
+        //     ["name" => "CLIENTES PAGO EN FECHA", "data" => []],
+        //     ["name" => "CLIENTES FINALIZADOS", "data" => []]
+        // ];
+
+        $series2 = [
+            [
+                "name" => "CLIENTES CON MORA", "data" => [],
+                "color" => "#156082"
+
+            ],
+            [
+                "name" => "CLIENTES PAGO EN FECHA", "data" => [],
+                "color" => "#E97132"
+
+            ],
+            [
+                "name" => "CLIENTES FINALIZADOS", "data" => [],
+                "color" => "#196B24"
+            ]
+        ];
+
+
+        $array_meses = [
+            1 => "Enero",
+            2 => "Febrero",
+            3 => "Marzo",
+            4 => "Abril",
+            5 => "Mayo",
+            6 => "Junio",
+            7 => "Julio",
+            8 => "Agosto",
+            9 => "Septiembre",
+            10 => "Octubre",
+            11 => "Noviembre",
+            12 => "Diciembre",
+        ];
+
+        $gestion_actual = date("Y");
+        if ($gestion <= $gestion_actual) {
+            $enero = 1;
+            $ultimo_mes = 12;
+            if ($gestion == $gestion_actual) {
+                $mes_actual = (int)date("m");
+                $ultimo_mes = $mes_actual;
+            }
+            for ($i = $enero; $i <= $ultimo_mes; $i++) {
+                $categories[] = $array_meses[$i];
+
+                $mes_txt = $i < 10 ? '0' . $i : $i;
+                $fecha_buscar = $gestion . "-" . $mes_txt;
+
+                // PRE APROBADOS
+                $prestamos = Prestamo::where("tipo", "INDIVIDUAL")
+                    ->where("fecha_registro", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $grupos = Grupo::where("desembolso", 0)
+                    ->where("fecha_registro", "LIKE", "$fecha_buscar%")
+                    ->get();
+
+                $series1[0]["data"][] = (int)(count($prestamos) + count($grupos));
+
+                // APROBADOS
+                $prestamos = Prestamo::where("tipo", "INDIVIDUAL")
+                    ->where("fecha_aprobado", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $grupos = Grupo::where("desembolso", 0)
+                    ->where("fecha_aprobado", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $series1[1]["data"][] = (int)(count($prestamos) + count($grupos));
+
+                // RECHAZADOS
+                $prestamos = Prestamo::where("tipo", "INDIVIDUAL")
+                    ->where("fecha_rechazado", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $grupos = Grupo::where("desembolso", 0)
+                    ->where("fecha_rechazado", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $series1[2]["data"][] = (int)(count($prestamos) + count($grupos));
+
+                // CON MORA
+                $prestamos = Pago::where("fecha_pago", "LIKE", "$fecha_buscar%")->where("dias_mora", ">", 0)->get();
+                $series2[0]["data"][] = (int)(count($prestamos) + count($grupos));
+                // PAGOS EN FECHA
+                $prestamos = Pago::where("fecha_pago", "LIKE", "$fecha_buscar%")->where("dias_mora", 0)->get();
+                $series2[1]["data"][] = (int)(count($prestamos) + count($grupos));
+
+                // FINALIZADOS
+                $prestamos = Prestamo::where("tipo", "INDIVIDUAL")
+                    ->where("finalizado", 1)
+                    ->where("updated_at", "LIKE", "$fecha_buscar%")
+                    ->get();
+                $grupos = Grupo::where("desembolso", 0)
+                    ->where("finalizado", 1)
+                    ->where("updated_at", "LIKE", "$fecha_buscar%")
+                    ->get();
+
+                $series2[2]["data"][] = (int)(count($prestamos) + count($grupos));
+            }
+        }
+
+        return response()->JSON([
+            "categories" => $categories,
+            "series1" => $series1,
+            "series2" => $series2,
+        ]);
     }
 }

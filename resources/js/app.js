@@ -31,6 +31,7 @@ window.Swal = Swal;
 // HIGH CHARTS
 var Highcharts = require("highcharts");
 require("highcharts/modules/exporting")(Highcharts);
+require("highcharts/modules/accessibility.js")(Highcharts);
 window.Highcharts = Highcharts;
 window.Highcharts.setOptions({
     lang: {

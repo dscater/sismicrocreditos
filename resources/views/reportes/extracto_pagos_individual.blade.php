@@ -208,8 +208,8 @@
                 @endphp
                 @foreach ($plan_pagos as $ppm)
                     @php
+                        $fecha_pago = $ppm->fecha_pago;
                         if ($ppm->cancelado == 'SI') {
-                            $fecha_pago = $ppm->fecha_pago;
                             $pago = App\Models\Pago::where('plan_pago_id', $ppm->id)
                                 ->get()
                                 ->first();

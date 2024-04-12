@@ -35,10 +35,15 @@ class Cliente extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->nombre . ($this->segundo_nombre != NULL && $this->segundo_nombre != '' ? ' '.$this->segundo_nombre . ' ' : ' ') . $this->paterno . ($this->materno != NULL && $this->materno != '' ? ' ' . $this->materno : '');
+        return $this->nombre . ($this->segundo_nombre != NULL && $this->segundo_nombre != '' ? ' ' . $this->segundo_nombre . ' ' : ' ') . $this->paterno . ($this->materno != NULL && $this->materno != '' ? ' ' . $this->materno : '');
     }
     public function getFullCiAttribute()
     {
         return $this->ci . ' ' . $this->ci_exp;
+    }
+
+    public function prestamos()
+    {
+        return $this->hasMany(Prestamo::class, 'cliente_id')->orderBy("id", "asc");
     }
 }

@@ -265,7 +265,38 @@ class PagoController extends Controller
 
         return $pdf->download('ComprobantePago.pdf');
     }
+
     public function comprobante_grupal(Grupo $grupo)
     {
+    }
+
+    public function exportacion_individual(Prestamo $prestamo)
+    {
+        $pagos = Pago::where("prestamo_id", $prestamo->id)->get();
+        $pdf = PDF::loadView('reportes.exportacion_individual', compact('prestamo', 'pagos'))->setPaper('letter', 'portrait');
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->download('ExportacionPagos.pdf');
+    }
+
+    public function exportacion_grupal(Grupo $grupo)
+    {
+        $pagos = Pago::where("grupo_id", $grupo->id)->get();
+        $pdf = PDF::loadView('reportes.exportacion_grupal', compact('grupo', 'pagos'))->setPaper('letter', 'portrait');
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->download('ExportacionPagos.pdf');
     }
 }

@@ -473,7 +473,10 @@
                             permisos.includes(
                                 'reportes.extracto_pagos_individual'
                             ) ||
-                            permisos.includes('reportes.extracto_pagos_grupal')
+                            permisos.includes(
+                                'reportes.extracto_pagos_grupal'
+                            ) ||
+                            permisos.includes('reportes.prestamos_estado')
                         "
                         :class="[
                             $route.name == 'desembolsos.usuarios' ||
@@ -489,7 +492,8 @@
                             $route.name == 'reportes.prestamos_grupal_mora' ||
                             $route.name ==
                                 'reportes.extracto_pagos_individual' ||
-                            $route.name == 'reportes.extracto_pagos_grupal'
+                            $route.name == 'reportes.extracto_pagos_grupal' ||
+                            $route.name == 'reportes.prestamos_estado'
                                 ? 'menu-is-opening menu-open active'
                                 : '',
                         ]"
@@ -522,7 +526,8 @@
                                     $route.name ==
                                         'reportes.extracto_pagos_individual' ||
                                     $route.name ==
-                                        'reportes.extracto_pagos_grupal'
+                                        'reportes.extracto_pagos_grupal' ||
+                                    $route.name == 'reportes.prestamos_estado'
                                         ? 'block'
                                         : 'none',
                             }"
@@ -789,6 +794,34 @@
                                 >
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Extracto Pagos Grupal</p>
+                                </router-link>
+                            </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_estado'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.prestamos_estado',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_estado'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Préstamos por Estado</p>
                                 </router-link>
                             </li>
                         </ul>

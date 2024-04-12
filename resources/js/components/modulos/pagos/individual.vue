@@ -113,7 +113,7 @@
                                                     </td>
                                                     <td data-col="Acción:">
                                                         <button
-                                                            class="inline-block btn btn-xs btn-primary"
+                                                            class="inline-block btn btn-xs btn-primary mb-1"
                                                             v-if="
                                                                 item.nro_pagos_realizados <
                                                                     item.plazo &&
@@ -133,7 +133,7 @@
                                                             Registrar Cuota
                                                         </button>
                                                         <button
-                                                            class="inline-block btn btn-xs bg-orange text-white"
+                                                            class="inline-block btn btn-xs bg-orange text-white mb-1"
                                                             v-if="
                                                                 item.nro_pagos_realizados <
                                                                     item.plazo &&
@@ -155,7 +155,7 @@
                                                             Liquidar deuda
                                                         </button>
                                                         <router-link
-                                                            class="inline-block btn btn-xs btn-success"
+                                                            class="inline-block btn btn-xs btn-success mb-1"
                                                             v-if="
                                                                 item.pagos
                                                                     .length > 0

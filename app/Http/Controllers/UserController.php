@@ -65,6 +65,7 @@ class UserController extends Controller
             'clientes.create',
             'clientes.edit',
             'clientes.destroy',
+            'clientes.historial',
 
             'cajas.index',
             'cajas.create',
@@ -107,6 +108,7 @@ class UserController extends Controller
             "reportes.prestamos_grupal_mora",
             "reportes.extracto_pagos_individual",
             "reportes.extracto_pagos_grupal",
+            "reportes.prestamos_estado",
         ],
         "GERENTE" => [
             'cajas.index',
@@ -125,6 +127,7 @@ class UserController extends Controller
             "reportes.proximos_desembolsos_grupal",
             "reportes.prestamos_individual_mora",
             "reportes.prestamos_grupal_mora",
+            "reportes.prestamos_estado",
         ],
         "OFICIAL DE CRÉDITO" => [
             'clientes.index',
@@ -154,7 +157,7 @@ class UserController extends Controller
             "reportes.prestamos_grupal_mora",
             "reportes.extracto_pagos_individual",
             "reportes.extracto_pagos_grupal",
-
+            "reportes.prestamos_estado",
         ],
         "CAJERO" => [
             'cajas.index',
@@ -438,7 +441,7 @@ class UserController extends Controller
         // $saldo = Caja::find(1)->saldo;
         $array_infos[] = [
             'label' => 'Saldo en Caja',
-            'cantidad' => $total_saldo_caja,
+            'cantidad' => number_format($total_saldo_caja, 2, ".", ""),
             'icon' => asset("imgs/" . ((float)$total_saldo_caja > 0 ? "circle_full_green.png" : "circle_empty.png")),
             "url" => "cajas.index"
         ];

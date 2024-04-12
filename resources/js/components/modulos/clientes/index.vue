@@ -135,8 +135,7 @@
                                                                 ></b-col
                                                             >
                                                             <b-col>{{
-                                                                row.item
-                                                                    .cel_ref
+                                                                row.item.cel_ref
                                                             }}</b-col>
                                                         </b-row>
                                                         <b-row class="mb-2">
@@ -167,6 +166,27 @@
                                                     <div
                                                         class="row justify-content-between"
                                                     >
+                                                        <b-button
+                                                            v-if="
+                                                                permisos.includes(
+                                                                    'clientes.historial'
+                                                                )
+                                                            "
+                                                            size="sm"
+                                                            pill
+                                                            variant="outline-primary"
+                                                            class="btn-flat btn-block"
+                                                            title="Historial Crediticio"
+                                                            @click="
+                                                                getHistoriaCliente(
+                                                                    row.item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-list-alt"
+                                                            ></i>
+                                                        </b-button>
                                                         <b-button
                                                             v-if="
                                                                 permisos.includes(
@@ -358,6 +378,51 @@ export default {
             this.oCliente.parentesco = item.parentesco ? item.parentesco : "";
             this.modal_accion = "edit";
             this.muestra_modal = true;
+        },
+        getHistoriaCliente(item) {
+            let config = {
+                responseType: "blob",
+            };
+            axios
+                .post(
+                    main_url + "/admin/clientes/historial/" + item.id,
+                    this.oReporte,
+                    config
+                )
+                .then((res) => {
+                    this.errors = [];
+                    this.enviando = false;
+                    let pdfBlob = new Blob([res.data], {
+                        type: "application/pdf",
+                    });
+                    let urlReporte = URL.createObjectURL(pdfBlob);
+                    window.open(urlReporte);
+                })
+                .catch(async (error) => {
+                    let responseObj = await error.response.data.text();
+                    responseObj = JSON.parse(responseObj);
+                    console.log(error);
+                    this.enviando = false;
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            this.errors = responseObj.errors;
+                        }
+                        if (
+                            error.response.status === 420 ||
+                            error.response.status === 419 ||
+                            error.response.status === 401
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: responseObj.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            window.location = "/";
+                        }
+                    }
+                });
         },
 
         // Listar Clientes

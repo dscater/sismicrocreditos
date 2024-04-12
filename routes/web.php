@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
 
         // clientes
         Route::get("clientes/buscar_ci", [ClienteController::class, 'buscar_ci']);
+        Route::post('clientes/historial/{cliente}', [ClienteController::class, 'historial']);
         Route::resource('clientes', ClienteController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
@@ -114,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // pagos
+        Route::post("pagos/exportacion_individual/{prestamo}", [PagoController::class, 'exportacion_individual']);
+        Route::post("pagos/exportacion_grupal/{grupo}", [PagoController::class, 'exportacion_grupal']);
         Route::post("pagos/comprobante/{pago}", [PagoController::class, 'comprobante']);
         Route::post("pagos/store_grupal", [PagoController::class, 'store_grupal']);
         Route::resource('pagos', PagoController::class)->only([
@@ -144,6 +147,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('reportes/prestamos_grupal_mora', [ReporteController::class, 'prestamos_grupal_mora']);
         Route::post('reportes/extracto_pagos_individual', [ReporteController::class, 'extracto_pagos_individual']);
         Route::post('reportes/extracto_pagos_grupal', [ReporteController::class, 'extracto_pagos_grupal']);
+        Route::post('reportes/prestamos_estado', [ReporteController::class, 'prestamos_estado']);
     });
 });
 

@@ -238,6 +238,14 @@ export default new Router({
                     .default,
             props: true,
         },
+        {
+            path: "/reportes/prestamos_estado",
+            name: "reportes.prestamos_estado",
+            component:
+                require("./components/modulos/reportes/prestamos_estado.vue")
+                    .default,
+            props: true,
+        },
 
         // PÁGINA NO ENCONTRADA
         {

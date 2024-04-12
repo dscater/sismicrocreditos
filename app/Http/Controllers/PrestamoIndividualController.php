@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\HistorialAccion;
 use App\Models\Interes;
 use App\Models\Prestamo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -172,6 +173,11 @@ class PrestamoIndividualController extends Controller
                 $cliente = Cliente::findOrFail($datos["cliente"]["id"]);
             }
 
+            // verificar que el cliente no tenga otro préstamo INDIVIDUAL
+            $existe_prestamo = Prestamo::where("cliente_id", $cliente->id)->where("finalizado", 0)->where("tipo", "INDIVIDUAL")->get()->first();
+            if ($existe_prestamo) {
+                throw new Exception("No es posible registrar el préstamo porque el cliente ya cuenta con un préstamo pendiente");
+            }
             $nuevo_prestamo = Prestamo::create([
                 "user_id" => Auth::user()->id,
                 "cliente_id" => $cliente->id,
