@@ -128,7 +128,8 @@ class PrestamoController extends Controller
             // Obtener los días transcurridos
             $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
             if ($dias_mora > 0) {
-                $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora;
+                // $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora; //antiguo
+                $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
             }
 
             // fin calcular monto mora
@@ -168,7 +169,8 @@ class PrestamoController extends Controller
                 $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
                 if ($dias_mora > 0) {
                     $total_dias_mora = (int)$total_dias_mora + $dias_mora;
-                    $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora;
+                    // $monto_mora = (($prestamo->monto / 100) * 0.3) * $dias_mora; // antiguo
+                    $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
                 }
 
                 $total_capital = (float)$total_capital + (float)$plan_pago->capital;
@@ -212,7 +214,8 @@ class PrestamoController extends Controller
             // Obtener los días transcurridos
             $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
             if ($dias_mora > 0) {
-                $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;
+                // $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;//antiguo
+                $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
             }
 
             // fin calcular monto mora
@@ -253,7 +256,8 @@ class PrestamoController extends Controller
                 $dias_mora = self::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
                 if ($dias_mora > 0) {
                     $total_dias_mora = (int)$total_dias_mora + $dias_mora;
-                    $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;
+                    // $monto_mora = (($grupo->monto / 100) * 0.3) * $dias_mora;//antiguo
+                    $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
                 }
                 $total_capital = (float)$total_capital + (float)$plan_pago->capital;
                 $total_interes = (float)$total_interes + (float)$plan_pago->interes;

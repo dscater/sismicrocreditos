@@ -232,7 +232,8 @@
                                 );
                                 $monto_mora = 0;
                                 if ($dias_mora > 0) {
-                                    $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;
+                                    // $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;//antiguo
+                                    $monto_mora = 30 * $dias_mora; //nuevo 30 Bs por dia
                                 }
                             } else {
                                 $dias_mora = $pago->dias_mora;
@@ -242,7 +243,8 @@
                             $dias_mora = App\Models\Prestamo::obtenerDiferenciaDias($fecha_actual, $ppm->fecha_pago);
                             $monto_mora = 0;
                             if ($dias_mora > 0) {
-                                $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;
+                                // $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;//antiguo
+                                $monto_mora = 30 * $dias_mora; //nuevo 30 Bs por dia
                             }
                             $total += (float) $monto_mora;
                         }

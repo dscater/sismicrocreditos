@@ -470,6 +470,13 @@ class UserController extends Controller
         //     "url" => "cajas.index"
         // ];
 
+        $array_infos[] = [
+            'label' => 'Cajas',
+            'cantidad' => 4,
+            'icon' => asset("imgs/cash_machine.png"),
+            "url" => "cajas.index"
+        ];
+
         if (in_array('usuarios.index', $this->permisos[$tipo])) {
             $array_infos[] = [
                 'label' => 'Empleados',

@@ -18,12 +18,12 @@
                                     <img :src="item.icon" />
                                 </div>
                             </div>
-                            <router-link
+                            <!-- <router-link
                                 :to="{ name: item.url }"
                                 class="small-box-footer bg-success text-white"
                                 >Ver más
                                 <i class="fas fa-arrow-circle-right"></i
-                            ></router-link>
+                            ></router-link> -->
                         </div>
                     </div>
                 </div>

@@ -100,9 +100,7 @@
                                     <div class="col-md-12">
                                         <p class="mb-0">
                                             Total:
-                                            {{
-                                                listDesembolsosGrupal.length
-                                            }}
+                                            {{ listDesembolsosGrupal.length }}
                                             registro(s)
                                         </p>
                                         <table class="table table-bordered">
@@ -176,9 +174,7 @@
                                     <div class="col-md-12">
                                         <p class="mb-0">
                                             Total:
-                                            {{
-                                                listPagosIndividual.length
-                                            }}
+                                            {{ listPagosIndividual.length }}
                                             registro(s)
                                         </p>
                                         <table class="table table-bordered">
@@ -253,9 +249,7 @@
                                     <div class="col-md-12">
                                         <p class="mb-0">
                                             Total:
-                                            {{
-                                                listPagosGrupal.length
-                                            }}
+                                            {{ listPagosGrupal.length }}
                                             registro(s)
                                         </p>
                                         <table class="table table-bordered">
@@ -344,9 +338,7 @@
                                     <div class="col-md-12">
                                         <p class="mb-0">
                                             Total:
-                                            {{
-                                                listMorasIndividual.length
-                                            }}
+                                            {{ listMorasIndividual.length }}
                                             registro(s)
                                         </p>
                                         <table class="table table-bordered">
@@ -354,11 +346,13 @@
                                                 <tr>
                                                     <th>Cliente(s)</th>
                                                     <th>Monto Préstamo</th>
-                                                    <th>Nro. Cuota</th>
-                                                    <th>Monto Cuota</th>
-                                                    <th>Fecha del Pago</th>
-                                                    <th>Días Mora</th>
-                                                    <th>Monto Mora</th>
+                                                    <th>
+                                                        Cantidad Cuotas Con mora
+                                                    </th>
+                                                    <th>Total Días Mora</th>
+                                                    <th>
+                                                        Total Moras Acumulado
+                                                    </th>
                                                     <!-- <th>Acción</th> -->
                                                 </tr>
                                             </thead>
@@ -385,25 +379,23 @@
                                                                     .monto
                                                             }}
                                                         </td>
-                                                        <td>
-                                                            {{ item.nro_cuota }}
-                                                        </td>
-                                                        <td>
-                                                            {{ item.cuota }}
-                                                        </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.fecha_pago_t
+                                                                item.total_moras
+                                                            }}
+                                                            /
+                                                            {{
+                                                                item.total_plan_pagos
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.dias_mora_t
+                                                                item.total_dias_mora
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.monto_mora_t
+                                                                item.total_monto_mora
                                                             }}
                                                         </td>
                                                         <!-- <td>Ver</td> -->
@@ -439,9 +431,7 @@
                                     <div class="col-md-12">
                                         <p class="mb-0">
                                             Total:
-                                            {{
-                                                listMorasGrupal.length
-                                            }}
+                                            {{ listMorasGrupal.length }}
                                             registro(s)
                                         </p>
                                         <table class="table table-bordered">
@@ -450,11 +440,13 @@
                                                     <th>Nombre del Grupo</th>
                                                     <th>Integrantes</th>
                                                     <th>Monto Préstamo</th>
-                                                    <th>Nro. Cuota</th>
-                                                    <th>Monto Cuota</th>
-                                                    <th>Fecha del Pago</th>
-                                                    <th>Días Mora</th>
-                                                    <th>Monto Mora</th>
+                                                    <th>
+                                                        Cantidad Cuotas Con mora
+                                                    </th>
+                                                    <th>Total Días Mora</th>
+                                                    <th>
+                                                        Total Moras Acumulado
+                                                    </th>
                                                     <!-- <th>Acción</th> -->
                                                 </tr>
                                             </thead>
@@ -494,25 +486,23 @@
                                                                 item.grupo.monto
                                                             }}
                                                         </td>
-                                                        <td>
-                                                            {{ item.nro_cuota }}
-                                                        </td>
-                                                        <td>
-                                                            {{ item.cuota }}
-                                                        </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.fecha_pago_t
+                                                                item.total_moras
+                                                            }}
+                                                            /
+                                                            {{
+                                                                item.total_plan_pagos
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.dias_mora_t
+                                                                item.total_dias_mora
                                                             }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{
-                                                                item.monto_mora_t
+                                                                item.total_monto_mora
                                                             }}
                                                         </td>
                                                         <!-- <td>Ver</td> -->
