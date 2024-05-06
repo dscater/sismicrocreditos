@@ -212,7 +212,7 @@
                         $monto_mora = 0;
                         if ($dias_mora > 0) {
                             // $monto_mora = ($value->monto / 100) * 0.3 * $dias_mora;//antiguo
-                            $monto_mora = 30 * $dias_mora; //nuevo 30 Bs por dia
+                            $monto_mora = 3 * $dias_mora; //nuevo 3 Bs por dia
                             $monto_mora = number_format($monto_mora, 2, ',', '.');
                         }
                         $total += (float) $monto_mora;

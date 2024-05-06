@@ -93,7 +93,7 @@ class ControlPrestamoController extends Controller
                 // dias mora
                 $fecha_pago = $item->fecha_pago;
                 $dias_mora = PrestamoController::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
-                $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
+                $monto_mora = 3 * $dias_mora; // nuevo 3bs por dia mora
 
                 $listMorasIndividual[$key]["total_moras"] = (int)$listMorasIndividual[$key]["total_moras"] + 1;
                 $listMorasIndividual[$key]["total_monto_mora"] = (float)$listMorasIndividual[$key]["total_monto_mora"] + (float)$monto_mora;
@@ -138,7 +138,7 @@ class ControlPrestamoController extends Controller
                 // dias mora
                 $fecha_pago = $item->fecha_pago;
                 $dias_mora = PrestamoController::obtenerDiferenciaDias($fecha_actual, $fecha_pago);
-                $monto_mora = 30 * $dias_mora; // nuevo 30bs por dia mora
+                $monto_mora = 3 * $dias_mora; // nuevo 3bs por dia mora
 
                 $listMorasGrupal[$key]["total_moras"] = (int)$listMorasGrupal[$key]["total_moras"] + 1;
                 $listMorasGrupal[$key]["total_monto_mora"] = (float)$listMorasGrupal[$key]["total_monto_mora"] + (float)$monto_mora;
