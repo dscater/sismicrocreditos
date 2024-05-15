@@ -67,7 +67,7 @@ class PagoController extends Controller
             if ((int)$pago->dias_mora > 0) {
                 // registrar movimiento MORA si existe
                 CajaMovimiento::create([
-                    "caja_id" => 4,
+                    "caja_id" => 3,
                     "user_id" => Auth::user()->id,
                     "monto" => $pago->interes,
                     "tipo" => "CRÉDITO",
@@ -172,7 +172,7 @@ class PagoController extends Controller
             if ((int)$pago->dias_mora > 0) {
                 // registrar movimiento MORA si existe
                 CajaMovimiento::create([
-                    "caja_id" => 4,
+                    "caja_id" => 3,
                     "user_id" => Auth::user()->id,
                     "monto" => $pago->interes,
                     "tipo" => "CRÉDITO",

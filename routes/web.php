@@ -17,6 +17,8 @@ use App\Http\Controllers\PrestamoIndividualController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SalarioController;
 use App\Http\Controllers\UserController;
+use App\Models\Caja;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 // VACIAR CACHE
@@ -33,6 +35,12 @@ Route::get('/cache_clear', function () {
 // LOGIN
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/corrige_moras', function () {
+    DB::update("UPDATE caja_movimientos SET caja_id=3 WHERE glosa='PAGO MORA'");
+    Caja::actualizaSaldos();
+    
+    return '<a href="/">Volver al inicio</a>';
+});
 
 // CONFIGURACIÓN
 Route::get('/configuracion/getConfiguracion', [ConfiguracionController::class, 'getConfiguracion']);

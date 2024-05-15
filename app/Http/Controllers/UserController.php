@@ -436,39 +436,45 @@ class UserController extends Controller
         $tipo = Auth::user()->tipo;
         $array_infos = [];
 
-        $total_saldo_caja = Caja::getSaldoTotal();
+        // $total_saldo_caja = Caja::getSaldoTotal();
 
-        // $saldo = Caja::find(1)->saldo;
+        // $array_infos[] = [
+        //     'label' => 'Saldo en Caja',
+        //     'cantidad' => number_format($total_saldo_caja, 2, ".", ""),
+        //     'icon' => asset("imgs/" . ((float)$total_saldo_caja > 0 ? "circle_full_green.png" : "circle_empty.png")),
+        //     "url" => "cajas.index"
+        // ];
+        $saldo = Caja::find(1)->saldo;
         $array_infos[] = [
-            'label' => 'Saldo en Caja',
-            'cantidad' => number_format($total_saldo_caja, 2, ".", ""),
-            'icon' => asset("imgs/" . ((float)$total_saldo_caja > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            'label' => 'Pago por Cuotas',
+            'cantidad' => number_format($saldo, 2, ".", ""),
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
             "url" => "cajas.index"
         ];
 
-        // $saldo = Caja::find(2)->saldo;
-        // $array_infos[] = [
-        //     'label' => 'Gastos Administrativos',
-        //     'cantidad' => $saldo,
-        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-        //     "url" => "cajas.index"
-        // ];
+        $saldo = Caja::find(2)->saldo;
+        $array_infos[] = [
+            'label' => 'Gastos Administrativos',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => "cajas.index"
+        ];
 
-        // $saldo = Caja::find(3)->saldo;
-        // $array_infos[] = [
-        //     'label' => 'Cargos por Multa',
-        //     'cantidad' => $saldo,
-        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-        //     "url" => "cajas.index"
-        // ];
+        $saldo = Caja::find(3)->saldo;
+        $array_infos[] = [
+            'label' => 'Cargos por Multa',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => "cajas.index"
+        ];
 
-        // $saldo = Caja::find(4)->saldo;
-        // $array_infos[] = [
-        //     'label' => 'Intereses',
-        //     'cantidad' => $saldo,
-        //     'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-        //     "url" => "cajas.index"
-        // ];
+        $saldo = Caja::find(4)->saldo;
+        $array_infos[] = [
+            'label' => 'Intereses',
+            'cantidad' => $saldo,
+            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+            "url" => "cajas.index"
+        ];
 
         $array_infos[] = [
             'label' => 'Cajas',
