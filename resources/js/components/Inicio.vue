@@ -2,7 +2,12 @@
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
-                <div class="row">
+                <div
+                    class="row"
+                    v-if="
+                        user.tipo == 'ADMINISTRADOR' || user.tipo == 'GERENTE'
+                    "
+                >
                     <div
                         class="col-12 col-sm-6 col-md-6"
                         v-for="(item, index) in listInfoBox"
@@ -18,15 +23,22 @@
                                     <img :src="item.icon" />
                                 </div>
                             </div>
-                            <!-- <router-link
-                                :to="{ name: item.url }"
-                                class="small-box-footer bg-success text-white"
-                                >Ver más
-                                <i class="fas fa-arrow-circle-right"></i
-                            ></router-link> -->
+                            <template v-if="user.tipo == 'ADMINISTRADOR'">
+                                <router-link
+                                    :to="{ name: item.url }"
+                                    class="small-box-footer bg-success text-white"
+                                    >Ver más
+                                    <i class="fas fa-arrow-circle-right"></i
+                                ></router-link>
+                            </template>
                         </div>
                     </div>
                 </div>
+
+                <infoControl v-if="user.tipo == 'CAJERO'"></infoControl>
+                <reporteInicio
+                    v-if="user.tipo == 'OFICIAL DE CRÉDITO'"
+                ></reporteInicio>
                 <div class="row" v-if="configuracion">
                     <div class="col-md-12">
                         <div class="card">
@@ -53,7 +65,14 @@
 </template>
 
 <script>
+import reporteInicio from "./modulos/reportes/reporteInicio.vue";
+import infoControl from "./modulos/control_prestamos/infoControl.vue";
+
 export default {
+    components: {
+        infoControl,
+        reporteInicio,
+    },
     data() {
         return {
             fullscreenLoading: true,

@@ -444,71 +444,85 @@ class UserController extends Controller
         //     'icon' => asset("imgs/" . ((float)$total_saldo_caja > 0 ? "circle_full_green.png" : "circle_empty.png")),
         //     "url" => "cajas.index"
         // ];
-        $saldo = Caja::find(1)->saldo;
-        $array_infos[] = [
-            'label' => 'Pago por Cuotas',
-            'cantidad' => number_format($saldo, 2, ".", ""),
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
 
-        $saldo = Caja::find(2)->saldo;
-        $array_infos[] = [
-            'label' => 'Gastos Administrativos',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
-
-        $saldo = Caja::find(3)->saldo;
-        $array_infos[] = [
-            'label' => 'Cargos por Multa',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
-
-        $saldo = Caja::find(4)->saldo;
-        $array_infos[] = [
-            'label' => 'Intereses',
-            'cantidad' => $saldo,
-            'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
-            "url" => "cajas.index"
-        ];
-
-        $array_infos[] = [
-            'label' => 'Cajas',
-            'cantidad' => 4,
-            'icon' => asset("imgs/cash_machine.png"),
-            "url" => "cajas.index"
-        ];
-
-        if (in_array('usuarios.index', $this->permisos[$tipo])) {
+        if ($tipo == 'GERENTE') {
+            $saldo = Caja::find(1)->saldo;
             $array_infos[] = [
-                'label' => 'Empleados',
-                'cantidad' => count(User::where('id', '!=', 1)->get()),
-                'icon' => asset("imgs/people.png"),
-                "url" => "usuarios.index"
+                'label' => 'Pago por Cuotas',
+                'cantidad' => number_format($saldo, 2, ".", ""),
+                'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+                "url" => "cajas.index"
             ];
+
+            $saldo = Caja::find(2)->saldo;
+            $array_infos[] = [
+                'label' => 'Gastos Administrativos',
+                'cantidad' => $saldo,
+                'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+                "url" => "cajas.index"
+            ];
+
+            $saldo = Caja::find(3)->saldo;
+            $array_infos[] = [
+                'label' => 'Cargos por Multa',
+                'cantidad' => $saldo,
+                'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+                "url" => "cajas.index"
+            ];
+
+            $saldo = Caja::find(4)->saldo;
+            $array_infos[] = [
+                'label' => 'Intereses',
+                'cantidad' => $saldo,
+                'icon' => asset("imgs/" . ((float)$saldo > 0 ? "circle_full_green.png" : "circle_empty.png")),
+                "url" => "cajas.index"
+            ];
+
+            $array_infos[] = [
+                'label' => 'Cajas',
+                'cantidad' => 4,
+                'icon' => asset("imgs/cash_machine.png"),
+                "url" => "cajas.index"
+            ];
+
+            if (in_array('usuarios.index', $this->permisos[$tipo])) {
+                $array_infos[] = [
+                    'label' => 'Empleados',
+                    'cantidad' => count(User::where('id', '!=', 1)->get()),
+                    'icon' => asset("imgs/people.png"),
+                    "url" => "usuarios.index"
+                ];
+            }
+
+            if (in_array('prestamos.individual', $this->permisos[$tipo])) {
+                $array_infos[] = [
+                    'label' => 'Préstamos individual',
+                    'cantidad' => count(Prestamo::where('tipo', 'INDIVIDUAL')->where("estado", "!=", "RECHAZADO")->get()),
+                    'icon' => asset("imgs/icon_inscripcion.png"),
+                    "url" => "prestamos.individual"
+                ];
+            }
+
+            if (in_array('prestamos.grupal', $this->permisos[$tipo])) {
+                $array_infos[] = [
+                    'label' => 'Préstamos grupal',
+                    'cantidad' => count(Grupo::all()),
+                    'icon' => asset("imgs/icon_inscripcion.png"),
+                    "url" => "prestamos.grupal"
+                ];
+            }
+        }
+        if ($tipo == 'ADMINISTRADOR') {
+            if (in_array('usuarios.index', $this->permisos[$tipo])) {
+                $array_infos[] = [
+                    'label' => 'Empleados',
+                    'cantidad' => count(User::where('id', '!=', 1)->get()),
+                    'icon' => asset("imgs/people.png"),
+                    "url" => "usuarios.index"
+                ];
+            }
         }
 
-        if (in_array('prestamos.individual', $this->permisos[$tipo])) {
-            $array_infos[] = [
-                'label' => 'Préstamos individual',
-                'cantidad' => count(Prestamo::where('tipo', 'INDIVIDUAL')->where("estado", "!=", "RECHAZADO")->get()),
-                'icon' => asset("imgs/icon_inscripcion.png"),
-                "url" => "prestamos.individual"
-            ];
-        }
-
-        if (in_array('prestamos.grupal', $this->permisos[$tipo])) {
-            $array_infos[] = [
-                'label' => 'Préstamos grupal',
-                'cantidad' => count(Grupo::all()),
-                'icon' => asset("imgs/icon_inscripcion.png"),
-                "url" => "prestamos.grupal"
-            ];
-        }
         return response()->JSON($array_infos);
     }
 
