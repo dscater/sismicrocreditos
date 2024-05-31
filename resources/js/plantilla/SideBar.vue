@@ -420,6 +420,20 @@
                         </router-link>
                     </li>
                     <li
+                        class="nav-item"
+                        v-if="permisos.includes('salarios.index')"
+                    >
+                        <router-link
+                            exact
+                            :to="{ name: 'salarios.index' }"
+                            class="nav-link"
+                            v-loading.fullscreen.lock="fullscreenLoading"
+                        >
+                            <i class="nav-icon fas fa-list-alt"></i>
+                            <p>Tipo de Clientes</p>
+                        </router-link>
+                    </li>
+                    <li
                         class="nav-header font-weight-bold"
                         v-if="
                             permisos.includes('reportes.usuarios') ||
@@ -827,6 +841,18 @@
                         </ul>
                     </li>
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('configuracion.index')"
+                    >
+                        <router-link
+                            :to="{ name: 'configuracion' }"
+                            class="nav-link"
+                        >
+                            <i class="nav-icon fas fa-database"></i>
+                            <p>Backup</p>
+                        </router-link>
+                    </li>
                     <li
                         class="nav-item"
                         v-if="permisos.includes('configuracion.index')"

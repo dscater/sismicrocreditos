@@ -240,18 +240,33 @@
                                                             <div
                                                                 class="col-md-12 form-group"
                                                             >
-                                                                <el-input
-                                                                    placeholder="Documento 1"
-                                                                    :class="{
-                                                                        'is-invalid':
-                                                                            errors.documento_1,
-                                                                    }"
-                                                                    v-model="
-                                                                        oPrestamo.documento_1
-                                                                    "
-                                                                    clearable
+                                                                <div
+                                                                    class="input-group"
                                                                 >
-                                                                </el-input>
+                                                                    <input
+                                                                        placeholder="Documento 1"
+                                                                        class="form-control"
+                                                                        :class="{
+                                                                            'is-invalid':
+                                                                                errors.documento_1,
+                                                                        }"
+                                                                        v-model="
+                                                                            oPrestamo.documento_1
+                                                                        "
+                                                                        clearable
+                                                                    />
+                                                                    <div
+                                                                        class="input-group-prepend"
+                                                                    >
+                                                                        <div
+                                                                            class="contenedor_file"
+                                                                        >
+                                                                            <input
+                                                                                type="file"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -266,18 +281,33 @@
                                                             <div
                                                                 class="col-md-12 form-group"
                                                             >
-                                                                <el-input
-                                                                    placeholder="Documento 2"
-                                                                    :class="{
-                                                                        'is-invalid':
-                                                                            errors.documento_2,
-                                                                    }"
-                                                                    v-model="
-                                                                        oPrestamo.documento_2
-                                                                    "
-                                                                    clearable
+                                                                <div
+                                                                    class="input-group"
                                                                 >
-                                                                </el-input>
+                                                                    <input
+                                                                        placeholder="Documento 2"
+                                                                        class="form-control"
+                                                                        :class="{
+                                                                            'is-invalid':
+                                                                                errors.documento_2,
+                                                                        }"
+                                                                        v-model="
+                                                                            oPrestamo.documento_2
+                                                                        "
+                                                                        clearable
+                                                                    />
+                                                                    <div
+                                                                        class="input-group-prepend"
+                                                                    >
+                                                                        <div
+                                                                            class="contenedor_file"
+                                                                        >
+                                                                            <input
+                                                                                type="file"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -292,18 +322,33 @@
                                                             <div
                                                                 class="col-md-12 form-group"
                                                             >
-                                                                <el-input
-                                                                    placeholder="Documento 3"
-                                                                    :class="{
-                                                                        'is-invalid':
-                                                                            errors.documento_3,
-                                                                    }"
-                                                                    v-model="
-                                                                        oPrestamo.documento_3
-                                                                    "
-                                                                    clearable
+                                                                <div
+                                                                    class="input-group"
                                                                 >
-                                                                </el-input>
+                                                                    <input
+                                                                        placeholder="Documento 3"
+                                                                        class="form-control"
+                                                                        :class="{
+                                                                            'is-invalid':
+                                                                                errors.documento_3,
+                                                                        }"
+                                                                        v-model="
+                                                                            oPrestamo.documento_3
+                                                                        "
+                                                                        clearable
+                                                                    />
+                                                                    <div
+                                                                        class="input-group-prepend"
+                                                                    >
+                                                                        <div
+                                                                            class="contenedor_file"
+                                                                        >
+                                                                            <input
+                                                                                type="file"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -318,18 +363,33 @@
                                                             <div
                                                                 class="col-md-12 form-group"
                                                             >
-                                                                <el-input
-                                                                    placeholder="Documento 4"
-                                                                    :class="{
-                                                                        'is-invalid':
-                                                                            errors.documento_4,
-                                                                    }"
-                                                                    v-model="
-                                                                        oPrestamo.documento_4
-                                                                    "
-                                                                    clearable
+                                                                <div
+                                                                    class="input-group"
                                                                 >
-                                                                </el-input>
+                                                                    <input
+                                                                        placeholder="Documento 4"
+                                                                        class="form-control"
+                                                                        :class="{
+                                                                            'is-invalid':
+                                                                                errors.documento_4,
+                                                                        }"
+                                                                        v-model="
+                                                                            oPrestamo.documento_4
+                                                                        "
+                                                                        clearable
+                                                                    />
+                                                                    <div
+                                                                        class="input-group-prepend"
+                                                                    >
+                                                                        <div
+                                                                            class="contenedor_file"
+                                                                        >
+                                                                            <input
+                                                                                type="file"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span
                                                                     class="error invalid-feedback"
                                                                     v-if="
@@ -1464,5 +1524,10 @@ export default {
     .txt_paso {
         display: none;
     }
+}
+.contenedor_file{
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
 }
 </style>
