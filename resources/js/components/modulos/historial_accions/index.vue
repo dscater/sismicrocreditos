@@ -4,28 +4,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Empleados</h1>
+                        <h1>Historial de acciones</h1>
                     </div>
                 </div>
             </div>
         </section>
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-                        <button
-                            v-if="permisos.includes('historial_accions.create')"
-                            class="btn btn-success btn-flat btn-block"
-                            @click="
-                                abreModal('nuevo');
-                                limpiaHistorialAccion();
-                            "
-                        >
-                            <i class="fa fa-plus"></i>
-                            Nuevo
-                        </button>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
