@@ -98,6 +98,11 @@ class UserController extends Controller
             'configuracion.index',
             'configuracion.edit',
 
+            "historial_accions.index",
+
+            'backup.index',
+            'backup.edit',
+
             "reportes.usuarios",
             "reportes.clientes",
             "reportes.prestamos_individual",

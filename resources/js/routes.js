@@ -20,6 +20,24 @@ export default new Router({
             component: require("./Auth.vue").default,
         },
 
+        // BACKUP BD
+        {
+            path: "/backup",
+            name: "backup",
+            component: require("./components/modulos/backup/index.vue").default,
+            props: true,
+        },
+
+        // HISTORIAL DE ACCIONES(LOGS)
+        {
+            path: "/historial_accions",
+            name: "historial_accions.index",
+            component:
+                require("./components/modulos/historial_accions/index.vue")
+                    .default,
+            props: true,
+        },
+
         // Usuarios
         {
             path: "/usuarios/perfil/:id",

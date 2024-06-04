@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CajaMovimientoController;
 use App\Http\Controllers\ClienteController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\DesembolsoController;
 use App\Http\Controllers\DesembolsoGrupalController;
 use App\Http\Controllers\DesembolsoIndividualController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\HistorialAccionController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PrestamoController;
@@ -38,7 +40,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/corrige_moras', function () {
     DB::update("UPDATE caja_movimientos SET caja_id=3 WHERE glosa='PAGO MORA'");
     Caja::actualizaSaldos();
-    
+
     return '<a href="/">Volver al inicio</a>';
 });
 
@@ -49,6 +51,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/configuracion/update', [ConfiguracionController::class, 'update']);
 
     Route::prefix('admin')->group(function () {
+        // BACKUP
+        Route::get('/backup/download', [BackupController::class, 'download']);
+
+        // HISTORIAL DE ACCIONES (LOGS)
+        Route::get('/historial_accions', [HistorialAccionController::class, 'index'])->name("historial_accions.index");
+
         // Usuarios
         Route::post('usuarios/updatePassword/{usuario}', [UserController::class, 'updatePassword']);
         Route::get('usuarios/getUsuarioTipo', [UserController::class, 'getUsuarioTipo']);

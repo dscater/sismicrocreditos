@@ -15,6 +15,18 @@ class HistorialAccion extends Model
         "user_id", "accion", "descripcion", "datos_original", "datos_nuevo", "modulo", "fecha", "hora",
     ];
 
+    protected $appends = ["fecha_hora_t", "fecha_t"];
+
+    public function getFechaHoraTAttribute()
+    {
+        return date("d/m/Y H:i", strtotime($this->fecha . ' ' . $this->hora));
+    }
+
+    public function getFechaTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha));
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

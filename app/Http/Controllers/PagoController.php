@@ -106,7 +106,7 @@ class PagoController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($pago, "pagos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
+                'accion' => 'REGISTRO',
                 'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO EL PAGO DE UN PRESTAMO',
                 'datos_original' => $datos_original,
                 'modulo' => 'PAGOS',
@@ -224,7 +224,7 @@ class PagoController extends Controller
             $datos_original = HistorialAccion::getDetalleRegistro($pago, "pagos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
+                'accion' => 'REGISTRO',
                 'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO EL PAGO DE UN PRESTAMO GRUPAL',
                 'datos_original' => $datos_original,
                 'modulo' => 'PAGOS',

@@ -843,10 +843,25 @@
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('configuracion.index')"
+                        v-if="permisos.includes('historial_accions.index')"
                     >
                         <router-link
-                            :to="{ name: 'configuracion' }"
+                            exact
+                            :to="{ name: 'historial_accions.index' }"
+                            class="nav-link"
+                            v-loading.fullscreen.lock="fullscreenLoading"
+                        >
+                            <i class="nav-icon fas fa-list-alt"></i>
+                            <p>Historial de acciones</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('backup.index')"
+                    >
+                        <router-link
+                            exact
+                            :to="{ name: 'backup' }"
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-database"></i>
@@ -860,6 +875,7 @@
                         <router-link
                             :to="{ name: 'configuracion' }"
                             class="nav-link"
+                            exact
                         >
                             <i class="nav-icon fas fa-cog"></i>
                             <p>Configurar Sistema</p>
