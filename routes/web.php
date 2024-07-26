@@ -18,6 +18,7 @@ use App\Http\Controllers\PrestamoGrupalController;
 use App\Http\Controllers\PrestamoIndividualController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SalarioController;
+use App\Http\Controllers\TipoClienteController;
 use App\Http\Controllers\UserController;
 use App\Models\Caja;
 use Illuminate\Support\Facades\DB;
@@ -99,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
         // prestamos-individual
         Route::put("prestamos/individual/rechazar/{prestamo}", [PrestamoIndividualController::class, 'rechazar']);
         Route::put("prestamos/individual/aprobar/{prestamo}", [PrestamoIndividualController::class, 'aprobar']);
+        Route::POST("prestamos/individual/guardar_archivos/{prestamo}", [PrestamoIndividualController::class, 'guardar_archivos']);
         Route::get("prestamos/individual/cliente_ci", [PrestamoIndividualController::class, 'cliente_ci']);
         Route::resource('prestamos/individual', PrestamoIndividualController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
@@ -146,6 +148,11 @@ Route::middleware(['auth'])->group(function () {
 
         // salarios
         Route::resource('salarios', SalarioController::class)->only([
+            'index', 'store', 'update', 'destroy', 'show'
+        ]);
+
+        // tipo_clientes
+        Route::resource('tipo_clientes', TipoClienteController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
         ]);
 

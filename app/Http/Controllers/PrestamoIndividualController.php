@@ -129,6 +129,79 @@ class PrestamoIndividualController extends Controller
         }
     }
 
+    public function guardar_archivos(Prestamo $prestamo, Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $documento_1_f = $request->documento_1_f ? $request->documento_1_f : null;
+            $documento_2_f = $request->documento_2_f ? $request->documento_2_f : null;
+            $documento_3_f = $request->documento_3_f ? $request->documento_3_f : null;
+            $documento_4_f = $request->documento_4_f ? $request->documento_4_f : null;
+
+            if ($documento_1_f) {
+                if ($prestamo->documento_1_f) {
+                    \File::delete(public_path() . '/files/' . $prestamo->documento_1_f);
+                }
+                $file = $documento_1_f;
+                $nom_file = time() . '_' . $prestamo->id . '1.' . $file->getClientOriginalExtension();
+                $prestamo->documento_1_f = $nom_file;
+                $file->move(public_path() . '/files/', $nom_file);
+            }
+            if ($documento_2_f) {
+                if ($prestamo->documento_2_f) {
+                    \File::delete(public_path() . '/files/' . $prestamo->documento_2_f);
+                }
+                $file = $documento_2_f;
+                $nom_file = time() . '_' . $prestamo->id . '2.' . $file->getClientOriginalExtension();
+                $prestamo->documento_2_f = $nom_file;
+                $file->move(public_path() . '/files/', $nom_file);
+            }
+
+            if ($documento_3_f) {
+                if ($prestamo->documento_3_f) {
+                    \File::delete(public_path() . '/files/' . $prestamo->documento_3_f);
+                }
+                $file = $documento_3_f;
+                $nom_file = time() . '_' . $prestamo->id . '3.' . $file->getClientOriginalExtension();
+                $prestamo->documento_3_f = $nom_file;
+                $file->move(public_path() . '/files/', $nom_file);
+            }
+
+            if ($documento_4_f) {
+                if ($prestamo->documento_4_f) {
+                    \File::delete(public_path() . '/files/' . $prestamo->documento_4_f);
+                }
+                $file = $documento_4_f;
+                $nom_file = time() . '_' . $prestamo->id . '4.' . $file->getClientOriginalExtension();
+                $prestamo->documento_4_f = $nom_file;
+                $file->move(public_path() . '/files/', $nom_file);
+            }
+
+            // foto cliente
+            $cliente = $prestamo->cliente;
+            $foto = $request->foto;
+            if ($foto) {
+                $file = $request->foto;
+                $nom_foto = time() . '_' . $cliente->id . '.' . $file->getClientOriginalExtension();
+                $cliente->foto = $nom_foto;
+                $file->move(public_path() . '/imgs/clientes/', $nom_foto);
+                $cliente->save();
+            }
+
+            $prestamo->save();
+            DB::commit();
+            return response()->JSON([
+                "sw" => true,
+                "prestamo" => $prestamo
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+    }
+
     public function store(Request $request)
     {
         $datos = PrestamoController::armarDatos($request);
@@ -167,6 +240,7 @@ class PrestamoIndividualController extends Controller
                     "referencia" => mb_strtoupper($datos["cliente"]["referencia"]),
                     "cel_ref" => mb_strtoupper($datos["cliente"]["cel_ref"]),
                     "parentesco" => mb_strtoupper($datos["cliente"]["parentesco"]),
+                    "tipo_cliente_id" => mb_strtoupper($datos["cliente"]["tipo_cliente_id"]),
                     "fecha_registro" => date("Y-m-d")
                 ]);
             } else {

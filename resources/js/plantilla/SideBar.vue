@@ -421,11 +421,11 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('salarios.index')"
+                        v-if="permisos.includes('tipo_clientes.index')"
                     >
                         <router-link
                             exact
-                            :to="{ name: 'salarios.index' }"
+                            :to="{ name: 'tipo_clientes.index' }"
                             class="nav-link"
                             v-loading.fullscreen.lock="fullscreenLoading"
                         >

@@ -606,6 +606,7 @@ class PrestamoController extends Controller
                 "referencia" => $request["cliente"]["referencia"],
                 "cel_ref" => $request["cliente"]["cel_ref"],
                 "parentesco" => $request["cliente"]["parentesco"],
+                "tipo_cliente_id" => $request["cliente"]["tipo_cliente_id"],
             ]
         ];
 

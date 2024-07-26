@@ -299,6 +299,55 @@
                                     v-text="errors.parentesco[0]"
                                 ></span>
                             </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
+                                        'text-danger': errors.tipo_cliente_id,
+                                    }"
+                                    >Tipo de Cliente*</label
+                                >
+                                <el-select
+                                    placeholder="Tipo de Cliente"
+                                    class="w-100"
+                                    :class="{ 'is-invalid': errors.tipo_cliente_id }"
+                                    v-model="cliente.tipo_cliente_id"
+                                    clearable
+                                >
+                                    <el-option
+                                        v-for="item in listTipoClientes"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
+                                    ></el-option>
+                                </el-select>
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.tipo_cliente_id"
+                                    v-text="errors.tipo_cliente_id[0]"
+                                ></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                    :class="{
+                                        'text-danger': errors.foto,
+                                    }"
+                                    >Foto</label
+                                >
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': errors.foto,
+                                    }"
+                                    ref="input_file"
+                                    @change="cargaImagen"
+                                />
+                                <span
+                                    class="error invalid-feedback"
+                                    v-if="errors.foto"
+                                    v-text="errors.foto[0]"
+                                ></span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -358,7 +407,7 @@ export default {
         muestra_modal: function (newVal, oldVal) {
             this.errors = [];
             if (newVal) {
-                // this.$refs.input_file.value = null;
+                this.$refs.input_file.value = null;
                 this.bModal = true;
             } else {
                 this.bModal = false;
@@ -397,13 +446,24 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
+            listTipoClientes: [],
             errors: [],
         };
     },
     mounted() {
         this.bModal = this.muestra_modal;
+        this.getTipoClientes();
     },
     methods: {
+        getTipoClientes() {
+            axios.get(main_url + "/admin/tipo_clientes").then((response) => {
+                this.listTipoClientes = response.data.tipo_clientes;
+                this.listTipoClientes.unshift({
+                    id:"",
+                    nombre:"- Selecione -"
+                });
+            });
+        },
         setRegistroModal() {
             this.enviando = true;
             try {
@@ -465,6 +525,14 @@ export default {
                 formdata.append(
                     "parentesco",
                     this.cliente.parentesco ? this.cliente.parentesco : ""
+                );
+                formdata.append(
+                    "foto",
+                    this.cliente.foto ? this.cliente.foto : ""
+                );
+                formdata.append(
+                    "tipo_cliente_id",
+                    this.cliente.tipo_cliente_id ? this.cliente.tipo_cliente_id : ""
                 );
 
                 if (this.accion == "edit") {

@@ -24,6 +24,7 @@ class ClienteController extends Controller
         'referencia' => 'required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
         'cel_ref' => 'required|regex:/^[0-9]{8}$/',
         'parentesco' => 'required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/',
+        'tipo_cliente_id' => 'required',
     ];
 
     public $mensajes = [
@@ -47,11 +48,12 @@ class ClienteController extends Controller
         'parentesco.required' => 'Este campo es obligatorio',
         'segundo_nombre.regex' => 'Este formato no esta permitido',
         'materno.regex' => 'Este formato no esta permitido',
+        'tipo_cliente_id.required' => 'Este campo es obligatorio',
     ];
 
     public function index(Request $request)
     {
-        $clientes = Cliente::orderBy("id", "desc")->get();
+        $clientes = Cliente::with(["tipo_cliente"])->orderBy("id", "desc")->get();
         return response()->JSON(['clientes' => $clientes, 'total' => count($clientes)], 200);
     }
 
@@ -79,6 +81,13 @@ class ClienteController extends Controller
         try {
             // crear el Cliente
             $nuevo_cliente = Cliente::create(array_map('mb_strtoupper', $request->all()));
+            if ($request->hasFile('foto')) {
+                $file = $request->foto;
+                $nom_foto = time() . '_' . $nuevo_cliente->id . '.' . $file->getClientOriginalExtension();
+                $nuevo_cliente->foto = $nom_foto;
+                $file->move(public_path() . '/imgs/clientes/', $nom_foto);
+            }
+            $nuevo_cliente->save();
 
             $datos_original = HistorialAccion::getDetalleRegistro($nuevo_cliente, "clientes");
             HistorialAccion::create([
@@ -120,7 +129,17 @@ class ClienteController extends Controller
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
             $cliente->update(array_map('mb_strtoupper', $request->all()));
-
+            if ($request->hasFile('foto')) {
+                $antiguo = $cliente->foto;
+                if ($antiguo != 'default.png') {
+                    \File::delete(public_path() . '/imgs/clientes/' . $antiguo);
+                }
+                $file = $request->foto;
+                $nom_foto = time() . '_' . $cliente->id . '.' . $file->getClientOriginalExtension();
+                $cliente->foto = $nom_foto;
+                $file->move(public_path() . '/imgs/clientes/', $nom_foto);
+            }
+            $cliente->save();
             $datos_nuevo = HistorialAccion::getDetalleRegistro($cliente, "clientes");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,

@@ -26,48 +26,21 @@
                             <div class="form-group col-md-12">
                                 <label
                                     :class="{
-                                        'text-danger': errors.user_id,
+                                        'text-danger': errors.nombre,
                                     }"
-                                    >Seleccionar usuario*</label
-                                >
-                                <el-select
-                                    placeholder="Seleccionar usuario"
-                                    class="w-100"
-                                    :class="{ 'is-invalid': errors.user_id }"
-                                    v-model="salario.user_id"
-                                    clearable
-                                >
-                                    <el-option
-                                        v-for="item in listUsers"
-                                        :key="item.id"
-                                        :value="item.id"
-                                        :label="item.full_name"
-                                    ></el-option>
-                                </el-select>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.user_id"
-                                    v-text="errors.user_id[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.salario,
-                                    }"
-                                    >Salario*</label
+                                    >Nombre Tipo de Cliente*</label
                                 >
                                 <input
-                                    type="number"
-                                    placeholder="Salario"
+                                    type="text"
+                                    placeholder="Nombre Tipo de Cliente"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.salario }"
-                                    v-model="salario.salario"
+                                    :class="{ 'is-invalid': errors.nombre }"
+                                    v-model="tipo_cliente.nombre"
                                 />
                                 <span
                                     class="error invalid-feedback"
-                                    v-if="errors.salario"
-                                    v-text="errors.salario[0]"
+                                    v-if="errors.nombre"
+                                    v-text="errors.nombre[0]"
                                 ></span>
                             </div>
                         </div>
@@ -106,11 +79,10 @@ export default {
             type: String,
             default: "nuevo",
         },
-        salario: {
+        tipo_cliente: {
             type: Object,
             default: {
-                user_id: "",
-                salario: "",
+                nombre: "",
             },
         },
     },
@@ -146,25 +118,18 @@ export default {
             user: JSON.parse(localStorage.getItem("user")),
             bModal: this.muestra_modal,
             enviando: false,
-            listUsers: [],
             errors: [],
         };
     },
     mounted() {
         this.bModal = this.muestra_modal;
-        this.getUsers();
     },
     methods: {
-        getUsers() {
-            axios.get(main_url + "/admin/usuarios").then((response) => {
-                this.listUsers = response.data.usuarios;
-            });
-        },
         setRegistroModal() {
             this.enviando = true;
             try {
                 this.textoBtn = "Enviando...";
-                let url = main_url + "/admin/salarios";
+                let url = main_url + "/admin/tipo_clientes";
                 let config = {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -172,16 +137,12 @@ export default {
                 };
                 let formdata = new FormData();
                 formdata.append(
-                    "user_id",
-                    this.salario.user_id ? this.salario.user_id : ""
-                );
-                formdata.append(
-                    "salario",
-                    this.salario.salario ? this.salario.salario : ""
+                    "nombre",
+                    this.tipo_cliente.nombre ? this.tipo_cliente.nombre : ""
                 );
 
                 if (this.accion == "edit") {
-                    url = main_url + "/admin/salarios/" + this.salario.id;
+                    url = main_url + "/admin/tipo_clientes/" + this.tipo_cliente.id;
                     formdata.append("_method", "PUT");
                 }
                 axios
@@ -194,7 +155,7 @@ export default {
                             showConfirmButton: false,
                             timer: 1500,
                         });
-                        this.limpiaSalario();
+                        this.limpiaTipoCliente();
                         this.$emit("envioModal");
                         this.errors = [];
                         if (this.accion == "edit") {
@@ -238,17 +199,16 @@ export default {
             }
         },
         cargaImagen(e) {
-            this.salario.foto = e.target.files[0];
+            this.tipo_cliente.foto = e.target.files[0];
         },
         // Dialog/modal
         cierraModal() {
             this.bModal = false;
             this.$emit("close");
         },
-        limpiaSalario() {
+        limpiaTipoCliente() {
             this.errors = [];
-            this.salario.user_id = "";
-            this.salario.salario = "";
+            this.tipo_cliente.nombre = "";
         },
     },
 };

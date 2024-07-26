@@ -23,10 +23,11 @@ class Cliente extends Model
         "referencia",
         "cel_ref",
         "parentesco",
+        "tipo_cliente_id",
         "fecha_registro"
     ];
 
-    protected $appends = ['full_name', 'full_ci', "fecha_registro_t"];
+    protected $appends = ['full_name', 'full_ci', "fecha_registro_t", "path_image"];
 
     public function getFechaRegistroTAttribute()
     {
@@ -42,8 +43,21 @@ class Cliente extends Model
         return $this->ci . ' ' . $this->ci_exp;
     }
 
+    public function getPathImageAttribute()
+    {
+        if ($this->foto && trim($this->foto) != "") {
+            return asset('imgs/clientes/' . $this->foto);
+        }
+        return asset('imgs/clientes/default.png');
+    }
+
     public function prestamos()
     {
         return $this->hasMany(Prestamo::class, 'cliente_id')->orderBy("id", "asc");
+    }
+
+    public function tipo_cliente()
+    {
+        return $this->belongsTo(TipoCliente::class, 'tipo_cliente_id');
     }
 }

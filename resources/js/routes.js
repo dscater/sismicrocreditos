@@ -61,6 +61,14 @@ export default new Router({
                 .default,
         },
 
+        // Tipo de Clientes
+        {
+            path: "/tipo_clientes",
+            name: "tipo_clientes.index",
+            component: require("./components/modulos/tipo_clientes/index.vue")
+                .default,
+        },
+
         // Clientes
         {
             path: "/clientes",

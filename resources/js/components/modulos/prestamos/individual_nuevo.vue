@@ -263,6 +263,12 @@
                                                                         >
                                                                             <input
                                                                                 type="file"
+                                                                                @change="
+                                                                                    cargaArchivo(
+                                                                                        'documento_1_f',
+                                                                                        $event
+                                                                                    )
+                                                                                "
                                                                             />
                                                                         </div>
                                                                     </div>
@@ -304,6 +310,12 @@
                                                                         >
                                                                             <input
                                                                                 type="file"
+                                                                                @change="
+                                                                                    cargaArchivo(
+                                                                                        'documento_2_f',
+                                                                                        $event
+                                                                                    )
+                                                                                "
                                                                             />
                                                                         </div>
                                                                     </div>
@@ -345,6 +357,12 @@
                                                                         >
                                                                             <input
                                                                                 type="file"
+                                                                                @change="
+                                                                                    cargaArchivo(
+                                                                                        'documento_3_f',
+                                                                                        $event
+                                                                                    )
+                                                                                "
                                                                             />
                                                                         </div>
                                                                     </div>
@@ -386,6 +404,12 @@
                                                                         >
                                                                             <input
                                                                                 type="file"
+                                                                                @change="
+                                                                                    cargaArchivo(
+                                                                                        'documento_4_f',
+                                                                                        $event
+                                                                                    )
+                                                                                "
                                                                             />
                                                                         </div>
                                                                     </div>
@@ -1025,6 +1049,90 @@
                                                                     "
                                                                 ></span>
                                                             </div>
+                                                            <div
+                                                                class="form-group col-md-4"
+                                                            >
+                                                                <label
+                                                                    :class="{
+                                                                        'text-danger':
+                                                                            errors.tipo_cliente_id,
+                                                                    }"
+                                                                    >Tipo de
+                                                                    Cliente*</label
+                                                                >
+                                                                <el-select
+                                                                    placeholder="Tipo de Cliente"
+                                                                    class="w-100"
+                                                                    :class="{
+                                                                        'is-invalid':
+                                                                            errors.tipo_cliente_id,
+                                                                    }"
+                                                                    v-model="
+                                                                        oPrestamo
+                                                                            .cliente
+                                                                            .tipo_cliente_id
+                                                                    "
+                                                                    clearable
+                                                                >
+                                                                    <el-option
+                                                                        v-for="item in listTipoClientes"
+                                                                        :key="
+                                                                            item.id
+                                                                        "
+                                                                        :value="
+                                                                            item.id
+                                                                        "
+                                                                        :label="
+                                                                            item.nombre
+                                                                        "
+                                                                    ></el-option>
+                                                                </el-select>
+                                                                <span
+                                                                    class="error invalid-feedback"
+                                                                    v-if="
+                                                                        errors.tipo_cliente_id
+                                                                    "
+                                                                    v-text="
+                                                                        errors
+                                                                            .tipo_cliente_id[0]
+                                                                    "
+                                                                ></span>
+                                                            </div>
+                                                            <div
+                                                                class="form-group col-md-4"
+                                                            >
+                                                                <label
+                                                                    :class="{
+                                                                        'text-danger':
+                                                                            errors.foto,
+                                                                    }"
+                                                                    >Foto</label
+                                                                >
+                                                                <input
+                                                                    type="file"
+                                                                    class="form-control"
+                                                                    :class="{
+                                                                        'is-invalid':
+                                                                            errors.foto,
+                                                                    }"
+                                                                    ref="input_file"
+                                                                    @change="
+                                                                        cargaFotoCliente(
+                                                                            $event
+                                                                        )
+                                                                    "
+                                                                />
+                                                                <span
+                                                                    class="error invalid-feedback"
+                                                                    v-if="
+                                                                        errors.foto
+                                                                    "
+                                                                    v-text="
+                                                                        errors
+                                                                            .foto[0]
+                                                                    "
+                                                                ></span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!-- PASO 3 -->
@@ -1215,6 +1323,10 @@ export default {
                 documento_2: "",
                 documento_3: "",
                 documento_4: "",
+                documento_1_f: "",
+                documento_2_f: "",
+                documento_3_f: "",
+                documento_4_f: "",
                 estado: "",
                 cliente: {
                     id: 0,
@@ -1231,6 +1343,8 @@ export default {
                     referencia: "",
                     cel_ref: "",
                     parentesco: "",
+                    tipo_cliente_id: "",
+                    foto: null,
                 },
             },
             url_principal: main_url,
@@ -1246,6 +1360,7 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
+            listTipoClientes: [],
             errors: [],
             enviando: false,
         };
@@ -1278,24 +1393,72 @@ export default {
     },
     mounted() {
         this.loadingWindow.close();
+        this.getTipoClientes();
     },
     methods: {
+        getTipoClientes() {
+            axios.get(main_url + "/admin/tipo_clientes").then((response) => {
+                this.listTipoClientes = response.data.tipo_clientes;
+                this.listTipoClientes.unshift({
+                    id: "",
+                    nombre: "- Selecione -",
+                });
+            });
+        },
         registrarPrestamo() {
             this.enviando = true;
             axios
                 .post(main_url + "/admin/prestamos/individual", this.oPrestamo)
                 .then((res) => {
-                    setTimeout(() => {
-                        this.enviando = false;
-                    }, 1000);
-                    Swal.fire({
-                        icon: "success",
-                        title: res.data.msj,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                    this.errors = [];
-                    this.$router.push({ name: "prestamos.individual" });
+                    let prestamo_nuevo = res.data.prestamo;
+                    let formDataFiles = new FormData();
+                    if (this.oPrestamo.documento_1_f) {
+                        formDataFiles.append(
+                            "documento_1_f",
+                            this.oPrestamo.documento_1_f
+                        );
+                    }
+                    if (this.oPrestamo.documento_2_f) {
+                        formDataFiles.append(
+                            "documento_2_f",
+                            this.oPrestamo.documento_2_f
+                        );
+                    }
+                    if (this.oPrestamo.documento_3_f) {
+                        formDataFiles.append(
+                            "documento_3_f",
+                            this.oPrestamo.documento_3_f
+                        );
+                    }
+                    if (this.oPrestamo.documento_4_f) {
+                        formDataFiles.append(
+                            "documento_4_f",
+                            this.oPrestamo.documento_4_f
+                        );
+                    }
+                    if (this.oPrestamo.cliente.foto) {
+                        formDataFiles.append("foto", this.oPrestamo.cliente.foto);
+                    }
+                    axios
+                        .post(
+                            main_url +
+                                "/admin/prestamos/individual/guardar_archivos/" +
+                                prestamo_nuevo.id,
+                            formDataFiles
+                        )
+                        .then((response) => {
+                            setTimeout(() => {
+                                this.enviando = false;
+                            }, 1000);
+                            Swal.fire({
+                                icon: "success",
+                                title: res.data.msj,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            this.errors = [];
+                            this.$router.push({ name: "prestamos.individual" });
+                        });
                 })
                 .catch(async (error) => {
                     this.enviando = false;
@@ -1461,6 +1624,12 @@ export default {
                     }
                 });
         },
+        cargaArchivo(key, e) {
+            this.oPrestamo[key] = e.target.files[0];
+        },
+        cargaFotoCliente(e) {
+            this.oPrestamo.cliente.foto = e.target.files[0];
+        },
         // PASOS
         irPaso(paso) {
             this.paso_actual = paso;
@@ -1525,7 +1694,7 @@ export default {
         display: none;
     }
 }
-.contenedor_file{
+.contenedor_file {
     padding-left: 5px;
     display: flex;
     align-items: center;

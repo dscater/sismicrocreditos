@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Clientes</h1>
+                        <h1>Tipo de Clientes</h1>
                     </div>
                 </div>
             </div>
@@ -14,11 +14,11 @@
                 <div class="row">
                     <div class="col-md-3">
                         <button
-                            v-if="permisos.includes('clientes.create')"
+                            v-if="permisos.includes('tipo_clientes.create')"
                             class="btn btn-success btn-flat btn-block"
                             @click="
                                 abreModal('nuevo');
-                                limpiaCliente();
+                                limpiaTipoCliente();
                             "
                         >
                             <i class="fa fa-plus"></i>
@@ -81,96 +81,6 @@
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
                                             >
-                                                <template #cell(foto)="row">
-                                                    <b-avatar
-                                                        :src="
-                                                            row.item.path_image
-                                                        "
-                                                        size="3rem"
-                                                    ></b-avatar>
-                                                </template>
-
-                                                <template #cell(mas)="row">
-                                                    <b-button
-                                                        variant="success"
-                                                        size="sm"
-                                                        @click="
-                                                            row.toggleDetails
-                                                        "
-                                                    >
-                                                        {{
-                                                            row.detailsShowing
-                                                                ? "Ocultar"
-                                                                : "Mostrar"
-                                                        }}
-                                                        Detalles
-                                                    </b-button>
-                                                </template>
-
-                                                <template #row-details="row">
-                                                    <b-card>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Teléfono:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item.fono
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Referencia:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item
-                                                                    .referencia
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Celular
-                                                                    Referencia:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item.cel_ref
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-row class="mb-2">
-                                                            <b-col
-                                                                sm="3"
-                                                                class="text-sm-right"
-                                                                ><b
-                                                                    >Parentesco:</b
-                                                                ></b-col
-                                                            >
-                                                            <b-col>{{
-                                                                row.item
-                                                                    .parentesco
-                                                            }}</b-col>
-                                                        </b-row>
-                                                        <b-button
-                                                            size="sm"
-                                                            variant="success"
-                                                            @click="
-                                                                row.toggleDetails
-                                                            "
-                                                            >Ocultar</b-button
-                                                        >
-                                                    </b-card>
-                                                </template>
-
                                                 <template #cell(accion)="row">
                                                     <div
                                                         class="row justify-content-between"
@@ -178,28 +88,7 @@
                                                         <b-button
                                                             v-if="
                                                                 permisos.includes(
-                                                                    'clientes.historial'
-                                                                )
-                                                            "
-                                                            size="sm"
-                                                            pill
-                                                            variant="outline-primary"
-                                                            class="btn-flat btn-block"
-                                                            title="Historial Crediticio"
-                                                            @click="
-                                                                getHistoriaCliente(
-                                                                    row.item
-                                                                )
-                                                            "
-                                                        >
-                                                            <i
-                                                                class="fa fa-list-alt"
-                                                            ></i>
-                                                        </b-button>
-                                                        <b-button
-                                                            v-if="
-                                                                permisos.includes(
-                                                                    'clientes.edit'
+                                                                    'tipo_clientes.edit'
                                                                 )
                                                             "
                                                             size="sm"
@@ -220,7 +109,7 @@
                                                         <b-button
                                                             v-if="
                                                                 permisos.includes(
-                                                                    'clientes.destroy'
+                                                                    'tipo_clientes.destroy'
                                                                 )
                                                             "
                                                             size="sm"
@@ -229,7 +118,7 @@
                                                             class="btn-flat btn-block"
                                                             title="Eliminar registro"
                                                             @click="
-                                                                eliminaCliente(
+                                                                eliminaTipoCliente(
                                                                     row.item.id,
                                                                     row.item
                                                                         .full_name +
@@ -284,9 +173,9 @@
         <Nuevo
             :muestra_modal="muestra_modal"
             :accion="modal_accion"
-            :cliente="oCliente"
+            :tipo_cliente="oTipoCliente"
             @close="muestra_modal = false"
-            @envioModal="getClientes"
+            @envioModal="getTipoClientes"
         ></Nuevo>
     </div>
 </template>
@@ -308,27 +197,7 @@ export default {
             listRegistros: [],
             showOverlay: false,
             fields: [
-                {
-                    key: "id",
-                    label: "Nro.",
-                    sortable: true,
-                },
-                { key: "full_name", label: "Nombre", sortable: true },
-                { key: "full_ci", label: "C.I.", sortable: true },
-                {
-                    key: "tipo_cliente.nombre",
-                    label: "Tipo de Cliente",
-                    sortable: true,
-                },
-                { key: "cel", label: "Celular", sortable: true },
-                { key: "edad", label: "Edad" },
-                { key: "foto", label: "Foto" },
-                {
-                    key: "fecha_registro_t",
-                    label: "Fecha de registro",
-                    sortable: true,
-                },
-                { key: "mas", label: "Ver mas" },
+                { key: "nombre", label: "Nombre Tipo Cliente", sortable: true },
                 { key: "accion", label: "Acción" },
             ],
             loading: true,
@@ -338,23 +207,9 @@ export default {
             }),
             muestra_modal: false,
             modal_accion: "nuevo",
-            oCliente: {
+            oTipoCliente: {
                 id: 0,
                 nombre: "",
-                segundo_nombre: "",
-                paterno: "",
-                materno: "",
-                dir: "",
-                ci: "",
-                ci_exp: "",
-                cel: "",
-                fono: "",
-                edad: "",
-                referencia: "",
-                cel_ref: "",
-                parentesco: "",
-                foto: null,
-                tipo_cliente_id: "",
             },
             currentPage: 1,
             perPage: 5,
@@ -372,84 +227,22 @@ export default {
     },
     mounted() {
         this.loadingWindow.close();
-        this.getClientes();
+        this.getTipoClientes();
     },
     methods: {
         // Seleccionar Opciones de Tabla
         editarRegistro(item) {
-            this.oCliente.id = item.id;
-            this.oCliente.nombre = item.nombre ? item.nombre : "";
-            this.oCliente.segundo_nombre = item.segundo_nombre
-                ? item.segundo_nombre
-                : "";
-            this.oCliente.paterno = item.paterno ? item.paterno : "";
-            this.oCliente.materno = item.materno ? item.materno : "";
-            this.oCliente.dir = item.dir ? item.dir : "";
-            this.oCliente.ci = item.ci ? item.ci : "";
-            this.oCliente.ci_exp = item.ci_exp ? item.ci_exp : "";
-            this.oCliente.cel = item.cel ? item.cel : "";
-            this.oCliente.fono = item.fono ? item.fono : "";
-            this.oCliente.edad = item.edad ? item.edad : "";
-            this.oCliente.referencia = item.referencia ? item.referencia : "";
-            this.oCliente.cel_ref = item.cel_ref ? item.cel_ref : "";
-            this.oCliente.parentesco = item.parentesco ? item.parentesco : "";
-            this.oCliente.tipo_cliente_id = item.tipo_cliente_id
-                ? item.tipo_cliente_id
-                : "";
+            this.oTipoCliente.id = item.id;
+            this.oTipoCliente.nombre = item.nombre ? item.nombre : "";
             this.modal_accion = "edit";
             this.muestra_modal = true;
         },
-        getHistoriaCliente(item) {
-            let config = {
-                responseType: "blob",
-            };
-            axios
-                .post(
-                    main_url + "/admin/clientes/historial/" + item.id,
-                    this.oReporte,
-                    config
-                )
-                .then((res) => {
-                    this.errors = [];
-                    this.enviando = false;
-                    let pdfBlob = new Blob([res.data], {
-                        type: "application/pdf",
-                    });
-                    let urlReporte = URL.createObjectURL(pdfBlob);
-                    window.open(urlReporte);
-                })
-                .catch(async (error) => {
-                    let responseObj = await error.response.data.text();
-                    responseObj = JSON.parse(responseObj);
-                    console.log(error);
-                    this.enviando = false;
-                    if (error.response) {
-                        if (error.response.status === 422) {
-                            this.errors = responseObj.errors;
-                        }
-                        if (
-                            error.response.status === 420 ||
-                            error.response.status === 419 ||
-                            error.response.status === 401
-                        ) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error",
-                                html: responseObj.message,
-                                showConfirmButton: false,
-                                timer: 2000,
-                            });
-                            window.location = "/";
-                        }
-                    }
-                });
-        },
 
-        // Listar Clientes
-        getClientes() {
+        // Listar TipoClientes
+        getTipoClientes() {
             this.showOverlay = true;
             this.muestra_modal = false;
-            let url = main_url + "/admin/clientes";
+            let url = main_url + "/admin/tipo_clientes";
             if (this.pagina != 0) {
                 url += "?page=" + this.pagina;
             }
@@ -459,11 +252,11 @@ export default {
                 })
                 .then((res) => {
                     this.showOverlay = false;
-                    this.listRegistros = res.data.clientes;
+                    this.listRegistros = res.data.tipo_clientes;
                     this.totalRows = res.data.total;
                 });
         },
-        eliminaCliente(id, descripcion) {
+        eliminaTipoCliente(id, descripcion) {
             Swal.fire({
                 title: "¿Quierés eliminar este registro?",
                 html: `<strong>${descripcion}</strong>`,
@@ -476,11 +269,11 @@ export default {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     axios
-                        .post(main_url + "/admin/clientes/" + id, {
+                        .post(main_url + "/admin/tipo_clientes/" + id, {
                             _method: "DELETE",
                         })
                         .then((res) => {
-                            this.getClientes();
+                            this.getTipoClientes();
                             this.filter = "";
                             Swal.fire({
                                 icon: "success",
@@ -515,11 +308,11 @@ export default {
                 }
             });
         },
-        abreModal(tipo_accion = "nuevo", cliente = null) {
+        abreModal(tipo_accion = "nuevo", tipo_cliente = null) {
             this.muestra_modal = true;
             this.modal_accion = tipo_accion;
-            if (cliente) {
-                this.oCliente = cliente;
+            if (tipo_cliente) {
+                this.oTipoCliente = tipo_cliente;
             }
         },
         onFiltered(filteredItems) {
@@ -527,22 +320,8 @@ export default {
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
         },
-        limpiaCliente() {
-            this.oCliente.nombre = "";
-            this.oCliente.segundo_nombre = "";
-            this.oCliente.paterno = "";
-            this.oCliente.materno = "";
-            this.oCliente.dir = "";
-            this.oCliente.ci = "";
-            this.oCliente.ci_exp = "";
-            this.oCliente.cel = "";
-            this.oCliente.fono = "";
-            this.oCliente.edad = "";
-            this.oCliente.referencia = "";
-            this.oCliente.cel_ref = "";
-            this.oCliente.parentesco = "";
-            this.oCliente.tipo_cliente_id = "";
-            this.oCliente.foto = null;
+        limpiaTipoCliente() {
+            this.oTipoCliente.nombre = "";
         },
         formatoFecha(date) {
             return this.$moment(String(date)).format("DD/MM/YYYY");

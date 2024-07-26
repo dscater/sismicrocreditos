@@ -67,6 +67,11 @@ class UserController extends Controller
             'clientes.destroy',
             'clientes.historial',
 
+            'tipo_clientes.index',
+            'tipo_clientes.create',
+            'tipo_clientes.edit',
+            'tipo_clientes.destroy',
+
             'cajas.index',
             'cajas.create',
             'cajas.edit',
