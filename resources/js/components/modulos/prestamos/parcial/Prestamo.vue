@@ -226,6 +226,12 @@
                                                         >
                                                             <input
                                                                 type="file"
+                                                                @change="
+                                                                    cargaArchivo(
+                                                                        'documento_1_f',
+                                                                        $event
+                                                                    )
+                                                                "
                                                             />
                                                         </div>
                                                     </div>
@@ -268,6 +274,12 @@
                                                         >
                                                             <input
                                                                 type="file"
+                                                                @change="
+                                                                    cargaArchivo(
+                                                                        'documento_2_f',
+                                                                        $event
+                                                                    )
+                                                                "
                                                             />
                                                         </div>
                                                     </div>
@@ -310,6 +322,12 @@
                                                         >
                                                             <input
                                                                 type="file"
+                                                                @change="
+                                                                    cargaArchivo(
+                                                                        'documento_3_f',
+                                                                        $event
+                                                                    )
+                                                                "
                                                             />
                                                         </div>
                                                     </div>
@@ -352,6 +370,12 @@
                                                         >
                                                             <input
                                                                 type="file"
+                                                                @change="
+                                                                    cargaArchivo(
+                                                                        'documento_4_f',
+                                                                        $event
+                                                                    )
+                                                                "
                                                             />
                                                         </div>
                                                     </div>
@@ -1055,6 +1079,82 @@
                                                     "
                                                 ></span>
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label
+                                                    :class="{
+                                                        'text-danger':
+                                                            errors?.[
+                                                                'tipo_cliente_id' +
+                                                                    index_prestamo
+                                                            ],
+                                                    }"
+                                                    >Tipo de Cliente*</label
+                                                >
+                                                <el-select
+                                                    placeholder="Tipo de Cliente"
+                                                    class="w-100"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors?.[
+                                                                'tipo_cliente_id_' +
+                                                                    index_prestamo
+                                                            ],
+                                                    }"
+                                                    v-model="
+                                                        prestamo.cliente
+                                                            .tipo_cliente_id
+                                                    "
+                                                    clearable
+                                                >
+                                                    <el-option
+                                                        v-for="item in listTipoClientes"
+                                                        :key="item.id"
+                                                        :value="item.id"
+                                                        :label="item.nombre"
+                                                    ></el-option>
+                                                </el-select>
+                                                <span
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'tipo_cliente_id' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'tipo_cliente_id' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
+                                                ></span>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Foto</label>
+                                                <input
+                                                    type="file"
+                                                    class="form-control"
+                                                    ref="input_file"
+                                                    @change="
+                                                        cargaFotoCliente($event)
+                                                    "
+                                                />
+                                                <span
+                                                    class="error invalid-feedback d-block"
+                                                    v-if="
+                                                        errors?.[
+                                                            'foto' +
+                                                                index_prestamo
+                                                        ]
+                                                    "
+                                                    v-html="
+                                                        errors?.[
+                                                            'foto' +
+                                                                index_prestamo
+                                                        ][0]
+                                                    "
+                                                ></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- PASO 3 -->
@@ -1242,6 +1342,7 @@ export default {
                 { value: "PD", label: "Pando" },
                 { value: "BN", label: "Beni" },
             ],
+            listTipoClientes: [],
             errors: this.errores,
             enviando: false,
         };
@@ -1280,8 +1381,19 @@ export default {
             return titulo;
         },
     },
-    mounted() {},
+    mounted() {
+        this.getTipoClientes();
+    },
     methods: {
+        getTipoClientes() {
+            axios.get(main_url + "/admin/tipo_clientes").then((response) => {
+                this.listTipoClientes = response.data.tipo_clientes;
+                this.listTipoClientes.unshift({
+                    id: "",
+                    nombre: "- Selecione -",
+                });
+            });
+        },
         modificaMonto() {
             // this.$emit("actualiza_monto", this.index_prestamo, this.prestamo.monto);
         },
@@ -1401,6 +1513,12 @@ export default {
                         }
                     }
                 });
+        },
+        cargaArchivo(key, e) {
+            this.prestamo[key] = e.target.files[0];
+        },
+        cargaFotoCliente(e) {
+            this.prestamo.cliente.foto = e.target.files[0];
         },
         // PASOS
         irPaso(paso) {

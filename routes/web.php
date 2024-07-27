@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         // prestamos-grupal
         Route::put("prestamos/grupal/rechazar/{grupo}", [PrestamoGrupalController::class, 'rechazar']);
         Route::put("prestamos/grupal/aprobar/{grupo}", [PrestamoGrupalController::class, 'aprobar']);
+        Route::POST("prestamos/grupal/guardar_archivos/{grupo}", [PrestamoGrupalController::class, 'guardar_archivos']);
         Route::get("prestamos/grupal/grupo_nombre", [PrestamoGrupalController::class, 'grupo_nombre']);
         Route::resource('prestamos/grupal', PrestamoGrupalController::class)->only([
             'index', 'store', 'update', 'destroy', 'show'
@@ -171,6 +172,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('reportes/extracto_pagos_individual', [ReporteController::class, 'extracto_pagos_individual']);
         Route::post('reportes/extracto_pagos_grupal', [ReporteController::class, 'extracto_pagos_grupal']);
         Route::post('reportes/prestamos_estado', [ReporteController::class, 'prestamos_estado']);
+        Route::post('reportes/prestamos_tipo_cliente', [ReporteController::class, 'prestamos_tipo_cliente']);
     });
 });
 

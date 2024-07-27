@@ -119,6 +119,7 @@ class UserController extends Controller
             "reportes.extracto_pagos_individual",
             "reportes.extracto_pagos_grupal",
             "reportes.prestamos_estado",
+            "reportes.prestamos_tipo_cliente",
         ],
         "GERENTE" => [
             'cajas.index',
@@ -138,6 +139,7 @@ class UserController extends Controller
             "reportes.prestamos_individual_mora",
             "reportes.prestamos_grupal_mora",
             "reportes.prestamos_estado",
+            "reportes.prestamos_tipo_cliente",
         ],
         "OFICIAL DE CRÉDITO" => [
             'clientes.index',
@@ -168,6 +170,7 @@ class UserController extends Controller
             "reportes.extracto_pagos_individual",
             "reportes.extracto_pagos_grupal",
             "reportes.prestamos_estado",
+            "reportes.prestamos_tipo_cliente",
         ],
         "CAJERO" => [
             'cajas.index',

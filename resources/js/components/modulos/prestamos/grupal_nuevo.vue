@@ -172,6 +172,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Prestamo from "./parcial/Prestamo.vue";
 export default {
     components: {
@@ -226,6 +227,8 @@ export default {
                             referencia: "",
                             cel_ref: "",
                             parentesco: "",
+                            tipo_cliente_id: "",
+                            foto: null,
                         },
                     },
                     {
@@ -260,6 +263,8 @@ export default {
                             referencia: "",
                             cel_ref: "",
                             parentesco: "",
+                            tipo_cliente_id: "",
+                            foto: null,
                         },
                     },
                     {
@@ -294,6 +299,8 @@ export default {
                             referencia: "",
                             cel_ref: "",
                             parentesco: "",
+                            tipo_cliente_id: "",
+                            foto: null,
                         },
                     },
                 ],
@@ -389,18 +396,63 @@ export default {
             axios
                 .post(main_url + "/admin/prestamos/grupal", this.oGrupo)
                 .then((res) => {
-                    setTimeout(() => {
-                        this.enviando = false;
-                    }, 1000);
-                    Swal.fire({
-                        icon: "success",
-                        title: res.data.msj,
-                        showConfirmButton: false,
-                        timer: 1500,
+                    let grupal_nuevo = res.data.grupo;
+                    let formDataFiles = new FormData();
+                    let self = this;
+                    grupal_nuevo.prestamos.forEach((oPrestamo, index) => {
+                        if (self.oGrupo.prestamos[index].documento_1_f) {
+                            formDataFiles.append(
+                                "documento_1_f_" + oPrestamo.id,
+                                self.oGrupo.prestamos[index].documento_1_f
+                            );
+                        }
+                        if (self.oGrupo.prestamos[index].documento_2_f) {
+                            formDataFiles.append(
+                                "documento_2_f_" + oPrestamo.id,
+                                self.oGrupo.prestamos[index].documento_2_f
+                            );
+                        }
+                        if (self.oGrupo.prestamos[index].documento_3_f) {
+                            formDataFiles.append(
+                                "documento_3_f_" + oPrestamo.id,
+                                self.oGrupo.prestamos[index].documento_3_f
+                            );
+                        }
+                        if (self.oGrupo.prestamos[index].documento_4_f) {
+                            formDataFiles.append(
+                                "documento_4_f_" + oPrestamo.id,
+                                self.oGrupo.prestamos[index].documento_4_f
+                            );
+                        }
+                        if (self.oGrupo.prestamos[index].cliente.foto) {
+                            formDataFiles.append(
+                                "foto_" + oPrestamo.id,
+                                self.oGrupo.prestamos[index].cliente.foto
+                            );
+                        }
                     });
-                    this.descargarPlanPagos(res.data.grupo);
-                    this.errors = [];
-                    this.$router.push({ name: "prestamos.grupal" });
+
+                    axios
+                        .post(
+                            main_url +
+                                "/admin/prestamos/grupal/guardar_archivos/" +
+                                grupal_nuevo.id,
+                            formDataFiles
+                        )
+                        .then((response) => {
+                            setTimeout(() => {
+                                this.enviando = false;
+                            }, 1000);
+                            Swal.fire({
+                                icon: "success",
+                                title: res.data.msj,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            this.descargarPlanPagos(res.data.grupo);
+                            this.errors = [];
+                            this.$router.push({ name: "prestamos.grupal" });
+                        });
                 })
                 .catch(async (error) => {
                     this.enviando = false;
@@ -528,6 +580,8 @@ export default {
                             referencia: "",
                             cel_ref: "",
                             parentesco: "",
+                            tipo_cliente_id: "",
+                            foto: null,
                         },
                     });
                 } else if (cantidad_actual != integrantes_actual) {

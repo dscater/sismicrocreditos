@@ -272,6 +272,14 @@ export default new Router({
                     .default,
             props: true,
         },
+        {
+            path: "/reportes/prestamos_tipo_cliente",
+            name: "reportes.prestamos_tipo_cliente",
+            component:
+                require("./components/modulos/reportes/prestamos_tipo_cliente.vue")
+                    .default,
+            props: true,
+        },
 
         // PÁGINA NO ENCONTRADA
         {

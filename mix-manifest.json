@@ -12,6 +12,17 @@
     "/imgs/circle_empty.png": "/imgs/circle_empty.png",
     "/imgs/circle_full.png": "/imgs/circle_full.png",
     "/imgs/circle_full_green.png": "/imgs/circle_full_green.png",
+    "/imgs/clientes/1722009277_37.jpg": "/imgs/clientes/1722009277_37.jpg",
+    "/imgs/clientes/1722009287_33.jpg": "/imgs/clientes/1722009287_33.jpg",
+    "/imgs/clientes/1722009342_38.jpg": "/imgs/clientes/1722009342_38.jpg",
+    "/imgs/clientes/1722013898_41.png": "/imgs/clientes/1722013898_41.png",
+    "/imgs/clientes/1722014788_42.png": "/imgs/clientes/1722014788_42.png",
+    "/imgs/clientes/1722098635_50.png": "/imgs/clientes/1722098635_50.png",
+    "/imgs/clientes/1722098635_51.jpg": "/imgs/clientes/1722098635_51.jpg",
+    "/imgs/clientes/1722099173_52.jpg": "/imgs/clientes/1722099173_52.jpg",
+    "/imgs/clientes/1722099173_53.jpg": "/imgs/clientes/1722099173_53.jpg",
+    "/imgs/clientes/1722099173_54.jpg": "/imgs/clientes/1722099173_54.jpg",
+    "/imgs/clientes/default.png": "/imgs/clientes/default.png",
     "/imgs/documents.png": "/imgs/documents.png",
     "/imgs/fondo_direccion.jpg": "/imgs/fondo_direccion.jpg",
     "/imgs/fondo_login.jpg": "/imgs/fondo_login.jpg",
@@ -100,9 +111,5 @@
     "/fonts/Poppins/Poppins-Thin.ttf": "/fonts/Poppins/Poppins-Thin.ttf",
     "/fonts/Poppins/Poppins-ThinItalic.ttf": "/fonts/Poppins/Poppins-ThinItalic.ttf",
     "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.ttf",
-    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff",
-    "/imgs/clientes/1722009277_37.jpg": "/imgs/clientes/1722009277_37.jpg",
-    "/imgs/clientes/1722009287_33.jpg": "/imgs/clientes/1722009287_33.jpg",
-    "/imgs/clientes/1722009342_38.jpg": "/imgs/clientes/1722009342_38.jpg",
-    "/imgs/clientes/default.png": "/imgs/clientes/default.png"
+    "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff": "/fonts/vendor/element-ui/lib/theme-chalk/element-icons.woff"
 }

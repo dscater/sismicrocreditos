@@ -203,6 +203,7 @@ class PrestamoGrupalController extends Controller
                         "referencia" => mb_strtoupper($dp["cliente"]["referencia"]),
                         "cel_ref" => mb_strtoupper($dp["cliente"]["cel_ref"]),
                         "parentesco" => mb_strtoupper($dp["cliente"]["parentesco"]),
+                        "tipo_cliente_id" => mb_strtoupper($dp["cliente"]["tipo_cliente_id"]),
                         "fecha_registro" => date("Y-m-d")
                     ]);
                 } else {
@@ -270,9 +271,87 @@ class PrestamoGrupalController extends Controller
             DB::commit();
             return response()->JSON([
                 'sw' => true,
-                'grupo' => $grupo,
+                'grupo' => $grupo->load(["prestamos"]),
                 'msj' => 'El registro se realizó de forma correcta',
             ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->JSON([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+    }
+
+
+    public function guardar_archivos(Grupo $grupo, Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $prestamos = $grupo->prestamos;
+            foreach ($prestamos as $prestamo) {
+                $documento_1_f = $request["documento_1_f_" . $prestamo->id] ? $request["documento_1_f_" . $prestamo->id] : null;
+                $documento_2_f = $request["documento_2_f_" . $prestamo->id] ? $request["documento_2_f_" . $prestamo->id] : null;
+                $documento_3_f = $request["documento_3_f_" . $prestamo->id] ? $request["documento_3_f_" . $prestamo->id] : null;
+                $documento_4_f = $request["documento_4_f_" . $prestamo->id] ? $request["documento_4_f_" . $prestamo->id] : null;
+
+                if ($documento_1_f) {
+                    if ($prestamo->documento_1_f) {
+                        \File::delete(public_path() . '/files/' . $prestamo->documento_1_f);
+                    }
+                    $file = $documento_1_f;
+                    $nom_file = time() . '_' . $prestamo->id . '1.' . $file->getClientOriginalExtension();
+                    $prestamo->documento_1_f = $nom_file;
+                    $file->move(public_path() . '/files/', $nom_file);
+                }
+                if ($documento_2_f) {
+                    if ($prestamo->documento_2_f) {
+                        \File::delete(public_path() . '/files/' . $prestamo->documento_2_f);
+                    }
+                    $file = $documento_2_f;
+                    $nom_file = time() . '_' . $prestamo->id . '2.' . $file->getClientOriginalExtension();
+                    $prestamo->documento_2_f = $nom_file;
+                    $file->move(public_path() . '/files/', $nom_file);
+                }
+
+                if ($documento_3_f) {
+                    if ($prestamo->documento_3_f) {
+                        \File::delete(public_path() . '/files/' . $prestamo->documento_3_f);
+                    }
+                    $file = $documento_3_f;
+                    $nom_file = time() . '_' . $prestamo->id . '3.' . $file->getClientOriginalExtension();
+                    $prestamo->documento_3_f = $nom_file;
+                    $file->move(public_path() . '/files/', $nom_file);
+                }
+
+                if ($documento_4_f) {
+                    if ($prestamo->documento_4_f) {
+                        \File::delete(public_path() . '/files/' . $prestamo->documento_4_f);
+                    }
+                    $file = $documento_4_f;
+                    $nom_file = time() . '_' . $prestamo->id . '4.' . $file->getClientOriginalExtension();
+                    $prestamo->documento_4_f = $nom_file;
+                    $file->move(public_path() . '/files/', $nom_file);
+                }
+
+                // foto cliente
+                $cliente = $prestamo->cliente;
+                $foto = $request["foto_" . $prestamo->id];
+                if ($foto) {
+                    $file = $request["foto_" . $prestamo->id];
+                    $nom_foto = time() . '_' . $cliente->id . '.' . $file->getClientOriginalExtension();
+                    $cliente->foto = $nom_foto;
+                    $file->move(public_path() . '/imgs/clientes/', $nom_foto);
+                    $cliente->save();
+                }
+
+                $prestamo->save();
+            }
+            DB::commit();
+            return response()->JSON([
+                "sw" => true,
+                "prestamo" => $prestamo
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->JSON([
@@ -325,6 +404,7 @@ class PrestamoGrupalController extends Controller
                         "referencia" => $prestamo["cliente"]["referencia"],
                         "cel_ref" => $prestamo["cliente"]["cel_ref"],
                         "parentesco" => $prestamo["cliente"]["parentesco"],
+                        "tipo_cliente_id" => $prestamo["cliente"]["tipo_cliente_id"],
                     ]
                 ];
             }
@@ -461,6 +541,9 @@ class PrestamoGrupalController extends Controller
             }
             if (!$cliente["parentesco"] || trim($cliente["parentesco"]) == '') {
                 $errors["parentesco_" . $key] = ["Debes ingresar el parentesco - <strong>Integrante " . ($key + 1) . "</strong>"];
+            }
+            if (!$cliente["tipo_cliente_id"] || trim($cliente["tipo_cliente_id"]) == '') {
+                $errors["tipo_cliente_id_" . $key] = ["Debes seleccionar el tipo de cliente - <strong>Integrante " . ($key + 1) . "</strong>"];
             }
         }
         return $errors;

@@ -838,6 +838,34 @@
                                     <p>Préstamos por Estado</p>
                                 </router-link>
                             </li>
+                            <li
+                                class="nav-item"
+                                v-if="
+                                    permisos.includes(
+                                        'reportes.prestamos_tipo_cliente'
+                                    )
+                                "
+                            >
+                                <router-link
+                                    exact
+                                    :to="{
+                                        name: 'reportes.prestamos_tipo_cliente',
+                                    }"
+                                    class="nav-link"
+                                    :class="[
+                                        $route.name ==
+                                        'reportes.prestamos_tipo_cliente'
+                                            ? 'active'
+                                            : '',
+                                    ]"
+                                    v-loading.fullscreen.lock="
+                                        fullscreenLoading
+                                    "
+                                >
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Préstamos por Tipo de Cliente</p>
+                                </router-link>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-header font-weight-bold">OTRAS OPCIONES:</li>

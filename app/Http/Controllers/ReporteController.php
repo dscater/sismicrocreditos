@@ -10,6 +10,7 @@ use App\Models\Pago;
 use App\Models\PlanContingencia;
 use App\Models\Prestamo;
 use App\Models\RolFuncion;
+use App\Models\TipoCliente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
@@ -400,6 +401,27 @@ class ReporteController extends Controller
             "categories" => $categories,
             "series1" => $series1,
             "series2" => $series2,
+        ]);
+    }
+
+    public function prestamos_tipo_cliente(Request $request)
+    {
+        $gestion = $request->gestion;
+
+        $data = []; // tipo_clientes
+        $tipo_clientes = TipoCliente::all();
+        foreach ($tipo_clientes as $item) {
+
+            $prestamos = Prestamo::select("prestamos.*")
+                ->join("clientes", "clientes.id", "=", "prestamos.cliente_id")
+                ->where("clientes.tipo_cliente_id", $item->id)
+                ->where("prestamos.fecha_registro", "LIKE", "$gestion-%")
+                ->count();
+            $data[] = [$item->nombre, (float)$prestamos];
+        }
+
+        return response()->JSON([
+            "data" => $data,
         ]);
     }
 }
