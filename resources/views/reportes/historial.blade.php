@@ -195,6 +195,10 @@
             background: #222222;
             color: white;
         }
+
+        td.foto img{
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -232,37 +236,32 @@
                 <td class="centreado border-bot">{{ $cliente->full_ci }}</td>
                 <td class="centreado border-bot">{{ $cliente->cel }}</td>
                 <td class="centreado border-bot">{{ $cliente->edad }}</td>
-                <td class="centreado border-bot">{{ $cliente->dir }}</td>
+                <td rowspan="5" class="foto"><img src="{{$cliente->path_image}}" alt="Foto"></td>
             </tr>
             <tr>
                 <td class="centreado txtinfo">Cédula de Identidad</td>
                 <td class="centreado txtinfo">Teléfono/Celular</td>
                 <td class="centreado txtinfo">Edad</td>
-                <td class="centreado txtinfo">Dirección</td>
             </tr>
             <tr>
                 <td class="centreado border-bot">{{ $cliente->referencia }}</td>
                 <td class="centreado border-bot">{{ $cliente->cel_ref }}</td>
                 <td class="centreado border-bot">{{ $cliente->parentesco }}</td>
-                <td class="centreado border-bot">{{ $cliente->cel }}</td>
             </tr>
             <tr>
                 <td class="centreado txtinfo">Referencia</td>
                 <td class="centreado txtinfo">Celular Referencia</td>
                 <td class="centreado txtinfo">Parentesco</td>
-                <td class="centreado txtinfo">Celular</td>
             </tr>
             <tr>
+                <td class="centreado border-bot">{{ $cliente->dir }}</td>
+                <td class="centreado border-bot">{{ $cliente->cel }}</td>
                 <td class="centreado border-bot">{{ $cliente->fecha_registro_t }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
             <tr>
+                <td class="centreado txtinfo">Dirección</td>
+                <td class="centreado txtinfo">Celular</td>
                 <td class="centreado txtinfo">Fecha de Registro</td>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
         </tbody>
     </table>

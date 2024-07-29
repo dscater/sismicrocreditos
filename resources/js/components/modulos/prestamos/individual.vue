@@ -216,7 +216,7 @@
                                                             Contrato
                                                         </button>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-primary"
+                                                            class="inline-block btn btn-xs btn-primary m-1"
                                                             @click="
                                                                 descargarPlanPagos(
                                                                     item
@@ -229,7 +229,20 @@
                                                             Plan de Pago
                                                         </button>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-success"
+                                                            class="inline-block btn btn-xs btn-info m-1"
+                                                            @click="
+                                                                verDocumentos(
+                                                                    item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-file"
+                                                            ></i>
+                                                            Documentos
+                                                        </button>
+                                                        <button
+                                                            class="inline-block btn btn-xs btn-success m-1"
                                                             v-if="
                                                                 item.desembolso ==
                                                                     0 &&
@@ -253,7 +266,7 @@
                                                             Aprobar
                                                         </button>
                                                         <button
-                                                            class="inline-block btn btn-xs btn-danger"
+                                                            class="inline-block btn btn-xs btn-danger m-1"
                                                             v-if="
                                                                 item.desembolso ==
                                                                     0 &&
@@ -307,6 +320,13 @@
             "
         >
         </ModificarFechaDesembolso>
+        <DocumentosIndividual
+            :muestra_modal_docs="muestra_modal_docs"
+            :prestamo="oPrestamo"
+            @close="muestra_modal_docs = false"
+            @envioModal="muestra_modal_docs = false"
+        >
+        </DocumentosIndividual>
         <AprobacionIndividual
             :muestra_modal="muestra_modal"
             :prestamo="oPrestamo"
@@ -319,8 +339,10 @@
 <script>
 import AprobacionIndividual from "./AprobacionIndividual.vue";
 import ModificarFechaDesembolso from "./ModificarFechaDesembolso.vue";
+import DocumentosIndividual from "./DocumentosIndividual.vue";
 export default {
     components: {
+        DocumentosIndividual,
         AprobacionIndividual,
         ModificarFechaDesembolso,
     },
@@ -341,6 +363,7 @@ export default {
             setTimeOutBusqueda: null,
             muestra_modal: false,
             muestra_modal_fecha: false,
+            muestra_modal_docs: false,
             oPrestamo: {
                 user_id: "",
                 cliente_id: "",
@@ -529,6 +552,10 @@ export default {
                         }
                     }
                 });
+        },
+        verDocumentos(item) {
+            this.oPrestamo = item;
+            this.muestra_modal_docs = true;
         },
         modificarFecha(item) {
             this.oPrestamo = item;

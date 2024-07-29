@@ -40,7 +40,42 @@ class Prestamo extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago", "pagos_tiempo", "pagos_mora", "pagos_pendiente"];
+    protected $appends = [
+        "fecha_registro_t", "fecha_desembolso_t", "sw_desembolso", "nro_pagos_realizados", "ultima_fecha_pago", "ultimo_pago", "pagos_tiempo", "pagos_mora", "pagos_pendiente",
+        "documento_1_f_url",
+        "documento_2_f_url",
+        "documento_3_f_url",
+        "documento_4_f_url",
+    ];
+
+    public function getDocumento1FUrlAttribute()
+    {
+        if ($this->documento_1_f) {
+            return asset("/files/" . $this->documento_1_f);
+        }
+        return "";
+    }
+    public function getDocumento2FUrlAttribute()
+    {
+        if ($this->documento_2_f) {
+            return asset("/files/" . $this->documento_2_f);
+        }
+        return "";
+    }
+    public function getDocumento3FUrlAttribute()
+    {
+        if ($this->documento_3_f) {
+            return asset("/files/" . $this->documento_3_f);
+        }
+        return "";
+    }
+    public function getDocumento4FUrlAttribute()
+    {
+        if ($this->documento_4_f) {
+            return asset("/files/" . $this->documento_4_f);
+        }
+        return "";
+    }
 
     public function getPagosTiempoAttribute()
     {
