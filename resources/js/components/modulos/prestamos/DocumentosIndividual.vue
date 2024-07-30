@@ -142,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
+                <div class="modal-footer justify-content-end">
                     <button
                         type="button"
                         class="btn btn-default"
@@ -226,7 +226,7 @@ export default {
     },
     computed: {
         tituloModal() {
-            return '<i class="fa fa-edit"></i> MODFICIAR PRÉSTAMO - FECHA DE DESEMBOLSO';
+            return '<i class="fa fa-edit"></i> PRÉSTAMO INDIVIDUAL - DOCUMENTOS';
         },
         textoBoton() {
             return '<i class="fa fa-edit"></i> Actualizar préstamo';

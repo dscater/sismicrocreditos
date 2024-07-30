@@ -70,10 +70,10 @@ class ClienteController extends Controller
     {
         $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci';
         if (trim($request->segundo_nombre) != "") {
-            $this->validacion['segundo_nombre'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+            $this->validacion['segundo_nombre'] = 'required|min:2|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
         }
         if (trim($request->materno) != "") {
-            $this->validacion['materno'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+            $this->validacion['materno'] = 'required|min:2|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
         }
         $request->validate($this->validacion, $this->mensajes);
         $request["fecha_registro"] = date("Y-m-d");
@@ -119,10 +119,10 @@ class ClienteController extends Controller
     {
         $this->validacion['ci'] = 'required|numeric|digits_between:4, 20|unique:clientes,ci,' . $cliente->id;
         if (trim($request->segundo_nombre) != "") {
-            $this->validacion['segundo_nombre'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+            $this->validacion['segundo_nombre'] = 'required|min:2|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
         }
         if (trim($request->materno) != "") {
-            $this->validacion['materno'] = 'required|min:4|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
+            $this->validacion['materno'] = 'required|min:2|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/';
         }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();

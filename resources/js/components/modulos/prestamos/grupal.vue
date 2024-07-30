@@ -229,6 +229,19 @@
                                                             Plan de Pago
                                                         </button>
                                                         <button
+                                                            class="inline-block btn btn-xs btn-info m-1"
+                                                            @click="
+                                                                verDocumentos(
+                                                                    item
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa fa-file"
+                                                            ></i>
+                                                            Documentos
+                                                        </button>
+                                                        <button
                                                             class="inline-block btn btn-xs btn-success"
                                                             v-if="
                                                                 item.desembolso ==
@@ -308,6 +321,13 @@
             "
         >
         </ModificarFechaDesembolsoGrupal>
+        <DocumentosGrupal
+            :muestra_modal_docs="muestra_modal_docs"
+            :grupo="oGrupo"
+            @close="muestra_modal_docs = false"
+            @envioModal="muestra_modal_docs = false"
+        >
+        </DocumentosGrupal>
         <AprobacionGrupal
             :muestra_modal="muestra_modal"
             :grupo="oGrupo"
@@ -320,10 +340,12 @@
 <script>
 import AprobacionGrupal from "./AprobacionGrupal.vue";
 import ModificarFechaDesembolsoGrupal from "./ModificarFechaDesembolsoGrupal.vue";
+import DocumentosGrupal from "./DocumentosGrupal.vue";
 export default {
     components: {
         AprobacionGrupal,
         ModificarFechaDesembolsoGrupal,
+        DocumentosGrupal,
     },
     data() {
         return {
@@ -341,6 +363,7 @@ export default {
             setTimeOutBusqueda: null,
             muestra_modal: false,
             muestra_modal_fecha: false,
+            muestra_modal_docs: false,
             oGrupo: {
                 nombre: "",
                 integrantes: 3,
@@ -427,6 +450,10 @@ export default {
                         }
                     }
                 });
+        },
+        verDocumentos(item) {
+            this.oGrupo = item;
+            this.muestra_modal_docs = true;
         },
         descargarPlanPagos(item) {
             let config = {
