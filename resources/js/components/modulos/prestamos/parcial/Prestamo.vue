@@ -1129,7 +1129,13 @@
                                                     "
                                                 ></span>
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div
+                                                class="form-group col-md-4"
+                                                v-if="
+                                                    prestamo.registrar_como ==
+                                                    'NUEVO'
+                                                "
+                                            >
                                                 <label>Foto</label>
                                                 <input
                                                     type="file"
@@ -1154,6 +1160,23 @@
                                                         ][0]
                                                     "
                                                 ></span>
+                                            </div>
+                                            <div
+                                                class="form-group col-md-4"
+                                                v-if="
+                                                    prestamo.registrar_como ==
+                                                    'ANTIGUO'
+                                                "
+                                            >
+                                                <label>Foto</label>
+                                                <img
+                                                    :src="
+                                                        prestamo.cliente
+                                                            .path_image
+                                                    "
+                                                    width="170"
+                                                    alt=""
+                                                />
                                             </div>
                                         </div>
                                     </div>

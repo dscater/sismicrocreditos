@@ -1100,6 +1100,7 @@
                                                             </div>
                                                             <div
                                                                 class="form-group col-md-4"
+                                                                v-if="oPrestamo.registrar_como == 'NUEVO'"
                                                             >
                                                                 <label
                                                                     :class="{
@@ -1132,6 +1133,19 @@
                                                                             .foto[0]
                                                                     "
                                                                 ></span>
+                                                            </div>
+                                                            <div
+                                                                class="form-group col-md-4"
+                                                                v-if="oPrestamo.registrar_como == 'ANTIGUO'"
+                                                            >
+                                                                <label
+                                                                    :class="{
+                                                                        'text-danger':
+                                                                            errors.foto,
+                                                                    }"
+                                                                    >Foto</label
+                                                                >
+                                                                <img :src="oPrestamo.cliente.path_image" width="170" alt="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1436,7 +1450,7 @@ export default {
                             this.oPrestamo.documento_4_f
                         );
                     }
-                    if (this.oPrestamo.cliente.foto) {
+                    if (this.oPrestamo.cliente.foto && this.oPrestamo.registrar_como == 'NUEVO') {
                         formDataFiles.append("foto", this.oPrestamo.cliente.foto);
                     }
                     axios

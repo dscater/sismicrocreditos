@@ -424,7 +424,8 @@ export default {
                                 self.oGrupo.prestamos[index].documento_4_f
                             );
                         }
-                        if (self.oGrupo.prestamos[index].cliente.foto) {
+
+                        if (self.oGrupo.prestamos[index].cliente.foto && self.oGrupo.prestamos[index].registrar_como == 'NUEVO') {
                             formDataFiles.append(
                                 "foto_" + oPrestamo.id,
                                 self.oGrupo.prestamos[index].cliente.foto
